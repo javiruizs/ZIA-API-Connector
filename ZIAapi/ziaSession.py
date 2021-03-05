@@ -87,7 +87,7 @@ class ZIAConnector:
             "timestamp": timestamp
         }
 
-        url = self.form_full_url('authenticate')
+        url = self.form_full_url('login')
 
         self.s = re.Session()
 
@@ -120,7 +120,7 @@ class ZIAConnector:
             Exception: If the information retrieval was not possible.
         """
 
-        url = self.form_full_url('vpn_credentials')
+        url = self.form_full_url('vpnCreds')
 
         req = re.Request('GET', url)
 
@@ -243,7 +243,7 @@ class ZIAConnector:
         args = locals()
         params = u.clean_args(args)
 
-        url = self.form_full_url('getLocInfo')
+        url = self.form_full_url('locInfo')
 
         return self.full_retrieval('GET', url, params, pageSize, "Location ids retrieval successful.", full)
 
@@ -339,7 +339,7 @@ class ZIAConnector:
         args = locals()
         params = u.clean_args(args)
 
-        return self.full_retrieval('GET', url, params, pageSize, "Admin users retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, pageSize, "Admin usr retrieval successful.", full)
 
     def create_admin_user(self, userinfo):
         """Creates the user with the information contained in userinfo.
@@ -435,14 +435,14 @@ class ZIAConnector:
         Returns: List of dictionaries with depts.
 
         """
-        url = self.form_full_url('departments')
+        url = self.form_full_url('dept')
 
         params = u.clean_args(locals())
 
         return self.full_retrieval('GET', url, params, pageSize, "Departments retrieval successful.", full)
 
     def get_department(self, dept_id: int):
-        url = self.form_full_url('departments', [dept_id])
+        url = self.form_full_url('dept', [dept_id])
 
         r = re.Request('GET', url)
 
@@ -456,7 +456,7 @@ class ZIAConnector:
         return self.full_retrieval('GET', url, params, pageSize, "Group retrieval successful.", full)
 
     def get_users(self, name="", dept="", group="", page=None, pageSize=None, full=False):
-        url = self.form_full_url('users')
+        url = self.form_full_url('usr')
 
         params = u.clean_args(locals())
 
@@ -466,14 +466,14 @@ class ZIAConnector:
         if 'id' not in userdata:
             raise ValueError('Userdata has no id key.')
 
-        url = self.form_full_url('users', [userdata['id']])
+        url = self.form_full_url('usr', [userdata['id']])
 
         r = re.Request('PUT', url, json=userdata)
 
         return self.send_recv(r, f"User {userdata['id']} update successful.")
 
     def get_user_info(self, usr_id):
-        url = self.form_full_url('users', [usr_id])
+        url = self.form_full_url('usr', [usr_id])
 
         r = re.Request('GET', url)
 
@@ -517,7 +517,7 @@ class ZIAConnector:
         endTime = int(parser.parse(endTime).timestamp()) * 1000  # Converting endtime to epoch
 
         parameters = locals()
-        url = self.form_full_url('auditlogEntryReport')
+        url = self.form_full_url('audit')
 
         parameters = u.clean_args(parameters, ['self', 'full'])
 
@@ -534,7 +534,7 @@ class ZIAConnector:
         Returns: Status in JSON format.
         """
 
-        url = self.form_full_url('auditlogEntryReport')
+        url = self.form_full_url('audit')
 
         req = re.Request('GET', url)
 
@@ -546,14 +546,14 @@ class ZIAConnector:
 
         Returns: 200 OK
         """
-        url = self.form_full_url('auditlogEntryReport')
+        url = self.form_full_url('audit')
 
         req = re.Request('DELETE', url)
 
         return self.send_recv(req, 'Cancelled request to create audit log report.')
 
     def dwl_auditlog_entry_report(self):
-        url = self.form_full_url('auditlogEntryReport', ['download'])
+        url = self.form_full_url('audit', ['download'])
 
         req = re.Request('GET', url)
 
