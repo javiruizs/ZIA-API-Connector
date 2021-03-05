@@ -1,0 +1,26 @@
+{
+  "host": "https://admin.zscloud.net",
+  "api_uri": "/api/v1",
+  "retries": 5,
+  "verbosity": true,
+  "creds": {
+    "key": "your_api_key",
+    "username": "your_username",
+    "password": "your_password"
+  },
+  "urls": {
+    "authenticate": "/authenticatedSession",
+    "logout": "/authenticatedSession",
+    "vpn_credentials": "/vpnCredentials",
+    "locations": "/locations",
+    "status": "/status",
+    "activate": "/status/activate",
+    "getLocInfo": "/locations/lite",
+    "adminRoles": "/adminRoles/lite",
+    "adminUsers": "/adminUsers",
+    "departments": "/departments",
+    "groups": "/groups",
+    "users": "/users",
+    "auditlogEntryReport": "/auditlogEntryReport"
+  }
+}
