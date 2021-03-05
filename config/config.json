@@ -9,18 +9,18 @@
     "password": "your_password"
   },
   "urls": {
-    "authenticate": "/authenticatedSession",
+    "login": "/authenticatedSession",
     "logout": "/authenticatedSession",
-    "vpn_credentials": "/vpnCredentials",
-    "locations": "/locations",
+    "vpnCreds": "/vpnCredentials",
+    "locs": "/locations",
     "status": "/status",
     "activate": "/status/activate",
-    "getLocInfo": "/locations/lite",
+    "locInfo": "/locations/lite",
     "adminRoles": "/adminRoles/lite",
     "adminUsers": "/adminUsers",
-    "departments": "/departments",
+    "depts": "/departments",
     "groups": "/groups",
-    "users": "/users",
-    "auditlogEntryReport": "/auditlogEntryReport"
+    "usr": "/users",
+    "audit": "/auditlogEntryReport"
   }
 }
