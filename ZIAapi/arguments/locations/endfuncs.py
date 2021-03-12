@@ -32,5 +32,9 @@ def delete_location(client: ZIAapi.ZIAConnector, args):
     return client.delete_location(args.loc_id)
 
 
-def all_location(client: ZIAapi, args):
+def all_location(client: ZIAapi.ZIAConnector, args):
     return c.obtain_all_locations_sublocations(client)
+
+
+def info_location(client: ZIAapi.ZIAConnector, args):
+    return client.get_location_info(args.loc_id)

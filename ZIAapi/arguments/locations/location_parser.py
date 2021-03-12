@@ -12,6 +12,14 @@ def create_location_subparser(subparsers):
     update_location_parser(locs_subprs)
     create_location_parser(locs_subprs)
     delete_location_parser(locs_subprs)
+    info_location_parser(locs_subprs)
+
+
+def info_location_parser(locs_subprs):
+    sp = locs_subprs.add_parser('info')
+    sp.add_argument('loc_id', type=int, help="Location identifier.")
+
+    sp.set_defaults(func=ef.info_location)
 
 
 def get_all_locations_sublocations_parser(locs_subprs):
