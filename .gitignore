@@ -131,6 +131,7 @@ dmypy.json
 # Prevent from uploading personal data
 *.json
 *.txt
+*.csv
 
 # Folders
 .idea

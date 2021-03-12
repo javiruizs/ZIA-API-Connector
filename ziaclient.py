@@ -1,10 +1,13 @@
 from ZIAapi import ZIAConnector
 from ZIAapi.utils import print_json, save_json
-from ZIAapi.argument_parser import create_parser
+from ZIAapi.arguments import create_parser
+from sys import argv
 
 
 def main():
     parser = create_parser()
+    if len(argv) == 1:
+        parser.parse_args(['-h'])
 
     # Parse args
     args = parser.parse_args()
@@ -16,7 +19,7 @@ def main():
 
     save_json(result, args.output)
 
-    if not args.no_verbosity:
+    if not args.no_print:
         print_json(result)
 
     if args.apply:

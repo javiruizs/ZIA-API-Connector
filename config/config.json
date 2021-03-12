@@ -3,14 +3,15 @@
   "api_uri": "/api/v1",
   "retries": 5,
   "verbosity": true,
+  "debug": false,
+  "sleep": 1,
   "creds": {
     "key": "your_api_key",
     "username": "your_username",
     "password": "your_password"
   },
   "urls": {
-    "login": "/authenticatedSession",
-    "logout": "/authenticatedSession",
+    "loginout": "/authenticatedSession",
     "vpnCreds": "/vpnCredentials",
     "locs": "/locations",
     "status": "/status",

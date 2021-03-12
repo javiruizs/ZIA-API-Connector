@@ -12,41 +12,50 @@ Version: 2.0
 """
 
 import time
-import re
 import json
 import requests
 
 
-def pretty_print_RESPONSE(response):
+def pretty_print_response(response):
     """Prints the response headers in a pretty way.
 
     Args:
-        response (requests.Response): The response object
+        resp (requests.Response): The response object
     """
-    print('{}\n{}\r\n{}\r\n\r\n'.format(
-        '-----------RESPONSE-----------',
-        str(response.status_code) + ' ' + response.reason,
-        '\r\n'.join('{}: {}'.format(k, v) for k, v in response.headers.items()),
-    ))
+
+    resp = f'-----------RESPONSE-----------\n{response.status_code} ' \
+           f'{requests.status_codes._codes[response.status_code][0].upper()}\n'
+    for k, v in response.headers.items():
+        resp += f'{k}: {v}\n'
+
     try:
-        print(json.dumps(response.json(), indent=2))
+        resp += f'{json.dumps(response.json(), indent=2)}\n'
     except ValueError:
-        print(response.text)
-        
-def pretty_print_REQUEST(req):
+        resp += f'{response.text}\n'
+    resp += '---------END-RESPONSE--------\n'
+
+    print(resp)
+
+
+def pretty_print_request(req):
     """Prints the request headers in a pretty way.
 
     Args:
         req (requests.Request): The request object
     """
-    print('{}\n{}\r\n{}\r\n\r\n{}'.format(
-        '-----------REQUEST-----------',
-        req.method + ' ' + req.url,
-        '\r\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
-        req.body,
-    ))
 
-def obfuscateApiKey(key):
+    request = f'-----------REQUEST-----------\n{req.method} {req.url}\n'
+    for k, v in req.headers.items():
+        request += f'{k}: {v}\n'
+
+    if req.body:
+        request += f'{req.body}\n'
+    request += '---------END-REQUEST--------\n'
+
+    print(request)
+
+
+def obfuscateApiKey(key, verbose=False):
     """Generates the obfuscated API key to attach while logging in.
 
     Args:
@@ -64,11 +73,14 @@ def obfuscateApiKey(key):
     for i in range(0, len(str(n)), 1):
         key += seed[int(str(n)[i])]
     for j in range(0, len(str(r)), 1):
-        key += seed[int(str(r)[j])+2]
+        key += seed[int(str(r)[j]) + 2]
 
-    print("Timestamp:", now, "\tKey:", key)
+    if verbose:
+        print("Timestamp:", now, "\tKey:", key)
+
     return now, key
-    
+
+
 def print_json(obj, indent=4):
     """Prints the JSON object indented to the stdout.
 
@@ -77,6 +89,7 @@ def print_json(obj, indent=4):
         indent (int, optional): Indent width. Defaults to 4.
     """
     print(json.dumps(obj, indent=indent))
+
 
 def save_json(obj, path, indent=4):
     """Saves the JSON object to a file.
@@ -88,6 +101,7 @@ def save_json(obj, path, indent=4):
     """
     with open(path, 'w') as f:
         json.dump(obj, f, indent=4)
+
 
 def get_location_id(location_ids, location):
     """Returns the location ID. Retrieves the information from
@@ -108,6 +122,7 @@ def get_location_id(location_ids, location):
             return loc['id']
 
     raise ValueError(f'There\'s no location with name {location}.')
+
 
 def check_response(response: requests.Response, comment: str, expected_code=200):
     """Check response status and returns content if exists. Will distinguish between JSON and the rest.

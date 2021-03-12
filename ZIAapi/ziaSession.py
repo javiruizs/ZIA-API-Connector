@@ -60,7 +60,11 @@ class ZIAConnector:
 
         self.retries = config['retries']
 
+        self.debug = False if 'debug' not in config else config['debug']
+
         self.verbosity = config['verbosity'] if not verbosity else verbosity
+
+        self.sleep_time = config['sleep']
 
         # Setting default
         sys.excepthook = self.my_except_hook
@@ -87,7 +91,7 @@ class ZIAConnector:
             "timestamp": timestamp
         }
 
-        url = self.form_full_url('login')
+        url = self.form_full_url('loginout')
 
         self.s = re.Session()
 
@@ -103,7 +107,7 @@ class ZIAConnector:
         Returns: Nothing.
 
         """
-        url = self.form_full_url('logout')
+        url = self.form_full_url('loginout')
 
         req = re.Request('DELETE', url)
 
@@ -144,7 +148,7 @@ class ZIAConnector:
             location (String): A dictionary representing the location. See example.
         """
 
-        url = self.form_full_url('locations')
+        url = self.form_full_url('locs')
 
         req = re.Request('POST', url, json=location)
 
@@ -161,7 +165,7 @@ class ZIAConnector:
         if 'id' not in location:
             raise ValueError('There is no "id" keyword in the location dict.')
 
-        url = self.form_full_url('locations', [location["id"]])
+        url = self.form_full_url('locs', [location["id"]])
 
         time.sleep(0.5)
         r = re.Request('PUT', url, json=location)
@@ -177,7 +181,7 @@ class ZIAConnector:
         Raises:
             Exception: If delete is unsuccessful, then it raises an exception.
         """
-        url = self.form_full_url('locations', [loc_id])
+        url = self.form_full_url('locs', [loc_id])
 
         r = re.Request('DELETE', url)
 
@@ -204,18 +208,17 @@ class ZIAConnector:
             pageSize (int, optional): Specifies the page size. The default size is 100, but the maximum size is 1000.
                 Defaults to 100.
         """
-
-        url = self.form_full_url('locations')
-
         # Use directly args of this function as parameters on the request, but they need to be cleaned first.
         params = u.clean_args(locals())
 
+        url = self.form_full_url('locs')
+
         # Key all is not recognized by the API, therefore can be removed
 
-        return self.full_retrieval('GET', url, params, 1000, "Location search successful.", full)
+        return self.full_retrieval('GET', url, params, None, 1000, "Location search successful.", full)
 
-    def get_location_ids(self, includeSubLocations=None, includeParentLocations=None, sslScanEnabled=None, search="",
-                         page=None, pageSize=None, full=False):
+    def get_location_ids(self, includeSubLocations=None, includeParentLocations=None, authRequired=None,
+                         bwEnforced=None, sslScanEnabled=None, xffEnabled=None, search="", page=None, pageSize=None, full=False):
         """Retrieves the names and ids from the existing locations.
 
         Args:
@@ -242,10 +245,11 @@ class ZIAConnector:
         # Use directly args of this function as parameters on the request, but they need to be cleaned first.
         args = locals()
         params = u.clean_args(args)
+        params = None if not params else params
 
         url = self.form_full_url('locInfo')
 
-        return self.full_retrieval('GET', url, params, pageSize, "Location ids retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, None, pageSize, "Location ids retrieval successful.", full)
 
     def get_location_info(self, loc_id):
         """Returns all the information of the desired location.
@@ -256,7 +260,7 @@ class ZIAConnector:
         Returns:
             dict: A dict containing all the information. If no success, dict is empty.
         """
-        url = self.form_full_url('locations', [loc_id])
+        url = self.form_full_url('locs', [loc_id])
 
         r = re.Request('GET', url)
         time.sleep(1)
@@ -287,13 +291,13 @@ class ZIAConnector:
         Returns: A list of dictionaries.
         """
 
-        url = self.form_full_url('locations', [locationId, 'sublocations'])
+        url = self.form_full_url('locs', [locationId, 'sublocations'])
 
         # Use directly args of this function as parameters on the request, but they need to be cleaned first.
         args = locals()
         params = u.clean_args(args)
 
-        return self.full_retrieval('GET', url, params, 0, f"Sublocations for {locationId} obtained successfully.",
+        return self.full_retrieval('GET', url, params, None, 0, f"Sublocations for {locationId} obtained successfully.",
                                    False)
 
     ######################################
@@ -339,7 +343,7 @@ class ZIAConnector:
         args = locals()
         params = u.clean_args(args)
 
-        return self.full_retrieval('GET', url, params, pageSize, "Admin usr retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, None, pageSize, "Admin usr retrieval successful.", full)
 
     def create_admin_user(self, userinfo):
         """Creates the user with the information contained in userinfo.
@@ -435,11 +439,11 @@ class ZIAConnector:
         Returns: List of dictionaries with depts.
 
         """
-        url = self.form_full_url('dept')
+        url = self.form_full_url('depts')
 
         params = u.clean_args(locals())
 
-        return self.full_retrieval('GET', url, params, pageSize, "Departments retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, None, pageSize, "Departments retrieval successful.", full)
 
     def get_department(self, dept_id: int):
         url = self.form_full_url('dept', [dept_id])
@@ -449,18 +453,18 @@ class ZIAConnector:
         return self.send_recv(r, f'Information for department with id {dept_id} obtained successfully.')
 
     def get_groups(self, search="", page=None, pageSize=None, full=False):
-        url = self.form_full_url('groups')
-
         params = u.clean_args(locals())
 
-        return self.full_retrieval('GET', url, params, pageSize, "Group retrieval successful.", full)
+        url = self.form_full_url('groups')
+
+        return self.full_retrieval('GET', url, params, None, pageSize, "Group retrieval successful.", full)
 
     def get_users(self, name="", dept="", group="", page=None, pageSize=None, full=False):
         url = self.form_full_url('usr')
 
         params = u.clean_args(locals())
 
-        return self.full_retrieval('GET', url, params, pageSize, "User retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, None, pageSize, "User retrieval successful.", full)
 
     def update_user(self, userdata):
         if 'id' not in userdata:
@@ -521,7 +525,7 @@ class ZIAConnector:
 
         parameters = u.clean_args(parameters, ['self', 'full'])
 
-        return self.full_retrieval('POST', url, parameters, pageSize,
+        return self.full_retrieval('POST', url, None, parameters, pageSize,
                                    'Request to create audit log entry report sucessfully sent.', full)
 
     def get_auditlog_entry_report_status(self):
@@ -574,21 +578,26 @@ class ZIAConnector:
             Content or JSON. None if retries exceeded.
         """
         for i in range(self.retries):
-            response = self.s.send(self.s.prepare_request(request))
+            prep_req = self.s.prepare_request(request)
+            if self.debug:
+                u.pretty_print_request(prep_req)
+            response = self.s.send(prep_req)
+            if self.debug:
+                u.pretty_print_response(response)
             content_type = response.headers.get('content-type')
 
             if content_type == 'application/json':
                 content = response.json()
                 is_json = True
             else:
-                content = response.content.decode()
+                content = response.text()
                 is_json = False
 
             try:
                 response.raise_for_status()
             except re.exceptions.HTTPError as e:
                 if response.status_code == 429:
-                    time.sleep(0.5)
+                    time.sleep(self.sleep_time)
                     continue
                 else:
                     content = json.dumps(content, indent=4) if is_json else content
@@ -602,21 +611,42 @@ class ZIAConnector:
             print('Maximum retries exceeded. No response was recieved.')
         return None
 
-    def full_retrieval(self, method: str, url: str, json_content: dict, page_size: int = 500, message="", full=True):
-        if not full:
-            return self.send_recv(re.Request(method, url, json=json_content), message)
-        else:
-            if 'page' not in json_content:
-                json_content['page'] = 1
-            if 'pageSize' not in json_content:
-                json_content['pageSize'] = page_size
+    def full_retrieval(self, method: str, url: str, params: dict, json_content: dict, page_size: int = 500, message="",
+                       full=True):
+        # If json_content {}, then put it to None
+        if not json_content:
+            json_content = None
 
+        # Same goes for params
+        if not params:
+            params = None
+
+        # If not full retrieval requested, then do a simple request
+        if not full:
+            return self.send_recv(re.Request(method, url, params=params, json=json_content), message)
+        # If not
+        else:
+            # If no params were given, then create empty dict
+            if not params:
+                params = {}
+
+            # If no 'page' in the params, then insert it to loop over
+            if 'page' not in params:
+                params['page'] = 1
+
+            # If no 'pageSize' in the params, then insert it to loop over
+            if 'pageSize' not in params:
+                params['pageSize'] = page_size
+
+        # List of all the results put together
         result = []
+
+        # Previous result in the loop to compare and decide if to break the loop
         previous = None
 
+        # Request loop
         while True:
-
-            req = re.Request(method, url, json=json_content)
+            req = re.Request(method, url, params=params, json=json_content)
             res = self.send_recv(req, message)
 
             # Breaks if res was empty or if not all active
@@ -626,7 +656,7 @@ class ZIAConnector:
                 # Concats results
                 result += res
                 # If not, counter should increase
-                json_content['page'] += 1
+                params['page'] += 1
                 # Readjust previous
                 previous = res
 
