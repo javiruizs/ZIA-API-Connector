@@ -5,7 +5,7 @@ import argparse as ap
 
 def create_user_subparser(subparsers):
     usr_prs = subparsers.add_parser('users')
-    usr_subprs = usr_prs.add_subparsers()
+    usr_subprs = usr_prs.add_subparsers(required=True, dest='any of the subcommands')
 
     search_user_parser(usr_subprs)
     update_user_parser(usr_subprs)

@@ -4,7 +4,7 @@ import ZIAapi.arguments.parser as p
 
 def create_location_subparser(subparsers):
     locs_prs = subparsers.add_parser('locs')
-    locs_subprs = locs_prs.add_subparsers()
+    locs_subprs = locs_prs.add_subparsers(required=True, dest='any of the subcommands')
 
     get_all_locations_sublocations_parser(locs_subprs)
     search_location_parser(locs_subprs)
