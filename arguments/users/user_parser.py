@@ -1,6 +1,7 @@
-import ZIAapi.arguments.parser as p
-import ZIAapi.arguments.users.endfuncs as ef
-import argparse as ap
+"""
+
+"""
+import arguments.users.endfuncs as ef
 
 
 def create_user_subparser(subparsers):
@@ -32,8 +33,10 @@ def depts_user_parser(usr_subprs):
 
 def add_users_to_groups(usr_subprs):
     sp = usr_subprs.add_parser('add-u2g')
-    sp.add_argument('--users', type=str, required=True, help='Text file (CSV) with only one column and first line is label.')
-    sp.add_argument('--groups', type=str, required=True, help='Text file (CSV) with only one column and first line is label.')
+    sp.add_argument('--users', type=str, required=True,
+                    help='Text file (CSV) with only one column and first line is label.')
+    sp.add_argument('--groups', type=str, required=True,
+                    help='Text file (CSV) with only one column and first line is label.')
     sp.add_argument('--dft_dept', type=int, required=True, help='Default department id in case user has none.')
 
     sp.set_defaults(func=ef.add_u2g)
@@ -86,7 +89,6 @@ def create_user_parser(usr_subprs):
 
 
 def delete_user_parser(usr_subprs):
-
     usr_delete_p = usr_subprs.add_parser('delete')
     usr_delete_p.add_argument(
         'user_id', help='User identification. If you don\'t know the UID, search it first.')

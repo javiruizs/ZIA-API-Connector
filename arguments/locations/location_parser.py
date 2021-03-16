@@ -1,5 +1,5 @@
-import ZIAapi.arguments.locations.endfuncs as ef
-import ZIAapi.arguments.parser as p
+import arguments.locations.endfuncs as ef
+import arguments.parser as p
 
 
 def create_location_subparser(subparsers):

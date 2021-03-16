@@ -1,7 +1,8 @@
-from ZIAapi import ZIAConnector
-from ZIAapi.utils import print_json, save_json
-from ZIAapi.arguments import create_parser
 from sys import argv
+
+from arguments import create_parser
+from zia_api_client import ZIAConnector
+from zia_api_client.utils import print_json, save_json
 
 
 def main():

@@ -1,6 +1,7 @@
-from .ziaSession import ZIAConnector
-from . import utils as u
 import json
+
+from . import utils as u
+from .session import ZIAConnector
 
 
 def create_locations_sublocations(session: ZIAConnector, locations_file, sublocations_file):
@@ -63,6 +64,20 @@ def create_sublocations(session: ZIAConnector, sublocations):
 
 
 def add_users_to_group(session: ZIAConnector, user_mails: list, group_ids: list, default_dept: int):
+    """
+    Adds users to the specified groups. Users must be passed as emails. Groups, too. For those who don't have a
+    department assigned to them, which is necessary to save the changes, a default department must be given.
+
+    Args:
+        session: An active session.
+        user_mails: The list with the user mails.
+        group_ids: The list with the group ids.
+        default_dept: The default department.
+
+    Returns:
+        The response obtained. JSON format or a decoded string.
+
+    """
     # Retrieve full list of user jsons
     full_user_list = session.get_users(full=True, pageSize=1000)
 

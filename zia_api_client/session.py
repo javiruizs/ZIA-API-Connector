@@ -1,38 +1,18 @@
-"""Class that encapsulates the session management while connecting to the
-Zscaler ZIA API. For each of the references that exist (see https://help.zscaler.com/zia/api),
-I will try to create a specific method. Also, I'll try to create methods
+"""
+Class that encapsulates the session management while connecting to the Zscaler ZIA API. For each of the references that
+ exist (see https://help.zscaler.com/zia/api), I will try to create a specific method. Also, I'll try to create methods
 that will apply on the general use that I will make of it.
-
-File: ziaSession.py
-
-Author: javiruizs
-
-Created: 24/10/2020
-
-Last Modified: 04/11/2020
-
-Version: 3.1
 """
 
 import json
 import sys
 import time
-from dateutil import parser
 
 import requests as re
+from dateutil import parser
 
-from . import utils as u
-
-
-class ResponseException(Exception):
-
-    def __init__(self, message='The response had error status.'):
-        """
-        Generic response exception. Useful for this purpose.
-        Args:
-            message: Message to display.
-        """
-        super().__init__(message)
+import utils as u
+from .exceptions import ResponseException
 
 
 class ZIAConnector:
@@ -82,7 +62,7 @@ class ZIAConnector:
             'cache-control': 'no-cache',
         }
 
-        timestamp, key = u.obfuscateApiKey(self.creds['key'])
+        timestamp, key = u.obfuscate_api_key(self.creds['key'])
 
         content = {
             "apiKey": key,
@@ -130,12 +110,20 @@ class ZIAConnector:
 
         return self.send_recv(req, successful_msg='Obtaining VPN credentials successful.')
 
-    def del_vpn_creds(self, id):
-        url = self.form_full_url('vpn_credentials', [id])
+    def del_vpn_creds(self, vpn_id):
+        """
+        Delete VPN credentials.
+        Args:
+            vpn_id: Credential identifier.
+
+        Returns: JSON response.
+
+        """
+        url = self.form_full_url('vpn_credentials', [vpn_id])
 
         req = re.Request('DELETE', url)
 
-        return self.send_recv(req, successful_msg=f'VPN credential with id {id} removed successfully.')
+        return self.send_recv(req, successful_msg=f'VPN credential with id {vpn_id} removed successfully.')
 
     ##############################
     # LOCATION RELATED FUNCTIONS #
@@ -215,25 +203,31 @@ class ZIAConnector:
 
         # Key all is not recognized by the API, therefore can be removed
 
-        return self.full_retrieval('GET', url, params, None, 1000, "Location search successful.", full)
+        return self.full_retrieval('GET', url, params, {}, 1000, "Location search successful.", full)
 
     def get_location_ids(self, includeSubLocations=None, includeParentLocations=None, authRequired=None,
-                         bwEnforced=None, sslScanEnabled=None, xffEnabled=None, search="", page=None, pageSize=None, full=False):
-        """Retrieves the names and ids from the existing locations.
-
+                         bwEnforced=None, sslScanEnabled=None, xffEnabled=None, search="", page=None, pageSize=None,
+                         full=False):
+        """
+        Gets a name and ID dictionary of locations.
         Args:
+            xffEnabled (bool): Filter based on whether the Enforce XFF Forwarding setting is enabled or disabled for a
+            location.
+            bwEnforced (bool): Filter based on whether Bandwidth Control is being enforced for a location.
+            authRequired (bool): Filter based on whether the Enforce Authentication setting is enabled or disabled for a
+            location.
             full: If set to True, all location IDs will be obtained.
             includeSubLocations (bool, optional): if set to true sub-locations will be included in the response
-                otherwise they will excluded. Defaults to False.
+            otherwise they will excluded. Defaults to False.
             includeParentLocations (bool, optional): if set to true locations with sub locations will be included in the
-                response, otherwise only locations without sub-locations are included. Defaults to False.
+            response, otherwise only locations without sub-locations are included. Defaults to False.
             sslScanEnabled (bool, optional): Filter based on whether the Enable SSL Scanning setting is enabled or
-                disabled for a location. Defaults to False.
+            disabled for a location. Defaults to False.
             search (str, optional): The search string used to partially match against a location's name and port
-                attributes. Defaults to "".
+            attributes. Defaults to "".
             page (int, optional): Specifies the page offset. Defaults to 1.
             pageSize (int, optional): Specifies the page size. The default size is 100, but the maximum size is 1000.
-                Defaults to 100.
+            Defaults to 100.
 
         Raises:
             Exception: There was some error in the retrieval.
@@ -249,7 +243,7 @@ class ZIAConnector:
 
         url = self.form_full_url('locInfo')
 
-        return self.full_retrieval('GET', url, params, None, pageSize, "Location ids retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, {}, pageSize, "Location ids retrieval successful.", full)
 
     def get_location_info(self, loc_id):
         """Returns all the information of the desired location.
@@ -274,21 +268,22 @@ class ZIAConnector:
         to the parent location.
         Args:
             locationId: The unique identifier for the location. The sub-location information given is based on the
-                parent location's ID.
+            parent location's ID.
             search (str, optional): The search string used to partially match against a location's name and port
-                attributes. Defaults to "".
+            attributes. Defaults to "".
             sslScanEnabled (bool, optional): Filter based on whether the Enable SSL Scanning setting is enabled or
-                disabled for a location. Defaults to None.
+            disabled for a location. Defaults to None.
             xffEnabled (bool, optional): Filter based on whether the Enforce XFF Forwarding setting is enabled or
-                disabled for a location. Defaults to None.
+            disabled for a location. Defaults to None.
             authRequired (bool, optional): Filter based on whether the Enforce Authentication setting is enabled or
-                disabled for a location. Defaults to None.
+            disabled for a location. Defaults to None.
             bwEnforced (bool, optional): Filter based on whether Bandwidth Control is being enforced for a location.
-                Defaults to None.
+            Defaults to None.
             enforceAup: Filter based on whether Enforce AUP setting is enabled or disabled for a sub-location.
             enableFirewall: Filter based on whether Enable Firewall setting is enabled or disabled for a sub-location.
 
-        Returns: A list of dictionaries.
+        Returns:
+            A list of dictionaries.
         """
 
         url = self.form_full_url('locs', [locationId, 'sublocations'])
@@ -297,7 +292,7 @@ class ZIAConnector:
         args = locals()
         params = u.clean_args(args)
 
-        return self.full_retrieval('GET', url, params, None, 0, f"Sublocations for {locationId} obtained successfully.",
+        return self.full_retrieval('GET', url, params, {}, 0, f"Sublocations for {locationId} obtained successfully.",
                                    False)
 
     ######################################
@@ -343,7 +338,7 @@ class ZIAConnector:
         args = locals()
         params = u.clean_args(args)
 
-        return self.full_retrieval('GET', url, params, None, pageSize, "Admin usr retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, {}, pageSize, "Admin usr retrieval successful.", full)
 
     def create_admin_user(self, userinfo):
         """Creates the user with the information contained in userinfo.
@@ -436,16 +431,26 @@ class ZIAConnector:
             page: Page offset.
             pageSize: Elements contained per page.
 
-        Returns: List of dictionaries with depts.
+        Returns:
+            List of dictionaries with depts.
 
         """
         url = self.form_full_url('depts')
 
         params = u.clean_args(locals())
 
-        return self.full_retrieval('GET', url, params, None, pageSize, "Departments retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, {}, pageSize, "Departments retrieval successful.", full)
 
     def get_department(self, dept_id: int):
+        """
+        Gets department information from department id.
+        Args:
+            dept_id: Department id.
+
+        Returns:
+            JSON response.
+
+        """
         url = self.form_full_url('dept', [dept_id])
 
         r = re.Request('GET', url)
@@ -453,20 +458,56 @@ class ZIAConnector:
         return self.send_recv(r, f'Information for department with id {dept_id} obtained successfully.')
 
     def get_groups(self, search="", page=None, pageSize=None, full=False):
+        """
+        Retrieves groups.
+        Args:
+            search (str): Search string. Name of the group.
+            page (int): Page offset. Server's default is 1.
+            pageSize (int): Page size. Server's default 100.
+            full (bool): Default is False. If set to True, all information is returned.
+
+        Returns:
+            JSON response.
+
+        """
         params = u.clean_args(locals())
 
         url = self.form_full_url('groups')
 
-        return self.full_retrieval('GET', url, params, None, pageSize, "Group retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, {}, pageSize, "Group retrieval successful.", full)
 
     def get_users(self, name="", dept="", group="", page=None, pageSize=None, full=False):
+        """
+        Gets a list of all users and allows user filtering by name, department, or group. The name search parameter
+        performs a partial match. The dept and group parameters perform a 'starts with' match.
+        Args:
+            name (str): Filters by user name.
+            dept (str): Filters by department name.
+            group (str): Filters by group name.
+            page (int): Defaults to 1. Specifies the page offset.
+            pageSize (int): Defaults to 100. Specifies the page size.
+            full (bool): Defaults to False. Set to True if complete search is wanted.
+
+        Returns:
+            JSON response.
+
+        """
         url = self.form_full_url('usr')
 
         params = u.clean_args(locals())
 
-        return self.full_retrieval('GET', url, params, None, pageSize, "User retrieval successful.", full)
+        return self.full_retrieval('GET', url, params, {}, pageSize, "User retrieval successful.", full)
 
     def update_user(self, userdata):
+        """
+        Updates the user information for the specified ID. However, the "email" attribute is read-only.
+        Args:
+            userdata (dict): Dictionary that contains the user information.
+
+        Returns:
+            JSON response.
+
+        """
         if 'id' not in userdata:
             raise ValueError('Userdata has no id key.')
 
@@ -477,6 +518,15 @@ class ZIAConnector:
         return self.send_recv(r, f"User {userdata['id']} update successful.")
 
     def get_user_info(self, usr_id):
+        """
+        Gets the user information for the specified ID.
+        Args:
+            usr_id (int): The unique identifer for the user.
+
+        Returns:
+            JSON dict with user's info.
+
+        """
         url = self.form_full_url('usr', [usr_id])
 
         r = re.Request('GET', url)
@@ -487,16 +537,31 @@ class ZIAConnector:
     # AUDIT LOG FUNCTIONS #
     #######################
 
-    def req_auditlog_entry_report(self, startTime: str, endTime: str, page=None, pageSize=500, actionType='',
-                                  category: str = "", subcategories: list = [], actionResult: str = "",
-                                  actionInterface: str = "", objectName="", clientIP: str = "", adminName: str = "",
-                                  targetOrgId: int = None, full=False):
+    def req_auditlog_entry_report(self, startTime: str, endTime: str, page=None, pageSize=500,
+                                  actionTypes: list = False, category: str = "", subcategories: list = False,
+                                  actionResult: str = "", actionInterface: str = "", objectName="", clientIP: str = "",
+                                  adminName: str = "", targetOrgId: int = None, full=False):
         """
         Creates an audit log report for the specified time period and saves it as a CSV file. The report includes audit
         information for every call made to the cloud service API during the specified time period. Creating a new audit
         log report will overwrite a previously-generated report.
 
         Args:
+            targetOrgId (int): Organization ID in case more than one organization were administrated.
+            actionTypes (list of str): Action type for audit log entry. Recognized values:
+                * SIGN_IN
+                * SIGN_OUT
+                * CREATE
+                * UPDATE
+                * DELETE
+                * PATCH
+                * AUDIT_OPERATION
+                * ACTIVATE
+                * FORCED_ACTIVATE,
+                * IMPORT
+                * REPORT
+                * DOWNLOAD
+            actionInterface (list of str): Action type for audit log entry.
             objectName: Object in question.
             full: If set to true, full retrieval.
             page: Page in offset.
@@ -514,7 +579,8 @@ class ZIAConnector:
             clientIP: The source IP address for the admin.
             adminName: The admin's login ID.
 
-        Returns: HTTP Response 204
+        Returns:
+            HTTP Response 204
 
         """
         startTime = int(parser.parse(startTime).timestamp()) * 1000  # Converting starttime to epoch
@@ -525,7 +591,7 @@ class ZIAConnector:
 
         parameters = u.clean_args(parameters, ['self', 'full'])
 
-        return self.full_retrieval('POST', url, None, parameters, pageSize,
+        return self.full_retrieval('POST', url, {}, parameters, pageSize,
                                    'Request to create audit log entry report sucessfully sent.', full)
 
     def get_auditlog_entry_report_status(self):
@@ -535,7 +601,8 @@ class ZIAConnector:
         generating. Once the status is COMPLETE, you can send another GET request to /auditlogEntryReport/download to
         download the report as a CSV file.
 
-        Returns: Status in JSON format.
+        Returns:
+            Status in JSON format.
         """
 
         url = self.form_full_url('audit')
@@ -548,7 +615,8 @@ class ZIAConnector:
         """
         Cancels the request to create an audit log report.
 
-        Returns: 200 OK
+        Returns:
+            200 OK
         """
         url = self.form_full_url('audit')
 
@@ -557,6 +625,14 @@ class ZIAConnector:
         return self.send_recv(req, 'Cancelled request to create audit log report.')
 
     def dwl_auditlog_entry_report(self):
+        """
+        Downloads the most recently created audit log report. After a call to GET /auditlogEntryReport indicates that
+        the report (CSV file) was generated, you can send a GET request to /auditlogEntryReport/download to download
+        the file.
+
+        Returns:
+            CSV files in string format. Must be formatted.
+        """
         url = self.form_full_url('audit', ['download'])
 
         req = re.Request('GET', url)
@@ -613,6 +689,22 @@ class ZIAConnector:
 
     def full_retrieval(self, method: str, url: str, params: dict, json_content: dict, page_size: int = 500, message="",
                        full=True):
+        """
+        For requests where page and pageSize can be specified, this retrieves all available pages for the given
+        pageSize.
+        Args:
+            method (str): HTTP method.
+            url (str): URL string.
+            params (dict): GET parameters that will be passed through URL.
+            json_content (dict): Content to be added at the end of the request. For POST and PUT requests.
+            page_size (int): Defaults to 500. Page size for max result entries.
+            message (str): Message to be displayed when success.
+            full (bool): Defaults to True. Enables full retrieval. If set to False, simple request will be done.
+
+        Returns:
+            JSON object. Dict or list.
+
+        """
         # If json_content {}, then put it to None
         if not json_content:
             json_content = None
@@ -680,6 +772,14 @@ class ZIAConnector:
         return self.host + self.urls[key] + remaining
 
     def my_except_hook(self, exctype, value, traceback):
+        """
+        Error hook to be executed when exception raised so session can be closed.
+        Args:
+            exctype: Exception type.
+            value: Value of exception.
+            traceback: Traceback.
+
+        """
         if exctype == re.exceptions.RequestException or exctype == ResponseException:
             self.logout()
 

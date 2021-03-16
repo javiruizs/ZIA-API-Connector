@@ -1,11 +1,19 @@
+"""
+Module where the parser is configured and built.
+"""
 import argparse as ap
 import datetime as dt
 
-from ZIAapi.arguments.locations.location_parser import create_location_subparser
-from ZIAapi.arguments.users.user_parser import create_user_subparser
+from arguments import create_location_subparser
+from arguments import create_user_subparser
 
 
 def create_parser():
+    """
+    Creates the parser. It calls the necessary functions to build the subparsers.
+    Returns:
+        Returns the built parser.
+    """
     parser = ap.ArgumentParser(description="ZIA API command line script.")
 
     # Main parser commands
@@ -33,12 +41,33 @@ def create_parser():
 
 
 def output_name():
+    """
+    Creates a name for the output file where the search or operation results will be stored if no custom name is \
+    provided.
+
+    Returns:
+        A string with the format 'search_%Y-%m-%d_%H-%M-%S.json'.
+
+    """
     today = dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     return f'search_{today}.json'
 
 
 # FUNCTIONS FOR TYPE
 def boolstring(arg):
+    """
+    Checks arguments that are not required and have default values on the server. Argument is a string but mus be
+    converted to True, False or ''.
+
+    Args:
+        arg (str): Parsed argument.
+
+    Returns:
+        'True' -> True
+        'False' -> False
+        'None' or anything else -> ''
+
+    """
     if arg == 'True':
         return True
     elif arg == 'False':
