@@ -1,41 +1,121 @@
+"""
+Module where end functions for the location parser are defined.
+"""
 import json
 
-import zia_api_client
-import zia_api_client.custom as c
+import client.session
+import client.custom as cstm
 
 
 # FINAL ACTION FUNCTIONS
-def ids_location(client: zia_api_client.ZIAConnector, args):
-    return client.get_location_ids(includeSubLocations=args.sub, includeParentLocations=args.parent, full=args.all,
-                                   search=args.search, sslScanEnabled=args.ssl, bwEnforced=args.bw,
-                                   authRequired=args.auth, xffEnabled=args.xff)
+def ids_location(c: client.session.ZIAConnector, args):
+    """
+    Retrieves the dictionary with the mapping of the locations and sublocations names and their ids.
+
+    Args:
+        c: API client that must me logged in beforehand.
+        args: Parsed arguments. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
+    return c.get_location_ids(includeSubLocations=args.sub, includeParentLocations=args.parent, full=args.all,
+                              search=args.search, sslScanEnabled=args.ssl, bwEnforced=args.bw,
+                              authRequired=args.auth, xffEnabled=args.xff)
 
 
-def search_location(client: zia_api_client.ZIAConnector, args):
-    return client.search_locations(search=args.search, sslScanEnabled=args.sslScan, xffEnabled=args.xff,
-                                   authRequired=args.authReq, bwEnforced=args.bwEnf, page=args.page,
-                                   pageSize=args.pageSize, full=args.all)
+def search_location(c: client.session.ZIAConnector, args):
+    """
+    Searches locations with the `search_locations` method of the client.
+
+    Args:
+        c: API client that must me logged in beforehand.
+        args: Parsed arguments. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
+    return c.search_locations(search=args.search, sslScanEnabled=args.sslScan, xffEnabled=args.xff,
+                              authRequired=args.authReq, bwEnforced=args.bwEnf, page=args.page,
+                              pageSize=args.pageSize, full=args.all)
 
 
-def update_location(client: zia_api_client.ZIAConnector, args):
+def update_location(c: client.session.ZIAConnector, args):
+    """
+    Updates locations.
+    
+    Args:
+        c: API client that must me logged in beforehand.
+        args: Parsed arguments. Namespace object. 
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     with open(args.file) as f:
         location = json.load(f)
-    return client.update_location(location)
+    return c.update_location(location)
 
 
-def create_location(client: zia_api_client.ZIAConnector, args):
+def create_location(c: client.session.ZIAConnector, args):
+    """
+    Creates a new location.
+    
+    Args:
+        c: API client that must me logged in beforehand.
+        args: Parsed arguments. Namespace object. 
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     with open(args.file) as f:
         location = json.load(f)
-    return client.create_location(location)
+    return c.create_location(location)
 
 
-def delete_location(client: zia_api_client.ZIAConnector, args):
-    return client.delete_location(args.loc_id)
+def delete_location(c: client.session.ZIAConnector, args):
+    """
+    Deletes a location.
+    
+    Args:
+        c: API client that must me logged in beforehand.
+        args: Parsed arguments. Namespace object. 
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
+    return c.delete_location(args.loc_id)
 
 
-def all_location(client: zia_api_client.ZIAConnector, args):
-    return c.obtain_all_locations_sublocations(client)
+def all_location(c: client.session.ZIAConnector, args):
+    """
+    Retrieves all location and sublocation infos.
+    
+    Args:
+        c: API client that must me logged in beforehand.
+        args: Parsed arguments. Namespace object. 
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
+    return cstm.obtain_all_locations_sublocations(c)
 
 
-def info_location(client: zia_api_client.ZIAConnector, args):
-    return client.get_location_info(args.loc_id)
+def info_location(c: client.session.ZIAConnector, args):
+    """
+    Retreives the info for the desired location.
+    
+    Args:
+        c: API client that must me logged in beforehand.
+        args: Parsed arguments. Namespace object. 
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
+    return c.get_location_info(args.loc_id)

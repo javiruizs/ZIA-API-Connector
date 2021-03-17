@@ -4,8 +4,8 @@ Module where the parser is configured and built.
 import argparse as ap
 import datetime as dt
 
-from arguments import create_location_subparser
-from arguments import create_user_subparser
+from arguments.locations.location_parser import create_location_subparser
+from arguments.users.user_parser import create_user_subparser
 
 
 def create_parser():
@@ -46,7 +46,9 @@ def output_name():
     provided.
 
     Returns:
-        A string with the format 'search_%Y-%m-%d_%H-%M-%S.json'.
+        str: A string with the format `search_%Y-%m-%d_%H-%M-%S.json`.
+        ``Example: search_2021-01-01_14-13-12.json``
+
 
     """
     today = dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -63,9 +65,12 @@ def boolstring(arg):
         arg (str): Parsed argument.
 
     Returns:
-        'True' -> True
-        'False' -> False
-        'None' or anything else -> ''
+        bool or empty string:
+            "True" -> `True`
+
+            "False" -> `False`
+
+            Anything else -> `''`
 
     """
     if arg == 'True':

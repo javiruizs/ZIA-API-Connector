@@ -125,7 +125,7 @@ def check_response(response: requests.Response, comment: str, expected_code=200)
     Args:
         response (requests.Response): The response object.
         comment (str): The string to be printed. Message will display like this:
-        \"Request for <comment> successful/unsuccessful.\"
+            \"Request for <comment> successful/unsuccessful.\"
         expected_code (int, optional): Expected return code. Defaults to 200.
 
     Returns:

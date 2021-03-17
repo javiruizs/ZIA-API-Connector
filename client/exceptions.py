@@ -11,6 +11,7 @@ class ResponseException(Exception):
     def __init__(self, message='The response had error status.'):
         """
         Generic response exception. Useful for this purpose.
+
         Args:
             message: Message to display.
         """

@@ -1,10 +1,16 @@
 """
-
+Functions to build the user subparser and its subparsers.
 """
 import arguments.users.endfuncs as ef
 
 
 def create_user_subparser(subparsers):
+    """
+    Creates the user subparser.
+
+    Args:
+        subparsers: Subparser object from argparse obtined from calling ArgumentParser.add_subparsers().
+    """
     usr_prs = subparsers.add_parser('users')
     usr_subprs = usr_prs.add_subparsers(required=True, dest='any of the subcommands')
 
@@ -18,6 +24,15 @@ def create_user_subparser(subparsers):
 
 
 def depts_user_parser(usr_subprs):
+    """
+    Creates the user department subparser.
+
+    Args:
+        usr_subprs: The user subparser to create this subparser.
+
+    Returns:
+
+    """
     sp = usr_subprs.add_parser('depts')
     sp.add_argument(
         '--search', default=None, help='Searching string.')
@@ -32,6 +47,12 @@ def depts_user_parser(usr_subprs):
 
 
 def add_users_to_groups(usr_subprs):
+    """
+    Creates the subparser to add users to groups.
+
+    Args:
+        usr_subprs: The user subparser to create this subparser.
+    """
     sp = usr_subprs.add_parser('add-u2g')
     sp.add_argument('--users', type=str, required=True,
                     help='Text file (CSV) with only one column and first line is label.')
@@ -43,6 +64,12 @@ def add_users_to_groups(usr_subprs):
 
 
 def groups_user_parser(usr_subprs):
+    """
+    Creates the subparser to manage user groups.
+
+    Args:
+        usr_subprs: The user subparser to create this subparser.
+    """
     usr_groups_p = usr_subprs.add_parser('groups')
     usr_groups_p.add_argument(
         '--search', default=None, help='Searching string.')
@@ -57,6 +84,12 @@ def groups_user_parser(usr_subprs):
 
 
 def search_user_parser(usr_subprs):
+    """
+    Creates the subparser to do user searching queries.
+
+    Args:
+        usr_subprs: The user subparser to create this subparser.
+    """
     usr_search_p = usr_subprs.add_parser('search')
     usr_search_p.add_argument(
         '--search', default=None, help='Searching string.')
@@ -75,6 +108,12 @@ def search_user_parser(usr_subprs):
 
 
 def update_user_parser(usr_subprs):
+    """
+    Creates the subparser for updating users.
+
+    Args:
+        usr_subprs: The user subparser to create this subparser.
+    """
     usr_update_p = usr_subprs.add_parser('update')
     usr_update_p.add_argument(
         'file', help="File from which the updated user configuration will be loaded and updated.")
@@ -83,12 +122,24 @@ def update_user_parser(usr_subprs):
 
 
 def create_user_parser(usr_subprs):
+    """
+    Creates the subparser for creating users.
+
+    Args:
+        usr_subprs: The user subparser to create this subparser.
+    """
     usr_create_p = usr_subprs.add_parser('create')
     usr_create_p.add_argument(
         'file', help="File from which the updated user configuration will be loaded and created.")
 
 
 def delete_user_parser(usr_subprs):
+    """
+    Creates the subparser to for deleting users.
+
+    Args:
+        usr_subprs: The user subparser to create this subparser.
+    """
     usr_delete_p = usr_subprs.add_parser('delete')
     usr_delete_p.add_argument(
         'user_id', help='User identification. If you don\'t know the UID, search it first.')

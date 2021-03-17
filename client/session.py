@@ -1,6 +1,6 @@
 """
 Class that encapsulates the session management while connecting to the Zscaler ZIA API. For each of the references that
- exist (see https://help.zscaler.com/zia/api), I will try to create a specific method. Also, I'll try to create methods
+exist (see https://help.zscaler.com/zia/api), I will try to create a specific method. Also, I'll try to create methods
 that will apply on the general use that I will make of it.
 """
 
@@ -11,7 +11,7 @@ import time
 import requests as re
 from dateutil import parser
 
-import utils as u
+import client.utils as u
 from .exceptions import ResponseException
 
 
@@ -27,6 +27,7 @@ class ZIAConnector:
 
         Args:
             config_file (String): The path for the config file. Must be a JSON.
+            verbosity (None or bool): If None, input from JSON file is taken. If True or False, then it will be override.
         """
         self.s = None
         with open(config_file) as f:
@@ -113,6 +114,7 @@ class ZIAConnector:
     def del_vpn_creds(self, vpn_id):
         """
         Delete VPN credentials.
+
         Args:
             vpn_id: Credential identifier.
 
@@ -210,23 +212,33 @@ class ZIAConnector:
                          full=False):
         """
         Gets a name and ID dictionary of locations.
+
         Args:
-            xffEnabled (bool): Filter based on whether the Enforce XFF Forwarding setting is enabled or disabled for a
+            xffEnabled (bool): Filter based on whether the Enforce XFF Forwarding setting is enabled or disabled for a \
             location.
+
             bwEnforced (bool): Filter based on whether Bandwidth Control is being enforced for a location.
-            authRequired (bool): Filter based on whether the Enforce Authentication setting is enabled or disabled for a
-            location.
+
+            authRequired (bool): Filter based on whether the Enforce Authentication setting is enabled or disabled for \
+            a location.
+
             full: If set to True, all location IDs will be obtained.
-            includeSubLocations (bool, optional): if set to true sub-locations will be included in the response
+
+            includeSubLocations (bool, optional): if set to true sub-locations will be included in the response \
             otherwise they will excluded. Defaults to False.
-            includeParentLocations (bool, optional): if set to true locations with sub locations will be included in the
-            response, otherwise only locations without sub-locations are included. Defaults to False.
+
+            includeParentLocations (bool, optional): if set to true locations with sub locations will be included in \
+            the response, otherwise only locations without sub-locations are included. Defaults to False.
+
             sslScanEnabled (bool, optional): Filter based on whether the Enable SSL Scanning setting is enabled or
             disabled for a location. Defaults to False.
-            search (str, optional): The search string used to partially match against a location's name and port
+
+            search (str, optional): The search string used to partially match against a location's name and port \
             attributes. Defaults to "".
+
             page (int, optional): Specifies the page offset. Defaults to 1.
-            pageSize (int, optional): Specifies the page size. The default size is 100, but the maximum size is 1000.
+
+            pageSize (int, optional): Specifies the page size. The default size is 100, but the maximum size is 1000. \
             Defaults to 100.
 
         Raises:
@@ -266,19 +278,20 @@ class ZIAConnector:
         """
         Gets the sub-location information for the location with the specified ID. These are the sub-locations associated
         to the parent location.
+
         Args:
             locationId: The unique identifier for the location. The sub-location information given is based on the
-            parent location's ID.
+                parent location's ID.
             search (str, optional): The search string used to partially match against a location's name and port
-            attributes. Defaults to "".
+                attributes. Defaults to "".
             sslScanEnabled (bool, optional): Filter based on whether the Enable SSL Scanning setting is enabled or
-            disabled for a location. Defaults to None.
+                disabled for a location. Defaults to None.
             xffEnabled (bool, optional): Filter based on whether the Enforce XFF Forwarding setting is enabled or
-            disabled for a location. Defaults to None.
+                disabled for a location. Defaults to None.
             authRequired (bool, optional): Filter based on whether the Enforce Authentication setting is enabled or
-            disabled for a location. Defaults to None.
+                disabled for a location. Defaults to None.
             bwEnforced (bool, optional): Filter based on whether Bandwidth Control is being enforced for a location.
-            Defaults to None.
+                Defaults to None.
             enforceAup: Filter based on whether Enforce AUP setting is enabled or disabled for a sub-location.
             enableFirewall: Filter based on whether Enable Firewall setting is enabled or disabled for a sub-location.
 
@@ -425,6 +438,7 @@ class ZIAConnector:
     def get_departments(self, search='', page=None, pageSize=None, full=False):
         """
         Obtains departments.
+
         Args:
             full: If set to true, all departments will be retrieved.
             search: Search string.
@@ -444,6 +458,7 @@ class ZIAConnector:
     def get_department(self, dept_id: int):
         """
         Gets department information from department id.
+
         Args:
             dept_id: Department id.
 
@@ -460,6 +475,7 @@ class ZIAConnector:
     def get_groups(self, search="", page=None, pageSize=None, full=False):
         """
         Retrieves groups.
+
         Args:
             search (str): Search string. Name of the group.
             page (int): Page offset. Server's default is 1.
@@ -480,6 +496,7 @@ class ZIAConnector:
         """
         Gets a list of all users and allows user filtering by name, department, or group. The name search parameter
         performs a partial match. The dept and group parameters perform a 'starts with' match.
+
         Args:
             name (str): Filters by user name.
             dept (str): Filters by department name.
@@ -501,6 +518,7 @@ class ZIAConnector:
     def update_user(self, userdata):
         """
         Updates the user information for the specified ID. However, the "email" attribute is read-only.
+
         Args:
             userdata (dict): Dictionary that contains the user information.
 
@@ -520,6 +538,7 @@ class ZIAConnector:
     def get_user_info(self, usr_id):
         """
         Gets the user information for the specified ID.
+
         Args:
             usr_id (int): The unique identifer for the user.
 
@@ -646,6 +665,7 @@ class ZIAConnector:
     def send_recv(self, request: re.Request, successful_msg='Request was sucessful.'):
         """
         Send request and handle response. Retries if 429.
+
         Args:
             request: Request to be sent.
             successful_msg: Message to display when verbosity set to true and success.
@@ -692,6 +712,7 @@ class ZIAConnector:
         """
         For requests where page and pageSize can be specified, this retrieves all available pages for the given
         pageSize.
+
         Args:
             method (str): HTTP method.
             url (str): URL string.
@@ -774,6 +795,7 @@ class ZIAConnector:
     def my_except_hook(self, exctype, value, traceback):
         """
         Error hook to be executed when exception raised so session can be closed.
+
         Args:
             exctype: Exception type.
             value: Value of exception.

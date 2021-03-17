@@ -1,6 +1,9 @@
+"""
+Custom functions
+"""
 import json
 
-from . import utils as u
+import client.utils as u
 from .session import ZIAConnector
 
 
