@@ -12,6 +12,7 @@ import requests as re
 
 import client.utils as u
 from client.exceptions import ResponseException
+from typing import Union
 
 
 class ZIAConnector:
@@ -19,7 +20,7 @@ class ZIAConnector:
     ZIA API REST Client
     """
 
-    def __init__(self, config_file, verbosity=None):
+    def __init__(self, config_file: str, creds: Union[str, dict] = None, verbosity=None):
         """
 
         Args:
@@ -31,9 +32,17 @@ class ZIAConnector:
         with open(config_file) as f:
             config = json.load(f)
 
-        self.urls = config['urls']
+        with open(config['urls']) as f:
+            self.urls = json.load(f)
 
-        self.creds = config['creds']
+        if not creds:
+            with open(config['creds']) as f:
+                self.creds = json.load(f)
+        elif isinstance(creds, str):
+            with open(creds) as f:
+                self.creds = json.load(f)
+        else:
+            self.creds = creds
 
         self.host = config['host'] + config['api_uri']
 

@@ -5,25 +5,6 @@
   "verbosity": true,
   "debug": false,
   "sleep": 1,
-  "creds": {
-    "key": "your_api_key",
-    "username": "your_username",
-    "password": "your_password"
-  },
-  "urls": {
-    "loginout": "/authenticatedSession",
-    "vpnCreds": "/vpnCredentials",
-    "locs": "/locations",
-    "status": "/status",
-    "activate": "/status/activate",
-    "locInfo": "/locations/lite",
-    "adminRoles": "/adminRoles/lite",
-    "adminUsers": "/adminUsers",
-    "depts": "/departments",
-    "groups": "/groups",
-    "usr": "/users",
-    "audit": "/auditlogEntryReport",
-    "greInfo": "/orgProvisioning/ipGreTunnelInfo",
-    "virtualIp": "/vips"
-  }
+  "urls": "urls.json",
+  "creds": "creds.json"
 }
