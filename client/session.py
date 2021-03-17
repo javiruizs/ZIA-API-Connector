@@ -7,12 +7,12 @@ that will apply on the general use that I will make of it.
 import json
 import sys
 import time
+from typing import Union
 
 import requests as re
 
 import client.utils as u
 from client.exceptions import ResponseException
-from typing import Union
 
 
 class ZIAConnector:
@@ -26,7 +26,7 @@ class ZIAConnector:
         Args:
             config_file (String): The path for the config file. Must be a JSON.
             verbosity (None or bool): If None, input from JSON file is taken. If True or False, then it will be
-            override.
+                overridden.
         """
         self.s = None
         with open(config_file) as f:
