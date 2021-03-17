@@ -22,6 +22,8 @@
     "depts": "/departments",
     "groups": "/groups",
     "usr": "/users",
-    "audit": "/auditlogEntryReport"
+    "audit": "/auditlogEntryReport",
+    "greInfo": "/orgProvisioning/ipGreTunnelInfo",
+    "virtualIp": "/vips"
   }
 }

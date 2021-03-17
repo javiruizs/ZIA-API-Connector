@@ -4,9 +4,9 @@ Utility methods to be used while using the api.
 
 import json
 import time
+from http.client import responses
 
 import requests
-from http.client import responses
 
 
 def pretty_print_response(response):
@@ -156,7 +156,13 @@ def clean_args(args: dict, exemption: list = False) -> dict:
     """
     params = {}
 
-    exemption += ['self', 'full', 'args']
+    default_exemptions = ['self', 'full', 'args', 'session']
+
+    if exemption:
+        exemption += default_exemptions
+    else:
+        exemption = default_exemptions
+
     exemption = set(exemption)
 
     for k, v in args.items():

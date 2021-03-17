@@ -10,7 +10,7 @@ def create_location_subparser(subparsers):
     Creates the necessary location subparsers: search, info...
 
     Args:
-        subparsers: Subparser object from argparse obtined from calling ArgumentParser.add_subparsers().
+        subparsers: Subparser object from argparse obtained from calling ArgumentParser.add_subparsers().
     """
 
     locs_prs = subparsers.add_parser('locs')
