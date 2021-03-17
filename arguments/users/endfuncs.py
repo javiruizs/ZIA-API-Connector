@@ -3,11 +3,12 @@ Endfunctions for the user parser.
 """
 import pandas as pd
 
-import client.session
 import client.custom as cstm
+from client.session import ZIAConnector
+import client.users as usrs
 
 
-def search_groups(clt: client.session.ZIAConnector, args):
+def search_groups(clt: ZIAConnector, args):
     """
     Searches for user groups.
     
@@ -19,10 +20,10 @@ def search_groups(clt: client.session.ZIAConnector, args):
         The requests' response. Generally a JSON object.
 
     """
-    return clt.get_groups(args.search, args.page, args.pageSize, args.all)
+    return usrs.get_groups(clt, args.search, args.page, args.pageSize, args.all)
 
 
-def search_depts(clt: client.session.ZIAConnector, args):
+def search_depts(clt: ZIAConnector, args):
     """
     Searches for user departments.
     
@@ -34,10 +35,10 @@ def search_depts(clt: client.session.ZIAConnector, args):
         The requests' response. Generally a JSON object.
 
     """
-    return clt.get_departments(args.search, args.page, args.pageSize, args.all)
+    return usrs.get_departments(clt, args.search, args.page, args.pageSize, args.all)
 
 
-def search_usrs(clt: client.session.ZIAConnector, args):
+def search_usrs(clt: ZIAConnector, args):
     """
     Searches for users.
     
@@ -49,10 +50,10 @@ def search_usrs(clt: client.session.ZIAConnector, args):
         The requests' response. Generally a JSON object.
 
     """
-    return clt.get_users(args.search, args.dept, args.group, args.page, args.pageSize, args.all)
+    return usrs.get_users(clt, args.search, args.dept, args.group, args.page, args.pageSize, args.all)
 
 
-def update_usrs(clt: client.session.ZIAConnector, args):
+def update_usrs(clt: ZIAConnector, args):
     """
     Updates the desired users.
     
@@ -67,7 +68,7 @@ def update_usrs(clt: client.session.ZIAConnector, args):
     return cstm.update_users(clt, args.file)
 
 
-def add_u2g(clt: client.session.ZIAConnector, args):
+def add_u2g(clt: ZIAConnector, args):
     """
     Adds users to desired groups and assigns them a default department if they don't have any.
     

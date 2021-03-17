@@ -3,12 +3,13 @@ Module where end functions for the location parser are defined.
 """
 import json
 
-import client.session
+from client.session import ZIAConnector
 import client.custom as cstm
+import client.locations as locs
 
 
 # FINAL ACTION FUNCTIONS
-def ids_location(c: client.session.ZIAConnector, args):
+def ids_location(c: ZIAConnector, args):
     """
     Retrieves the dictionary with the mapping of the locations and sublocations names and their ids.
 
@@ -20,12 +21,12 @@ def ids_location(c: client.session.ZIAConnector, args):
         The requests' response. Generally a JSON object.
 
     """
-    return c.get_location_ids(includeSubLocations=args.sub, includeParentLocations=args.parent, full=args.all,
-                              search=args.search, sslScanEnabled=args.ssl, bwEnforced=args.bw,
-                              authRequired=args.auth, xffEnabled=args.xff)
+    return locs.get_location_ids(c, includeSubLocations=args.sub, includeParentLocations=args.parent, full=args.all,
+                                 search=args.search, sslScanEnabled=args.ssl, bwEnforced=args.bw,
+                                 authRequired=args.auth, xffEnabled=args.xff)
 
 
-def search_location(c: client.session.ZIAConnector, args):
+def search_location(c: ZIAConnector, args):
     """
     Searches locations with the `search_locations` method of the client.
 
@@ -37,12 +38,12 @@ def search_location(c: client.session.ZIAConnector, args):
         The requests' response. Generally a JSON object.
 
     """
-    return c.search_locations(search=args.search, sslScanEnabled=args.sslScan, xffEnabled=args.xff,
-                              authRequired=args.authReq, bwEnforced=args.bwEnf, page=args.page,
-                              pageSize=args.pageSize, full=args.all)
+    return locs.search_locations(c, search=args.search, sslScanEnabled=args.sslScan, xffEnabled=args.xff,
+                                 authRequired=args.authReq, bwEnforced=args.bwEnf, page=args.page,
+                                 pageSize=args.pageSize, full=args.all)
 
 
-def update_location(c: client.session.ZIAConnector, args):
+def update_location(c: ZIAConnector, args):
     """
     Updates locations.
     
@@ -56,10 +57,10 @@ def update_location(c: client.session.ZIAConnector, args):
     """
     with open(args.file) as f:
         location = json.load(f)
-    return c.update_location(location)
+    return locs.update_location(c, location)
 
 
-def create_location(c: client.session.ZIAConnector, args):
+def create_location(c: ZIAConnector, args):
     """
     Creates a new location.
     
@@ -73,10 +74,10 @@ def create_location(c: client.session.ZIAConnector, args):
     """
     with open(args.file) as f:
         location = json.load(f)
-    return c.create_location(location)
+    return locs.create_location(c, location)
 
 
-def delete_location(c: client.session.ZIAConnector, args):
+def delete_location(c: ZIAConnector, args):
     """
     Deletes a location.
     
@@ -88,10 +89,10 @@ def delete_location(c: client.session.ZIAConnector, args):
         The requests' response. Generally a JSON object.
 
     """
-    return c.delete_location(args.loc_id)
+    return locs.delete_location(c, args.loc_id)
 
 
-def all_location(c: client.session.ZIAConnector, args):
+def all_location(c: ZIAConnector, args):
     """
     Retrieves all location and sublocation infos.
     
@@ -106,7 +107,7 @@ def all_location(c: client.session.ZIAConnector, args):
     return cstm.obtain_all_locations_sublocations(c)
 
 
-def info_location(c: client.session.ZIAConnector, args):
+def info_location(c: ZIAConnector, args):
     """
     Retreives the info for the desired location.
     
@@ -118,4 +119,4 @@ def info_location(c: client.session.ZIAConnector, args):
         The requests' response. Generally a JSON object.
 
     """
-    return c.get_location_info(args.loc_id)
+    return locs.get_location_info(c, args.loc_id)

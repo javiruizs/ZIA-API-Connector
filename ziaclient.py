@@ -3,6 +3,7 @@ from sys import argv
 from arguments.parser import create_parser
 from client.session import ZIAConnector
 from client.utils import print_json, save_json
+import client.activation as actv
 
 
 def main():
@@ -24,9 +25,9 @@ def main():
         print_json(result)
 
     if args.apply:
-        client.activate_changes()
+        actv.activate_changes(client)
     if args.pending:
-        client.get_status()
+        actv.get_status(client)
 
     client.logout()
 
