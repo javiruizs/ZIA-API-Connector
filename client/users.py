@@ -35,7 +35,7 @@ def get_department(session: ZIAConnector, dept_id: int):
         JSON response.
 
     """
-    url = session.form_full_url('dept', [dept_id])
+    url = session.form_full_url('dept', dept_id)
 
     r = re.Request('GET', url)
 
@@ -101,7 +101,7 @@ def update_user(session: ZIAConnector, userdata):
     if 'id' not in userdata:
         raise ValueError('Userdata has no id key.')
 
-    url = session.form_full_url('usr', [userdata['id']])
+    url = session.form_full_url('usr', userdata['id'])
 
     r = re.Request('PUT', url, json=userdata)
 
@@ -119,7 +119,7 @@ def get_user_info(session: ZIAConnector, usr_id):
         JSON dict with user's info.
 
     """
-    url = session.form_full_url('usr', [usr_id])
+    url = session.form_full_url('usr', usr_id)
 
     r = re.Request('GET', url)
 

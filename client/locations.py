@@ -31,7 +31,7 @@ def update_location(session: ZIAConnector, location):
     if 'id' not in location:
         raise ValueError('There is no "id" keyword in the location dict.')
 
-    url = session.form_full_url('locs', [location["id"]])
+    url = session.form_full_url('locs', location["id"])
 
     time.sleep(0.5)
     r = re.Request('PUT', url, json=location)
@@ -48,7 +48,7 @@ def delete_location(session: ZIAConnector, loc_id: int):
     Raises:
         Exception: If delete is unsuccessful, then it raises an exception.
     """
-    url = session.form_full_url('locs', [loc_id])
+    url = session.form_full_url('locs', loc_id)
 
     r = re.Request('DELETE', url)
 
@@ -146,7 +146,7 @@ def get_location_info(session: ZIAConnector, loc_id):
     Returns:
         dict: A dict containing all the information. If no success, dict is empty.
     """
-    url = session.form_full_url('locs', [loc_id])
+    url = session.form_full_url('locs', loc_id)
 
     r = re.Request('GET', url)
     time.sleep(1)
@@ -180,7 +180,7 @@ def get_sublocations(session: ZIAConnector, locationId, search="", sslScanEnable
         A list of dictionaries.
     """
 
-    url = session.form_full_url('locs', [locationId, 'sublocations'])
+    url = session.form_full_url('locs', locationId, 'sublocations')
 
     # Use directly args of this function as parameters on the request, but they need to be cleaned first.
     args = locals()

@@ -74,7 +74,7 @@ def update_admin_user(session: ZIAConnector, userinfo):
         JSON dict: The representation of the updated user as confirmation.
     """
 
-    url = session.form_full_url("adminUsers", [userinfo['userId']])
+    url = session.form_full_url("adminUsers", userinfo['userId'])
 
     r = re.Request('PUT', url, json=userinfo)
 
@@ -91,7 +91,7 @@ def delete_admin_user(session: ZIAConnector, userId):
     Returns:
         None: None-type should be returned.
     """
-    url = session.form_full_url("adminUsers", [userId])
+    url = session.form_full_url("adminUsers", userId)
 
     r = re.Request('DELETE', url)
 

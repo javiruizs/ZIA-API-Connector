@@ -57,7 +57,7 @@ def req_auditlog_entry_report(session: ZIAConnector, startTime: str, endTime: st
     parameters = locals()
     url = session.form_full_url('audit')
 
-    parameters = u.clean_args(parameters, ['session', 'full'])
+    parameters = u.clean_args(parameters, 'session', 'full')
 
     return session.full_retrieval('POST', url, {}, parameters, pageSize,
                                   'Request to create audit log entry report sucessfully sent.', full)
@@ -104,7 +104,7 @@ def dwl_auditlog_entry_report(session):
     Returns:
         CSV files in string format. Must be formatted.
     """
-    url = session.form_full_url('audit', ['download'])
+    url = session.form_full_url('audit', 'download')
 
     req = re.Request('GET', url)
 

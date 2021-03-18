@@ -214,21 +214,24 @@ class ZIAConnector:
 
         return result
 
-    def form_full_url(self, key, elements: list = None):
+    def form_full_url(self, key, *elements):
         """It just joins the API URI with the wanted
         URL.
 
         Args:
+            *elements: All the strings that must be concatenated.
             key (String): Configured dict key that exists in the config.json file.
-            elements (List of strings): List of url elements to be included
 
         Returns:
             String: Full URL for the wanted action.
         """
-        remaining = ""
-        if elements:
-            for element in elements:
-                remaining += f'/{element}'
+        converted = []
+        for e in elements:
+            if isinstance(e, str):
+                converted.append(e)
+            else:
+                converted.append(str(e))
+        remaining = "/" + "/".join(converted) if elements else ""
         return self.host + self.urls[key] + remaining
 
     def my_except_hook(self, exctype, value, traceback):

@@ -30,7 +30,7 @@ def del_vpn_creds(session: ZIAConnector, vpn_id):
     Returns: JSON response.
 
     """
-    url = session.form_full_url('vpn_credentials', [vpn_id])
+    url = session.form_full_url('vpn_credentials', vpn_id)
 
     req = re.Request('DELETE', url)
 
