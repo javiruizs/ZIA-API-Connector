@@ -165,21 +165,21 @@ def create_user(session: ZIAConnector, user_dict: Dict):
 
     Args:
         session: Active API session.
-        user_dict: User dictionary containing it's information.::
+        user_dict: User dictionary containing it's information. Example::
 
-        {
-            "name": "string", # User name. This appears when choosing users for policies.
-            "email": "string",  # User email consists of a user name and domain name. It does not have to be a valid
-                                # email address, but it must be unique and its domain must belong to the organization.
-            "groups":	[], # List of Groups a user belongs to. Groups are used in policies.
-            "department": {},
-            "comments": "string", # Additional information about this user.
-            "tempAuthEmail": "string",  # Temporary Authentication Email. If you enabled one-time tokens or links, enter
-                                        # the email address to which the Zscaler service sends the tokens or links. If
-                                        # this is empty, the service will send the email to the User email.
-            "password":	"string",   # User's password. Applicable only when authentication type is Hosted DB.
-                                    # Password strength must follow what is defined in the auth settings.
-        }
+            {
+                "name": "string", # User name. This appears when choosing users for policies.
+                "email": "string",  # User email consists of a user name and domain name. It does not have to be a valid
+                                    # email address, but it must be unique and its domain must belong to the organization.
+                "groups":	[], # List of Groups a user belongs to. Groups are used in policies.
+                "department": {},
+                "comments": "string", # Additional information about this user.
+                "tempAuthEmail": "string",  # Temporary Authentication Email. If you enabled one-time tokens or links, enter
+                                            # the email address to which the Zscaler service sends the tokens or links. If
+                                            # this is empty, the service will send the email to the User email.
+                "password":	"string",   # User's password. Applicable only when authentication type is Hosted DB.
+                                        # Password strength must follow what is defined in the auth settings.
+            }
 
     Returns:
         JSON dict: Same posted dict.

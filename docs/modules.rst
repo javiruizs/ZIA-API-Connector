@@ -1,10 +1,11 @@
-client
-======
+zia_client
+==========
 
 .. toctree::
    :maxdepth: 4
 
-   client
+   zia_client
+
 
 arguments
 =========

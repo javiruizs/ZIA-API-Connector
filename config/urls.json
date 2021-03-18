@@ -12,5 +12,7 @@
   "usr": "/users",
   "audit": "/auditlogEntryReport",
   "greInfo": "/orgProvisioning/ipGreTunnelInfo",
-  "virtualIp": "/vips"
+  "virtualIp": "/vips",
+  "sandbox": "/sandbox/report",
+  "authSettings": "/authSettings/exemptedUrls"
 }

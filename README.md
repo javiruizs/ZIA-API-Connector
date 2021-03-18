@@ -70,9 +70,8 @@ I've recollected them and summarized them in the following table:
 ### Cloud Sandbox Report
 |URL|Method|Implemented|Function/Method|Script Parser|
 |---|---|---|---|---|
-|/sandbox/report/quota|GET|No|
-|/sandbox/report/{md5Hash}|GET|No|
-
+|/sandbox/report/quota|GET|Yes|zia_client.sandbox.get_sandbox_quota||
+|/sandbox/report/{md5Hash}|GET|Yes|zia_client.sandbox.get_sandbox_file_report||
 ### Firewall Policies
 |Method|URL|Implemented|Function/Method|Script Parser|
 |---|---|---|---|---|
@@ -181,6 +180,6 @@ GET|/timeWindows/lite|No|
 ### User Authentication Settings
 |Method|URL|Implemented|Function/Method|Script Parser|
 |---|---|---|---|---|
-|GET|/authSettings/exemptedUrls|No|
-|POST|/authSettings/exemptedUrls|No|
+|GET|/authSettings/exemptedUrls|Yes|zia_client.user_auth.get_exempted_auth_urls||
+|POST|/authSettings/exemptedUrls|Yes|zia_client.user_auth.mod_auth_urls_exemptions||
 
