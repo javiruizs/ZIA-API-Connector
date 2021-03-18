@@ -3,9 +3,9 @@ Module where end functions for the location parser are defined.
 """
 import json
 
-from client.session import ZIAConnector
-import client.custom as cstm
-import client.locations as locs
+from zia_client.session import ZIAConnector
+import zia_client.custom as cstm
+import zia_client.locations as locs
 
 
 # FINAL ACTION FUNCTIONS
@@ -14,7 +14,7 @@ def ids_location(c: ZIAConnector, args):
     Retrieves the dictionary with the mapping of the locations and sublocations names and their ids.
 
     Args:
-        c: API client that must me logged in beforehand.
+        c: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object.
 
     Returns:
@@ -28,10 +28,10 @@ def ids_location(c: ZIAConnector, args):
 
 def search_location(c: ZIAConnector, args):
     """
-    Searches locations with the `search_locations` method of the client.
+    Searches locations with the `search_locations` method of the zia_client.
 
     Args:
-        c: API client that must me logged in beforehand.
+        c: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object.
 
     Returns:
@@ -48,7 +48,7 @@ def update_location(c: ZIAConnector, args):
     Updates locations.
     
     Args:
-        c: API client that must me logged in beforehand.
+        c: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object. 
 
     Returns:
@@ -65,7 +65,7 @@ def create_location(c: ZIAConnector, args):
     Creates a new location.
     
     Args:
-        c: API client that must me logged in beforehand.
+        c: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object. 
 
     Returns:
@@ -82,7 +82,7 @@ def delete_location(c: ZIAConnector, args):
     Deletes a location.
     
     Args:
-        c: API client that must me logged in beforehand.
+        c: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object. 
 
     Returns:
@@ -97,8 +97,8 @@ def all_location(c: ZIAConnector, args):
     Retrieves all location and sublocation infos.
     
     Args:
-        c: API client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        c: API zia_client that must me logged in beforehand.
+        args (unused): Parsed arguments. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -112,7 +112,7 @@ def info_location(c: ZIAConnector, args):
     Retreives the info for the desired location.
     
     Args:
-        c: API client that must me logged in beforehand.
+        c: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object. 
 
     Returns:

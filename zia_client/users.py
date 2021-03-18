@@ -1,6 +1,10 @@
+"""
+Module for user management.
+"""
 import requests as re
-import client.utils as u
-from client.session import ZIAConnector
+
+import zia_client.utils as u
+from zia_client.session import ZIAConnector
 
 
 def get_departments(session: ZIAConnector, search='', page=None, pageSize=None, full=False):
@@ -8,6 +12,7 @@ def get_departments(session: ZIAConnector, search='', page=None, pageSize=None, 
     Obtains departments.
 
     Args:
+        session: Logged in API client.
         full: If set to true, all departments will be retrieved.
         search: Search string.
         page: Page offset.
@@ -21,7 +26,8 @@ def get_departments(session: ZIAConnector, search='', page=None, pageSize=None, 
 
     params = u.clean_args(locals())
 
-    return session.full_retrieval('GET', url, params, {}, pageSize, "Departments retrieval successful.", full)
+    return session.full_retrieval('GET', url, params=params, page_size=pageSize,
+                                  message="Departments retrieval successful.", full=full)
 
 
 def get_department(session: ZIAConnector, dept_id: int):
@@ -29,6 +35,7 @@ def get_department(session: ZIAConnector, dept_id: int):
     Gets department information from department id.
 
     Args:
+        session: Logged in API client.
         dept_id: Department id.
 
     Returns:
@@ -47,6 +54,7 @@ def get_groups(session: ZIAConnector, search="", page=None, pageSize=None, full=
     Retrieves groups.
 
     Args:
+        session: Logged in API client.
         search (str): Search string. Name of the group.
         page (int): Page offset. Server's default is 1.
         pageSize (int): Page size. Server's default 100.
@@ -60,7 +68,8 @@ def get_groups(session: ZIAConnector, search="", page=None, pageSize=None, full=
 
     url = session.form_full_url('groups')
 
-    return session.full_retrieval('GET', url, params, {}, pageSize, "Group retrieval successful.", full)
+    return session.full_retrieval('GET', url, params=params, page_size=pageSize, message="Group retrieval successful.",
+                                  full=full)
 
 
 def get_users(session: ZIAConnector, name="", dept="", group="", page=None, pageSize=None, full=False):
@@ -69,6 +78,7 @@ def get_users(session: ZIAConnector, name="", dept="", group="", page=None, page
     performs a partial match. The dept and group parameters perform a 'starts with' match.
 
     Args:
+        session: Logged in API client.
         name (str): Filters by user name.
         dept (str): Filters by department name.
         group (str): Filters by group name.
@@ -84,7 +94,8 @@ def get_users(session: ZIAConnector, name="", dept="", group="", page=None, page
 
     params = u.clean_args(locals())
 
-    return session.full_retrieval('GET', url, params, {}, pageSize, "User retrieval successful.", full)
+    return session.full_retrieval('GET', url, params=params, page_size=pageSize, message="User retrieval successful.",
+                                  full=full)
 
 
 def update_user(session: ZIAConnector, userdata):
@@ -92,6 +103,7 @@ def update_user(session: ZIAConnector, userdata):
     Updates the user information for the specified ID. However, the "email" attribute is read-only.
 
     Args:
+        session: Logged in API client.
         userdata (dict): Dictionary that contains the user information.
 
     Returns:
@@ -113,6 +125,7 @@ def get_user_info(session: ZIAConnector, usr_id):
     Gets the user information for the specified ID.
 
     Args:
+        session: Logged in API client.
         usr_id (int): The unique identifer for the user.
 
     Returns:

@@ -3,13 +3,27 @@ Custom functions
 """
 import json
 
-import client.utils as u
-import client.locations as locs
-import client.users as usrs
-from client.session import ZIAConnector
+import zia_client.utils as u
+import zia_client.locations as locs
+import zia_client.users as usrs
+from zia_client.session import ZIAConnector
 
 
 def create_sublocations(session: ZIAConnector, sublocations):
+    """Creates sublocations for specified parent locations.
+
+    Creates new sublocations for the specified parent locations.
+    Parent locations are indicated by their names in a list of the sublocations dictionary. This attribute is extracted
+    from the dictionary, as it will be sent as it is to the ZIA.
+
+    Args:
+        session: Logged in API client.
+        sublocations: Sublocation list. Every sublocation is a dictionary following the format specified by the ZIA API
+            reference.
+
+    Returns:
+        JSON list of dictionaries: List of the published locations.
+    """
     with open(sublocations, 'r') as f:
         config = json.load(f)
 
@@ -86,6 +100,14 @@ def add_users_to_group(session: ZIAConnector, user_mails: list, group_ids: list,
 
 
 def obtain_all_locations_sublocations(session: ZIAConnector):
+    """Obtains all configured locations and sublocations.
+
+    Args:
+        session: Logged in API client.
+
+    Returns:
+        JSON dictionary: Dictionary with two keys: 'parents' and 'sublocations'. Values are list of location dicts.
+    """
     parents = locs.search_locations(session, full=True)
 
     sublocations = [locs.get_sublocations(session, parent['id']) for parent in parents]
@@ -98,6 +120,15 @@ def obtain_all_locations_sublocations(session: ZIAConnector):
 
 
 def update_users(session: ZIAConnector, json_file):
+    """Updates a list of users at once.
+
+    Args:
+        session: Logged in API client.
+        json_file: JSON file where the list of user dictionaries are stored.
+
+    Returns:
+        JSON list of dictionaries: Published user data as a confirmation.
+    """
     with open(json_file) as f:
         users = json.load(f)
 

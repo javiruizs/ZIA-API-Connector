@@ -1,8 +1,11 @@
+"""
+Module for audit log report.
+"""
 import requests as re
-from dateutil.parser import parser
+from dateutil.parser import parse
 
-import client.utils as u
-from client.session import ZIAConnector
+import zia_client.utils as u
+from zia_client.session import ZIAConnector
 
 
 def req_auditlog_entry_report(session: ZIAConnector, startTime: str, endTime: str, page=None, pageSize=500,
@@ -15,6 +18,7 @@ def req_auditlog_entry_report(session: ZIAConnector, startTime: str, endTime: st
     log report will overwrite a previously-generated report.
 
     Args:
+        session: Logged in API client.
         targetOrgId (int): Organization ID in case more than one organization were administrated.
         actionTypes (list of str): Action type for audit log entry. Recognized values:
             * SIGN_IN
@@ -51,16 +55,16 @@ def req_auditlog_entry_report(session: ZIAConnector, startTime: str, endTime: st
         HTTP Response 204
 
     """
-    startTime = int(parser.parse(timestr=startTime).timestamp()) * 1000  # Converting starttime to epoch
-    endTime = int(parser.parse(timestr=endTime).timestamp()) * 1000  # Converting endtime to epoch
+    startTime = int(parse(timestr=startTime).timestamp()) * 1000  # Converting starttime to epoch
+    endTime = int(parse(timestr=endTime).timestamp()) * 1000  # Converting endtime to epoch
 
     parameters = locals()
     url = session.form_full_url('audit')
 
     parameters = u.clean_args(parameters, 'session', 'full')
 
-    return session.full_retrieval('POST', url, {}, parameters, pageSize,
-                                  'Request to create audit log entry report sucessfully sent.', full)
+    return session.full_retrieval('POST', url, json_content=parameters, page_size=pageSize,
+                                  message='Request to create audit log entry report sucessfully sent.', full=full)
 
 
 def get_auditlog_entry_report_status(session):

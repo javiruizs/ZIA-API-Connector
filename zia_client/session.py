@@ -11,8 +11,8 @@ from typing import Union
 
 import requests as re
 
-import client.utils as u
-from client.exceptions import ResponseException
+import zia_client.utils as u
+from zia_client.exceptions import ResponseException
 
 
 class ZIAConnector:
@@ -146,8 +146,8 @@ class ZIAConnector:
             print('Maximum retries exceeded. No response was recieved.')
         return None
 
-    def full_retrieval(self, method: str, url: str, params: dict, json_content: dict, page_size: int = 500, message="",
-                       full=True):
+    def full_retrieval(self, method: str, url: str, params: dict = False, json_content: dict = False,
+                       page_size: int = 500, message="", full=True):
         """
         For requests where page and pageSize can be specified, this retrieves all available pages for the given
         pageSize.

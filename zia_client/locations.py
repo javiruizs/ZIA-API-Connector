@@ -1,15 +1,19 @@
+"""
+Module for location management.
+"""
 import time
 
 import requests as re
 
-import client.utils as u
-from client.session import ZIAConnector
+import zia_client.utils as u
+from zia_client.session import ZIAConnector
 
 
 def create_location(session: ZIAConnector, location):
     """Creates the location.
 
     Args:
+        session: Logged in API client.
         location (String): A dictionary representing the location. See example.
     """
 
@@ -24,6 +28,7 @@ def update_location(session: ZIAConnector, location):
     """Updates an existing location.
 
     Args:
+        session: Logged in API client.
         location (dict): The location information in dict format.
     """
 
@@ -43,6 +48,7 @@ def delete_location(session: ZIAConnector, loc_id: int):
     """Deletes location given its id.
 
     Args:
+        session: Logged in API client.
         loc_id (int): Location identifier.
 
     Raises:
@@ -61,6 +67,7 @@ def search_locations(session: ZIAConnector, search="", sslScanEnabled=None, xffE
     Could be IP address or name.
 
     Args:
+        session: Logged in API client.
         full: Enables a loop to retrieve all information.
         search (str, optional): The search string used to partially match against a location's name and port
             attributes. Defaults to "".
@@ -83,7 +90,8 @@ def search_locations(session: ZIAConnector, search="", sslScanEnabled=None, xffE
 
     # Key all is not recognized by the API, therefore can be removed
 
-    return session.full_retrieval('GET', url, params, {}, 1000, "Location search successful.", full)
+    return session.full_retrieval('GET', url, params=params, page_size=1000, message="Location search successful.",
+                                  full=full)
 
 
 def get_location_ids(session: ZIAConnector, includeSubLocations=None, includeParentLocations=None, authRequired=None,
@@ -93,6 +101,7 @@ def get_location_ids(session: ZIAConnector, includeSubLocations=None, includePar
     Gets a name and ID dictionary of locations.
 
     Args:
+        session: Logged in API client.
         xffEnabled (bool): Filter based on whether the Enforce XFF Forwarding setting is enabled or disabled for a \
         location.
 
@@ -134,13 +143,15 @@ def get_location_ids(session: ZIAConnector, includeSubLocations=None, includePar
 
     url = session.form_full_url('locInfo')
 
-    return session.full_retrieval('GET', url, params, {}, pageSize, "Location ids retrieval successful.", full)
+    return session.full_retrieval('GET', url, params=params, page_size=pageSize,
+                                  message="Location ids retrieval successful.", full=full)
 
 
 def get_location_info(session: ZIAConnector, loc_id):
     """Returns all the information of the desired location.
 
     Args:
+        session: Logged in API client.
         loc_id (int): Location identifier
 
     Returns:
@@ -161,6 +172,7 @@ def get_sublocations(session: ZIAConnector, locationId, search="", sslScanEnable
     to the parent location.
 
     Args:
+        session: Logged in API client.
         locationId: The unique identifier for the location. The sub-location information given is based on the
             parent location's ID.
         search (str, optional): The search string used to partially match against a location's name and port
@@ -186,5 +198,5 @@ def get_sublocations(session: ZIAConnector, locationId, search="", sslScanEnable
     args = locals()
     params = u.clean_args(args)
 
-    return session.full_retrieval('GET', url, params, {}, 0, f"Sublocations for {locationId} obtained successfully.",
-                                  False)
+    return session.full_retrieval('GET', url, params=params, page_size=0,
+                                  message=f"Sublocations for {locationId} obtained successfully.", full=False)

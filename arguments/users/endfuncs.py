@@ -3,9 +3,9 @@ Endfunctions for the user parser.
 """
 import pandas as pd
 
-import client.custom as cstm
-from client.session import ZIAConnector
-import client.users as usrs
+import zia_client.custom as cstm
+from zia_client.session import ZIAConnector
+import zia_client.users as usrs
 
 
 def search_groups(clt: ZIAConnector, args):
@@ -13,7 +13,7 @@ def search_groups(clt: ZIAConnector, args):
     Searches for user groups.
     
     Args:
-        clt: API client that must me logged in beforehand.
+        clt: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object. 
 
     Returns:
@@ -28,7 +28,7 @@ def search_depts(clt: ZIAConnector, args):
     Searches for user departments.
     
     Args:
-        clt: API client that must me logged in beforehand.
+        clt: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object. 
 
     Returns:
@@ -43,7 +43,7 @@ def search_usrs(clt: ZIAConnector, args):
     Searches for users.
     
     Args:
-        clt: API client that must me logged in beforehand.
+        clt: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object. 
 
     Returns:
@@ -58,7 +58,7 @@ def update_usrs(clt: ZIAConnector, args):
     Updates the desired users.
     
     Args:
-        clt: API client that must me logged in beforehand.
+        clt: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object. 
 
     Returns:
@@ -73,7 +73,7 @@ def add_u2g(clt: ZIAConnector, args):
     Adds users to desired groups and assigns them a default department if they don't have any.
     
     Args:
-        clt: API client that must me logged in beforehand.
+        clt: API zia_client that must me logged in beforehand.
         args: Parsed arguments. Namespace object. 
 
     Returns:

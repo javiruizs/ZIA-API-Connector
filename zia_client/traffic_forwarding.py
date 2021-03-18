@@ -1,9 +1,12 @@
+"""
+Module for traffic forwarding management.
+"""
 from typing import List, Dict
 
 import requests as re
 
-from client.session import ZIAConnector
-from client.utils import clean_args
+from zia_client.session import ZIAConnector
+from zia_client.utils import clean_args
 
 
 def get_vpn_creds(session: ZIAConnector):
@@ -25,6 +28,7 @@ def del_vpn_creds(session: ZIAConnector, vpn_id):
     Delete VPN credentials.
 
     Args:
+        session: Logged in API client.
         vpn_id: Credential identifier.
 
     Returns: JSON response.
@@ -37,22 +41,22 @@ def del_vpn_creds(session: ZIAConnector, vpn_id):
     return session.send_recv(req, successful_msg=f'VPN credential with id {vpn_id} removed successfully.')
 
 
-def add_vpn_creds(session: ZIAConnector, vpn_cred):
+def add_vpn_creds(session: ZIAConnector, vpn_cred: Dict):
     # Todo
     pass
 
 
-def bulk_del_vpn_creds(session: ZIAConnector, vpn_creds: list):
+def bulk_del_vpn_creds(session: ZIAConnector, vpn_creds: List):
     # Todo
     pass
 
 
-def get_vpn_cred_info(session: ZIAConnector, vpn_cred_id):
+def get_vpn_cred_info(session: ZIAConnector, vpn_cred_id: int):
     # Todo
     pass
 
 
-def upd_vpn_cred(session: ZIAConnector, vpn_cred_id):
+def upd_vpn_cred(session: ZIAConnector, vpn_cred_id: int):
     # Todo
     pass
 
@@ -140,5 +144,5 @@ def get_virtual_ips(session: ZIAConnector, dc: str = '', region: str = '', page:
 
     url = session.form_full_url('virtualIp')
 
-    return session.full_retrieval('GET', url, params, False, pageSize, "Virtual IP Addresses retrieved successfully.",
-                                  full=full)
+    return session.full_retrieval('GET', url, params=params, page_size=pageSize,
+                                  message="Virtual IP Addresses retrieved successfully.", full=full)

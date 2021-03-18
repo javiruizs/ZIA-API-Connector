@@ -1,12 +1,18 @@
+"""
+Script that maps command line instructions with the available configured methods in the zia_client package.
+"""
 from sys import argv
 
 from arguments.parser import create_parser
-from client.session import ZIAConnector
-from client.utils import print_json, save_json
-import client.activation as actv
+from zia_client.session import ZIAConnector
+from zia_client.utils import print_json, save_json
+import zia_client.activation as actv
 
 
 def main():
+    """
+    Main function of the script
+    """
     parser = create_parser()
     if len(argv) == 1:
         parser.parse_args(['-h'])
@@ -14,7 +20,7 @@ def main():
     # Parse args
     args = parser.parse_args()
 
-    client = ZIAConnector(args.conf, not args.no_verbosity)
+    client = ZIAConnector(args.conf, verbosity=not args.no_verbosity)
     client.login()
 
     result = args.func(client, args)

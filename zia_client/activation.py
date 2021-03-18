@@ -1,5 +1,8 @@
+"""
+Module for activation functions.
+"""
 import requests as re
-from client.session import ZIAConnector
+from zia_client.session import ZIAConnector
 
 
 def get_status(session: ZIAConnector):

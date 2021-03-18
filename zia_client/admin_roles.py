@@ -1,13 +1,17 @@
+"""
+Module for admin & roles management
+"""
 import requests as re
 
-import client.utils as u
-from client.session import ZIAConnector
+import zia_client.utils as u
+from zia_client.session import ZIAConnector
 
 
 def get_admin_roles(session: ZIAConnector, includeAuditorRole=None, includePartnerRole=None):
     """Obtains the administrator roles and their ids.
 
     Args:
+        session: Logged in API client.
         includeAuditorRole (boolean): If True, includes auditor roles in the results.
         includePartnerRole (boolean): If True, includes partner roles in the results.
 
@@ -27,6 +31,7 @@ def get_admin_users(session: ZIAConnector, includeAuditorUsers=False, includeAdm
     """Obtains the list containing all the admin users.
 
     Args:
+        session: Logged-in API Client.
         full: If set to True, all admin users will be retrieved.
         includeAuditorUsers (bool, optional): Includes auditor users. Defaults to False.
         includeAdminUsers (bool, optional): Includes admin users. Defaults to True.
@@ -37,20 +42,22 @@ def get_admin_users(session: ZIAConnector, includeAuditorUsers=False, includeAdm
             Defaults to 100.
 
     Returns:
-        [type]: [description]
+        JSON list of dicts: Administrator list.
     """
     url = session.form_full_url("adminUsers")
 
     args = locals()
     params = u.clean_args(args)
 
-    return session.full_retrieval('GET', url, params, {}, pageSize, "Admin usr retrieval successful.", full)
+    return session.full_retrieval('GET', url, params=params, page_size=pageSize,
+                                  message="Admin usr retrieval successful.", full=full)
 
 
 def create_admin_user(session: ZIAConnector, userinfo):
     """Creates the user with the information contained in userinfo.
 
     Args:
+        session: Logged in API client.
         userinfo (JSON dict): A dictionary containing the user information.
 
     Returns:
@@ -68,6 +75,7 @@ def update_admin_user(session: ZIAConnector, userinfo):
     """Updates the information of an existing admin user.
 
     Args:
+        session: Logged in API client.
         userinfo (JSON dict): The updated JSON representation of the user.
 
     Returns:
@@ -86,6 +94,7 @@ def delete_admin_user(session: ZIAConnector, userId):
     """Deletes the desired user.
 
     Args:
+        session: Logged in API client.
         userId (int): The user ID.
 
     Returns:
