@@ -101,6 +101,19 @@ class ZIAConnector:
 
         return self.send_recv(req, successful_msg='Logout successful.')
 
+    def is_session_active(self):
+        """Checks if there is an authentication session.
+
+        Returns:
+            JSON dict: Information regarding active session.
+        """
+
+        url = self.form_full_url('loginout')
+
+        req = re.Request('GET', url)
+
+        return self.send_recv(req, "Session status retrieved.")
+
     def send_recv(self, request: re.Request, successful_msg='Request was sucessful.'):
         """
         Send request and handle response. Retries if 429.

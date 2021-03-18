@@ -2,6 +2,7 @@
 Module for location management.
 """
 import time
+from typing import List
 
 import requests as re
 
@@ -200,3 +201,28 @@ def get_sublocations(session: ZIAConnector, locationId, search="", sslScanEnable
 
     return session.full_retrieval('GET', url, params=params, page_size=0,
                                   message=f"Sublocations for {locationId} obtained successfully.", full=False)
+
+
+def bulk_del_location(session: ZIAConnector, loc_ids: List):
+    """Bulk delete locations up to a maximum of 100 locations per request.
+
+    Bulk delete locations up to a maximum of 100 users per request.
+    The response returns the location IDs that were successfully deleted.
+
+    Args:
+        session: Logged in session.
+        loc_ids: List of location ids.
+
+    Returns:
+        JSON Dict response.
+    """
+
+    url = session.form_full_url('locs', 'bulkDelete')
+
+    data = {
+        "ids": loc_ids
+    }
+
+    req = re.Request('POST', url, json=data)
+
+    return session.send_recv(req, "Bulk delete of locations done.")

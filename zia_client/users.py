@@ -1,10 +1,13 @@
 """
 Module for user management.
 """
+from typing import Dict
+
 import requests as re
 
 import zia_client.utils as u
 from zia_client.session import ZIAConnector
+from typing import List
 
 
 def get_departments(session: ZIAConnector, search='', page=None, pageSize=None, full=False):
@@ -137,3 +140,90 @@ def get_user_info(session: ZIAConnector, usr_id):
     r = re.Request('GET', url)
 
     return session.send_recv(r, "User update successful.")
+
+
+def get_group_info(session: ZIAConnector, group_id: int):
+    """Gets the group for the specified ID.
+
+    Args:
+        session: Active API session.
+        group_id: Group id.
+
+    Returns:
+        JSON dict: Representation of the group.
+    """
+
+    url = session.form_full_url('groups', group_id)
+
+    return session.send_recv(re.Request('GET', url), f"Group info for group {group_id} obtained.")
+
+
+def create_user(session: ZIAConnector, user_dict: Dict):
+    """Adds new user.
+
+    Adds a new user. A user can belong to multiple groups, but can only belong to one department.
+
+    Args:
+        session: Active API session.
+        user_dict: User dictionary containing it's information.::
+
+        {
+            "name": "string", # User name. This appears when choosing users for policies.
+            "email": "string",  # User email consists of a user name and domain name. It does not have to be a valid
+                                # email address, but it must be unique and its domain must belong to the organization.
+            "groups":	[], # List of Groups a user belongs to. Groups are used in policies.
+            "department": {},
+            "comments": "string", # Additional information about this user.
+            "tempAuthEmail": "string",  # Temporary Authentication Email. If you enabled one-time tokens or links, enter
+                                        # the email address to which the Zscaler service sends the tokens or links. If
+                                        # this is empty, the service will send the email to the User email.
+            "password":	"string",   # User's password. Applicable only when authentication type is Hosted DB.
+                                    # Password strength must follow what is defined in the auth settings.
+        }
+
+    Returns:
+        JSON dict: Same posted dict.
+    """
+
+    url = session.form_full_url("usr")
+
+    return session.send_recv(re.Request('POST', url, json=user_dict), f"User with name {user_dict['name']} created.")
+
+
+def bulk_del_user(session: ZIAConnector, user_ids: List[int]):
+    """Bulk delete users up to a maximum of 500 users per request.
+
+    Bulk delete users up to a maximum of 500 users per request.
+    The response returns the user IDs that were successfully deleted.
+
+    Args:
+        session: Active API session.
+        user_ids: User identifiers in a list.
+
+    Returns:
+        Ids that were deleted.
+    """
+
+    url = session.form_full_url('usr', 'bulkDelete')
+
+    data = {
+        "ids": user_ids
+    }
+
+    return session.send_recv(re.Request('POST', url, json=data), "Bulk user deletion made.")
+
+
+def del_user(session: ZIAConnector, user_id: int):
+    """Deletes the user for the specified ID.
+
+    Args:
+        session: Active API session.
+        user_id: User identifier.
+
+    Returns:
+        JSON dict or HTTP response body.
+    """
+
+    url = session.form_full_url('usr', user_id)
+
+    return session.send_recv(re.Request('DELETE', url), f"User {user_id} deleted.")

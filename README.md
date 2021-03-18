@@ -46,24 +46,24 @@ I've recollected them and summarized them in the following table:
 ### Admin Audit Logs
 |URL|Method|Implemented|Function/Method|Script Parser|
 |---|---|---|---|---|
-|/auditlogEntryReport|GET|Yes|
-|/auditlogEntryReport|POST|Yes|
-|/auditlogEntryReport|DELETE|Yes|
-|/auditlogEntryReport/download|GET|Yes|
+|/auditlogEntryReport|GET|Yes|zia_client.audit_log.get_auditlog_entry_report_status||
+|/auditlogEntryReport|POST|Yes|zia_client.audit_log.req_auditlog_entry_report||
+|/auditlogEntryReport|DELETE|Yes|zia_client.audit_log.cncl_auditlog_entry_report||
+|/auditlogEntryReport/download|GET|Yes|zia_client.audit_log.dwl_auditlog_entry_report||
 
 ### Admin & Role Managent
 |URL|Method|Implemented|Function/Method|Script Parser|
 |---|---|---|---|---|
-|/adminRoles/lite|GET|Yes|
-|/adminUsers|GET|Yes|
-|/adminUsers|POST|Yes|
-|/adminUsers/{userId}|PUT|Yes|
-|/adminUsers/{userId}|DELETE|Yes|
+|/adminRoles/lite|GET|Yes|zia_client.admin_roles.get_admin_roles||
+|/adminUsers|GET|Yes|zia_client.admin_roles.get_admin_users||
+|/adminUsers|POST|Yes|zia_client.admin_roles.create_admin_user||
+|/adminUsers/{userId}|PUT|Yes|zia_client.admin_roles.update_admin_user||
+|/adminUsers/{userId}|DELETE|Yes|zia_client.admin_roles.delete_admin_user||
 
 ### API Authentication
 |URL|Method|Implemented|Function/Method|Script Parser|
 |---|---|---|---|---|
-|/authenticadtedSession|GET|Yes|
+|/authenticadtedSession|GET|Yes|zia_client.session.ZIAConnector.is_session_active||
 |/authenticadtedSession|POST|Yes|zia_client.session.ZIAConnector.login||
 |/authenticadtedSession|DELETE|Yes|zia_client.session.ZIAConnector.logout||
 
@@ -103,7 +103,7 @@ GET|/timeWindows/lite|No|
 |---|---|---|---|---|
 |GET|/locations|Yes|zia_client.locations.search_locations||
 |POST|/locations|Yes|zia_client.locations.create_location||
-|POST|/locations/bulkDelete|No|
+|POST|/locations/bulkDelete|Yes|zia_client.locations.bulk_del_location||
 |GET|/locations/lite|Yes|zia_client.locations.get_location_ids||
 |GET|/locations/{locationId}|Yes|zia_client.locations.get_location_info||
 |PUT|/locations/{locationId}|Yes|zia_client.locations.update_location||
@@ -149,13 +149,13 @@ GET|/timeWindows/lite|No|
 |GET|/departments|Yes|zia_client.users.get_departments||
 |GET|/departments/{id}|Yes|zia_client.users.get_department||
 |GET|/groups|Yes|zia_client.users.get_groups||
-|GET|/groups/{groupId}|No|
+|GET|/groups/{groupId}|Yes|zia_client.users.get_group_info||
 |GET|/users|Yes|zia_client.users.get_users||
-|POST|/users|No|
-|POST|/users/bulkDelete|No|
+|POST|/users|Yes|zia_client.users.create_user||
+|POST|/users/bulkDelete|Yes|zia_client.users.bulk_del_user||
 |GET|/users/{userId}|Yes|zia_client.users.get_user_info||
 |PUT|/users/{userId}|Yes|zia_client.users.update_user||
-|DELETE|/users/{userId}|No|
+|DELETE|/users/{userId}|Yes|zia_client.users.del_user||
 
 ### URL Categories
 |Method|URL|Implemented|Function/Method|Script Parser|
