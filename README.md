@@ -135,10 +135,10 @@ GET|/timeWindows/lite|No|
 |Method|URL|Implemented|Function/Method|Script Parser|
 |---|---|---|---|---|
 |GET|/vpnCredentials|Yes|zia_client.traffic_forwarding.get_vpn_creds||
-|POST|/vpnCredentials|No|
-|POST|/vpnCredentials/bulkDelete|No|
-|GET|/vpnCredentials/{vpnId}|No|
-|PUT|/vpnCredentials/{vpnId}|No|
+|POST|/vpnCredentials|Yes|zia_client.traffic_forwarding.add_vpn_creds||
+|POST|/vpnCredentials/bulkDelete|Yes|zia_client.traffic_forwarding.bulk_del_vpn_creds||
+|GET|/vpnCredentials/{vpnId}|Yes|zia_client.traffic_forwarding.get_vpn_cred_info||
+|PUT|/vpnCredentials/{vpnId}|Yes|zia_client.traffic_forwarding.upd_vpn_creds||
 |DELETE|/vpnCredentials/{vpnId}|Yes|zia_client.traffic_forwarding.del_vpn_creds||
 |GET|/orgProvisioning/ipGreTunnelInfo|Yes|zia_client.traffic_forwarding.ip_gre_tunnel_info||
 |GET|/vips|Yes|zia_client.traffic_forwarding.get_virtual_ips||

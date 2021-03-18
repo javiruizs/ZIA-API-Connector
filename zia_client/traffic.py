@@ -42,23 +42,93 @@ def del_vpn_creds(session: ZIAConnector, vpn_id):
 
 
 def add_vpn_creds(session: ZIAConnector, vpn_cred: Dict):
-    # Todo
-    pass
+    """Adds VPN credentials that can be associated to locations.
+
+    Adds VPN credentials that can be associated to locations. When invoked with a partner API key, it automatically
+    sets the managedBy attribute to the partner associated with the key.
+
+    Args:
+        session: Logged in session.
+        vpn_cred: VPN credential structure of the following format::
+
+            {
+                "type": "CN", # recognized values [ CN, IP, UFQDN, XAUTH ]
+                "fqdn": "string", # Applicable only to UFQDN or XAUTH (or HOSTED_MOBILE_USERS) auth type.
+                "preSharedKey": "string", # This is a required field for UFQDN and IP auth type.
+                "comments": "string"
+            }
+
+    Returns:
+        JSON dictionary: configured credential.
+
+    """
+
+    url = session.form_full_url("vpnCreds")
+
+    req = re.Request('POST', url, json=vpn_cred)
+
+    return session.send_recv(req, "VPN credential was added successfully.")
 
 
 def bulk_del_vpn_creds(session: ZIAConnector, vpn_creds: List):
-    # Todo
-    pass
+    """Bulk delete VPN credentials up to a maximum of 100 credentials per request.
+
+    Bulk delete VPN credentials up to a maximum of 100 credentials per request.
+    The response returns the VPN IDs that were successfully deleted.
+
+    Args:
+        session: Logged in session.
+        vpn_creds (list[int]): List of the identifiers of the VPN credentials.
+
+    Returns:
+        JSON dictionary: On 204 code, Successful Operation. On 404, error returned.
+    """
+
+    url = session.form_full_url('vpnCreds', 'bulkDelete')
+
+    data = {
+        "ids": vpn_creds
+    }
+
+    req = re.Request('POST', url, json=data)
+
+    return session.send_recv(req, "VPN credential was added successfully.")
 
 
 def get_vpn_cred_info(session: ZIAConnector, vpn_cred_id: int):
-    # Todo
-    pass
+    """Gets the VPN credentials for the specified ID.
+
+    Args:
+        session: Logged in session.
+        vpn_cred_id (int): Credential identifier.
+
+    Returns:
+        JSON dictionary: Dictionary representing the credential.
+    """
+
+    url = session.form_full_url("vpnCreds", vpn_cred_id)
+
+    req = re.Request('GET', url)
+
+    return session.send_recv(req, successful_msg="VPN credential information successfully retrieved.")
 
 
-def upd_vpn_cred(session: ZIAConnector, vpn_cred_id: int):
-    # Todo
-    pass
+def upd_vpn_cred(session: ZIAConnector, vpn_cred: Dict):
+    """Updates the VPN credentials for the specified ID.
+
+    Args:
+        session: Logged in session.
+        vpn_cred: Credential JSON dictionary obtained from the get_vpn_cred function.
+
+    Returns:
+        JSON dictionary: Dictionary representing the credential.
+    """
+
+    url = session.form_full_url("vpnCreds", vpn_cred['id'])
+
+    req = re.Request('PUT', url, json=vpn_cred)
+
+    return session.send_recv(req, "VPN credential updated successfully.")
 
 
 def ip_gre_tunnel_info(session: ZIAConnector, ipAddresses: List[str] = False):
