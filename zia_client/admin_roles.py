@@ -4,14 +4,14 @@ Module for admin & roles management
 import requests as re
 
 import zia_client.utils as u
-from zia_client.session import ZIAConnector
+from zia_client import ZIAConnector
 
 
 def get_admin_roles(session: ZIAConnector, includeAuditorRole=None, includePartnerRole=None):
     """Obtains the administrator roles and their ids.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         includeAuditorRole (boolean): If True, includes auditor roles in the results.
         includePartnerRole (boolean): If True, includes partner roles in the results.
 
@@ -31,7 +31,7 @@ def get_admin_users(session: ZIAConnector, includeAuditorUsers=False, includeAdm
     """Obtains the list containing all the admin users.
 
     Args:
-        session: Logged-in API Client.
+        session (ZIAConnector): Logged-in API Client.
         full: If set to True, all admin users will be retrieved.
         includeAuditorUsers (bool, optional): Includes auditor users. Defaults to False.
         includeAdminUsers (bool, optional): Includes admin users. Defaults to True.
@@ -57,7 +57,7 @@ def create_admin_user(session: ZIAConnector, userinfo):
     """Creates the user with the information contained in userinfo.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         userinfo (JSON dict): A dictionary containing the user information.
 
     Returns:
@@ -75,7 +75,7 @@ def update_admin_user(session: ZIAConnector, userinfo):
     """Updates the information of an existing admin user.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         userinfo (JSON dict): The updated JSON representation of the user.
 
     Returns:
@@ -94,7 +94,7 @@ def delete_admin_user(session: ZIAConnector, userId):
     """Deletes the desired user.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         userId (int): The user ID.
 
     Returns:

@@ -2,7 +2,7 @@
 Module for activation functions.
 """
 import requests as re
-from zia_client.session import ZIAConnector
+from zia_client import ZIAConnector
 
 
 def get_status(session: ZIAConnector):

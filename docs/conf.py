@@ -12,15 +12,14 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
 
+sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
 project = 'ZIA API Connector'
 copyright = '2021, javiruizs'
 author = 'javiruizs'
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -29,7 +28,8 @@ author = 'javiruizs'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.napoleon'
+    'sphinx.ext.napoleon',
+    'sphinx.ext.autosectionlabel'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -39,7 +39,6 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -54,3 +53,5 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 autoclass_content = 'both'
+
+autodoc_typehints = "descriptions"

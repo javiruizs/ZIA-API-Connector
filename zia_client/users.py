@@ -2,12 +2,12 @@
 Module for user management.
 """
 from typing import Dict
+from typing import List
 
 import requests as re
 
 import zia_client.utils as u
-from zia_client.session import ZIAConnector
-from typing import List
+from zia_client import ZIAConnector
 
 
 def get_departments(session: ZIAConnector, search='', page=None, pageSize=None, full=False):
@@ -15,7 +15,7 @@ def get_departments(session: ZIAConnector, search='', page=None, pageSize=None, 
     Obtains departments.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         full: If set to true, all departments will be retrieved.
         search: Search string.
         page: Page offset.
@@ -38,7 +38,7 @@ def get_department(session: ZIAConnector, dept_id: int):
     Gets department information from department id.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         dept_id: Department id.
 
     Returns:
@@ -57,7 +57,7 @@ def get_groups(session: ZIAConnector, search="", page=None, pageSize=None, full=
     Retrieves groups.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         search (str): Search string. Name of the group.
         page (int): Page offset. Server's default is 1.
         pageSize (int): Page size. Server's default 100.
@@ -81,7 +81,7 @@ def get_users(session: ZIAConnector, name="", dept="", group="", page=None, page
     performs a partial match. The dept and group parameters perform a 'starts with' match.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         name (str): Filters by user name.
         dept (str): Filters by department name.
         group (str): Filters by group name.
@@ -106,7 +106,7 @@ def update_user(session: ZIAConnector, userdata):
     Updates the user information for the specified ID. However, the "email" attribute is read-only.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         userdata (dict): Dictionary that contains the user information.
 
     Returns:
@@ -128,7 +128,7 @@ def get_user_info(session: ZIAConnector, usr_id):
     Gets the user information for the specified ID.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         usr_id (int): The unique identifer for the user.
 
     Returns:
@@ -146,7 +146,7 @@ def get_group_info(session: ZIAConnector, group_id: int):
     """Gets the group for the specified ID.
 
     Args:
-        session: Active API session.
+        session (ZIAConnector): Active API session.
         group_id: Group id.
 
     Returns:
@@ -164,8 +164,11 @@ def create_user(session: ZIAConnector, user_dict: Dict):
     Adds a new user. A user can belong to multiple groups, but can only belong to one department.
 
     Args:
-        session: Active API session.
-        user_dict: User dictionary containing it's information. Example::
+        session (ZIAConnector): Active API session.
+        user_dict: User dictionary containing it's information.
+
+    Example:
+        Template for the `user_dict` parameter::
 
             {
                 "name": "string", # User name. This appears when choosing users for policies.
@@ -197,7 +200,7 @@ def bulk_del_user(session: ZIAConnector, user_ids: List[int]):
     The response returns the user IDs that were successfully deleted.
 
     Args:
-        session: Active API session.
+        session (ZIAConnector): Active API session.
         user_ids: User identifiers in a list.
 
     Returns:
@@ -217,7 +220,7 @@ def del_user(session: ZIAConnector, user_id: int):
     """Deletes the user for the specified ID.
 
     Args:
-        session: Active API session.
+        session (ZIAConnector): Active API session.
         user_id: User identifier.
 
     Returns:

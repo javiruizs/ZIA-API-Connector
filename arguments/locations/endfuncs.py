@@ -3,7 +3,7 @@ Module where end functions for the location parser are defined.
 """
 import json
 
-from zia_client.session import ZIAConnector
+from zia_client import ZIAConnector
 import zia_client.custom as cstm
 import zia_client.locations as locs
 

@@ -4,7 +4,7 @@ Module for sandbox management.
 
 import requests as re
 
-from zia_client.session import ZIAConnector
+from zia_client import ZIAConnector
 
 
 def get_sandbox_quota(session: ZIAConnector):
@@ -15,20 +15,22 @@ def get_sandbox_quota(session: ZIAConnector):
     daily Sandbox API resource usage (i.e., used quota, unused quota).
 
     Args:
-        session: Active API session.
+        session (ZIAConnector): Active API session.
 
     Returns:
-        JSON list of dict: Example::
+        :obj:`list` of :obj:`dicts`: The reports.
 
-        [
-          {
-            "startTime": 0,
-            "used": 0,
-            "allowed": 0,
-            "scale": "NANOSECONDS",
-            "unused": 0
-          }
-        ]
+        Example of the retruned object::
+
+            [
+              {
+                "startTime": 0,
+                "used": 0,
+                "allowed": 0,
+                "scale": "NANOSECONDS",
+                "unused": 0
+              }
+            ]
     """
 
     url = session.form_full_url('sandbox', 'quota')
@@ -41,7 +43,7 @@ def get_sandbox_file_report(session: ZIAConnector, md5Hash: str, report_type: st
     Gets a full (i.e., complete) or summary detail report for an MD5 hash of a file that was analyzed by Sandbox.
 
     Args:
-        session: Active API session.
+        session (ZIAConnector): Active API session.
         md5Hash: File MD5 Hash.
         report_type: Type of report. Either 'summary' or 'full'.
 

@@ -4,7 +4,7 @@ Endfunctions for the user parser.
 import pandas as pd
 
 import zia_client.custom as cstm
-from zia_client.session import ZIAConnector
+from zia_client import ZIAConnector
 import zia_client.users as usrs
 
 

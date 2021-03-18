@@ -6,7 +6,7 @@ import json
 import zia_client.utils as u
 import zia_client.locations as locs
 import zia_client.users as usrs
-from zia_client.session import ZIAConnector
+from zia_client import ZIAConnector
 
 
 def create_sublocations(session: ZIAConnector, sublocations):
@@ -17,7 +17,7 @@ def create_sublocations(session: ZIAConnector, sublocations):
     from the dictionary, as it will be sent as it is to the ZIA.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         sublocations: Sublocation list. Every sublocation is a dictionary following the format specified by the ZIA API
             reference.
 
@@ -52,7 +52,7 @@ def add_users_to_group(session: ZIAConnector, user_mails: list, group_ids: list,
     department assigned to them, which is necessary to save the changes, a default department must be given.
 
     Args:
-        session: An active session.
+        session (ZIAConnector): An active session.
         user_mails: The list with the user mails.
         group_ids: The list with the group ids.
         default_dept: The default department.
@@ -103,7 +103,7 @@ def obtain_all_locations_sublocations(session: ZIAConnector):
     """Obtains all configured locations and sublocations.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
 
     Returns:
         JSON dictionary: Dictionary with two keys: 'parents' and 'sublocations'. Values are list of location dicts.
@@ -123,7 +123,7 @@ def update_users(session: ZIAConnector, json_file):
     """Updates a list of users at once.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         json_file: JSON file where the list of user dictionaries are stored.
 
     Returns:

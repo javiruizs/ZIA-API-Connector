@@ -5,7 +5,7 @@ import requests as re
 from dateutil.parser import parse
 
 import zia_client.utils as u
-from zia_client.session import ZIAConnector
+from zia_client import ZIAConnector
 
 
 def req_auditlog_entry_report(session: ZIAConnector, startTime: str, endTime: str, page=None, pageSize=500,
@@ -18,7 +18,7 @@ def req_auditlog_entry_report(session: ZIAConnector, startTime: str, endTime: st
     log report will overwrite a previously-generated report.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         targetOrgId (int): Organization ID in case more than one organization were administrated.
         actionTypes (list of str): Action type for audit log entry. Recognized values:
             * SIGN_IN

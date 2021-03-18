@@ -60,13 +60,6 @@ zia\_client.sandbox module
    :undoc-members:
    :show-inheritance:
 
-zia\_client.session module
---------------------------
-
-.. automodule:: zia_client.session
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 zia\_client.traffic module
 --------------------------

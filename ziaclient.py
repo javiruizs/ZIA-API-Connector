@@ -4,7 +4,7 @@ Script that maps command line instructions with the available configured methods
 from sys import argv
 
 from arguments.parser import create_parser
-from zia_client.session import ZIAConnector
+from zia_client import ZIAConnector
 from zia_client.utils import print_json, save_json
 import zia_client.activation as actv
 

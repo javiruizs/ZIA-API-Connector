@@ -5,7 +5,7 @@ from typing import List, Dict
 
 import requests as re
 
-from zia_client.session import ZIAConnector
+from zia_client import ZIAConnector
 from zia_client.utils import clean_args
 
 
@@ -14,6 +14,9 @@ def get_vpn_creds(session: ZIAConnector):
 
     Raises:
         Exception: If the information retrieval was not possible.
+
+    Returns:
+        :obj:`list` of :obj:`dicts`: VPN credentials.
     """
 
     url = session.form_full_url('vpnCreds')
@@ -28,11 +31,11 @@ def del_vpn_creds(session: ZIAConnector, vpn_id):
     Delete VPN credentials.
 
     Args:
-        session: Logged in API client.
+        session (ZIAConnector): Logged in API client.
         vpn_id: Credential identifier.
 
-    Returns: JSON response.
-
+    Returns:
+        204 No Content
     """
     url = session.form_full_url('vpn_credentials', vpn_id)
 
@@ -48,8 +51,11 @@ def add_vpn_creds(session: ZIAConnector, vpn_cred: Dict):
     sets the managedBy attribute to the partner associated with the key.
 
     Args:
-        session: Logged in session.
-        vpn_cred: VPN credential structure of the following format::
+        session (ZIAConnector): Logged in session.
+        vpn_cred: VPN credential structure of the following format.
+
+    Examples:
+        `vpn_cred` should take the following form::
 
             {
                 "type": "CN", # recognized values [ CN, IP, UFQDN, XAUTH ]
@@ -77,7 +83,7 @@ def bulk_del_vpn_creds(session: ZIAConnector, vpn_creds: List):
     The response returns the VPN IDs that were successfully deleted.
 
     Args:
-        session: Logged in session.
+        session (ZIAConnector): Logged in session.
         vpn_creds (list[int]): List of the identifiers of the VPN credentials.
 
     Returns:
@@ -99,7 +105,7 @@ def get_vpn_cred_info(session: ZIAConnector, vpn_cred_id: int):
     """Gets the VPN credentials for the specified ID.
 
     Args:
-        session: Logged in session.
+        session (ZIAConnector): Logged in session.
         vpn_cred_id (int): Credential identifier.
 
     Returns:
@@ -117,7 +123,7 @@ def upd_vpn_cred(session: ZIAConnector, vpn_cred: Dict):
     """Updates the VPN credentials for the specified ID.
 
     Args:
-        session: Logged in session.
+        session (ZIAConnector): Logged in session.
         vpn_cred: Credential JSON dictionary obtained from the get_vpn_cred function.
 
     Returns:
@@ -137,24 +143,26 @@ def ip_gre_tunnel_info(session: ZIAConnector, ipAddresses: List[str] = False):
 
 
     Args:
-        session: Active session.
+        session (ZIAConnector): Active session.
         ipAddresses: IP addresses to search.
 
     Returns:
-        JSON list of dictionaries: ::
+        :obj:`list[dict]`: List of dictionaries.
 
-        [
-          {
-            "ipAddress": "string",
-            "greEnabled": false,
-            "greTunnelIP": "string",
-            "primaryGW": "string",
-            "secondaryGW": "string",
-            "tunID": 0,
-            "greRangePrimary": "string",
-            "greRangeSecondary": "string"
-          }
-        ]
+        Here a template of the return object::
+
+            [
+              {
+                "ipAddress": "string",
+                "greEnabled": false,
+                "greTunnelIP": "string",
+                "primaryGW": "string",
+                "secondaryGW": "string",
+                "tunID": 0,
+                "greRangePrimary": "string",
+                "greRangeSecondary": "string"
+              }
+            ]
     """
 
     if ipAddresses:
@@ -176,39 +184,43 @@ def get_virtual_ips(session: ZIAConnector, dc: str = '', region: str = '', page:
     all VIPs in the request, if necessary.
 
     Args:
-        session: API session logged in.
+        session (ZIAConnector): API session logged in.
         dc: Filter based on data center.
         region: Filter based on region.
         page (int, optional): Specifies the page offset. Server's default is 1.
         pageSize (int, optional): Specifies the page size. Server's default is 100.
-        include (str, optional): Include all, private, or public VIPs in the list. Server's default: public.
-            * Available values: all, private, public
+        include (str, optional): Include all, private, or public VIPs in the list. Server's default: `public`.
+
+            * Available values: `all`, `private`, `public`
+
         full (bool, optional): Defaults to False. If set to True activates full retrieval.
 
     Returns:
-        JSON list of dictionaries: ::
+        List of dictionaries: The dictionaries representing the virtual IP addresses.
 
-        [
-          {
-            "cloudName": "string",
-            "region": "string",
-            "city": "string",
-            "dataCenter": "string",
-            "location": "string",
-            "vpnIps": [
-              "string"
-            ],
-            "vpnDomainName": "string",
-            "greIps": [
-              "string"
-            ],
-            "greDomainName": "string",
-            "pacIps": [
-              "string"
-            ],
-            "pacDomainName": "string"
-          }
-        ]
+        Example of the returned object::
+
+            [
+              {
+                "cloudName": "string",
+                "region": "string",
+                "city": "string",
+                "dataCenter": "string",
+                "location": "string",
+                "vpnIps": [
+                  "string"
+                ],
+                "vpnDomainName": "string",
+                "greIps": [
+                  "string"
+                ],
+                "greDomainName": "string",
+                "pacIps": [
+                  "string"
+                ],
+                "pacDomainName": "string"
+              }
+            ]
     """
     params = clean_args(locals())
 
