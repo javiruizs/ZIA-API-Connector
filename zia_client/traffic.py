@@ -9,8 +9,25 @@ from zia_client import ZIAConnector
 from zia_client.utils import clean_args
 
 
-def get_vpn_creds(session: ZIAConnector):
+def get_vpn_creds(session: ZIAConnector, search: str = '', type: str = '', includeOnlyWithoutLocation: bool = None,
+                  locationId: int = '', managedBy: int = '', page: int = '', pageSize: int = '',
+                  full: bool = False) -> list:
     """Obtains the list of the existing VPN credentials in the platform.
+
+    Args:
+        session (:obj:ZIAConnector): Active API session.
+        search (str, optional): The search string used to match against a VPN credential\'s commonName, fqdn, ipAddress,
+            comments, or locationName attributes.
+        type (str, optional): Only gets VPN credentials for the specified type. This parameter is not supported for
+            partner API keys. Reconized values: 'CN', 'IP', 'UFQDN' or 'XAUTH'.
+        includeOnlyWithoutLocation (bool, optional): Include VPN credential only if not associated to any location.
+            Server\'s default: `True`.
+        locationId (int, optional): Gets the VPN credentials for the specified location ID.
+        managedBy (int, optional): Gets the VPN credentials that are managed by the given partner. This filter is
+            automatically applied when called with a partner API key, and it cannot be overridden.
+        page (int, optional): Specifies the page offset. Server\'s default: 1.
+        pageSize (int, optional): Specifies the page size. The default size is 100, but the maximum size is 1000.
+        full (bool, optional): If `True`, indicates that full retrieval of results should be called.
 
     Raises:
         Exception: If the information retrieval was not possible.
@@ -19,11 +36,11 @@ def get_vpn_creds(session: ZIAConnector):
         :obj:`list` of :obj:`dicts`: VPN credentials.
     """
 
+    params = clean_args(locals(), 'session')
+
     url = session.form_full_url('vpnCreds')
 
-    req = re.Request('GET', url)
-
-    return session.send_recv(req, successful_msg='Obtaining VPN credentials successful.')
+    return session.full_retrieval('GET', url, params, page_size=pageSize, full=full)
 
 
 def del_vpn_creds(session: ZIAConnector, vpn_id):

@@ -15,7 +15,7 @@ def ids_location(c: ZIAConnector, args):
 
     Args:
         c: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object.
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -32,7 +32,7 @@ def search_location(c: ZIAConnector, args):
 
     Args:
         c: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object.
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -49,7 +49,7 @@ def update_location(c: ZIAConnector, args):
     
     Args:
         c: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -66,7 +66,7 @@ def create_location(c: ZIAConnector, args):
     
     Args:
         c: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -83,7 +83,7 @@ def delete_location(c: ZIAConnector, args):
     
     Args:
         c: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -98,7 +98,7 @@ def all_location(c: ZIAConnector, args):
     
     Args:
         c: API zia_client that must me logged in beforehand.
-        args (unused): Parsed arguments. Namespace object.
+        args (unused): Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -113,7 +113,7 @@ def info_location(c: ZIAConnector, args):
     
     Args:
         c: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.

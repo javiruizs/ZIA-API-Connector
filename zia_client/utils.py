@@ -167,11 +167,6 @@ def clean_args(args: dict, *exemption) -> dict:
 
     exemption = set(exemption)
 
-    for k, v in args.items():
-        if k in exemption:
-            continue
-
-        if v:
-            params[k] = v
+    params = {k: v for k, v in args.items() if k not in exemption and v}
 
     return params

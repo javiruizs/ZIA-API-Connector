@@ -1,8 +1,8 @@
 """
 Functions to build the location subparser.
 """
-import arguments.locations.endfuncs as ef
-import arguments.parser as p
+import api_parser
+import api_parser.locations.endfuncs as ef
 
 
 def create_location_subparser(subparsers):
@@ -65,10 +65,10 @@ def ids_location_parser(locs_subprs):
     ids_p.add_argument(
         '--all', action='store_true', help='Retrieves all results. This option overrides page and pageSize.')
     ids_p.add_argument(
-        '--sub', type=p.boolstring, choices=[True, False, None],
+        '--sub', type=api_parser._boolstring, choices=[True, False, None],
         help='If set to true, sub-locations will be included. Only works if --ids is specified.')
     ids_p.add_argument(
-        '--parent', type=p.boolstring, choices=[True, False, None],
+        '--parent', type=api_parser._boolstring, choices=[True, False, None],
         help='If set to true locations with sub locations will be included in the response, otherwise only locations'
              ' without sub-locations are included. Only works if --ids is specified.')
     ids_p.add_argument(
@@ -77,15 +77,15 @@ def ids_location_parser(locs_subprs):
         '--pageSize', default=100, help='Page offset in the results.')
     ids_p.add_argument(
         '--search', default=None, help='Searching string. Could be either name, IP and port attributes.')
-    ids_p.add_argument('--ssl', type=p.boolstring, choices=[True, False, None],
+    ids_p.add_argument('--ssl', type=api_parser._boolstring, choices=[True, False, None],
                        help="Filter based on whether the Enable SSL Scanning setting is enabled or disabled for a "
                             "location.")
-    ids_p.add_argument('--auth', type=p.boolstring, choices=[True, False, None],
+    ids_p.add_argument('--auth', type=api_parser._boolstring, choices=[True, False, None],
                        help="Filter based on whether the Enforce Authentication setting is enabled or disabled for a"
                             " location")
-    ids_p.add_argument('--bw', type=p.boolstring, choices=[True, False, None],
+    ids_p.add_argument('--bw', type=api_parser._boolstring, choices=[True, False, None],
                        help="Filter based on whether Bandwith Control is being enforced for a location.")
-    ids_p.add_argument('--xff', type=p.boolstring, choices=[True, False, None],
+    ids_p.add_argument('--xff', type=api_parser._boolstring, choices=[True, False, None],
                        help="Filter based on whether the Enforce XFF Forwarding setting is enabled or disabled for a "
                             "location.")
 
@@ -103,16 +103,16 @@ def search_location_parser(locs_subprs):
     locs_search_p.add_argument(
         '--search', default=None, help='Searching string. Could be either name, IP and port attributes.')
     locs_search_p.add_argument(
-        '--sslScan', default=None, type=p.boolstring, help='Filters results by the SSL Scanning option.',
+        '--sslScan', default=None, type=api_parser._boolstring, help='Filters results by the SSL Scanning option.',
         choices=[True, False, None])
     locs_search_p.add_argument(
-        '--xff', default=None, type=p.boolstring, help='Filters results by the XFF Forwarding option.',
+        '--xff', default=None, type=api_parser._boolstring, help='Filters results by the XFF Forwarding option.',
         choices=[True, False, None])
     locs_search_p.add_argument(
-        '--authReq', default=None, type=p.boolstring, help='Filters results by the Enforce Authentication option.',
+        '--authReq', default=None, type=api_parser._boolstring, help='Filters results by the Enforce Authentication option.',
         choices=[True, False, None])
     locs_search_p.add_argument(
-        '--bwEnf', default=None, type=p.boolstring, help='Filters results by the Enforce Bandwidth Control option.',
+        '--bwEnf', default=None, type=api_parser._boolstring, help='Filters results by the Enforce Bandwidth Control option.',
         choices=[True, False, None])
     locs_search_p.add_argument(
         '--page', default=1, help='Page offset in the results.')

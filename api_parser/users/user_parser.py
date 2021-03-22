@@ -1,7 +1,7 @@
 """
 Functions to build the user subparser and its subparsers.
 """
-import arguments.users.endfuncs as ef
+import api_parser.users.endfuncs as ef
 
 
 def create_user_subparser(subparsers):

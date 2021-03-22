@@ -14,7 +14,7 @@ def search_groups(clt: ZIAConnector, args):
     
     Args:
         clt: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -29,7 +29,7 @@ def search_depts(clt: ZIAConnector, args):
     
     Args:
         clt: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -44,7 +44,7 @@ def search_usrs(clt: ZIAConnector, args):
     
     Args:
         clt: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -59,7 +59,7 @@ def update_usrs(clt: ZIAConnector, args):
     
     Args:
         clt: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.
@@ -74,7 +74,7 @@ def add_u2g(clt: ZIAConnector, args):
     
     Args:
         clt: API zia_client that must me logged in beforehand.
-        args: Parsed arguments. Namespace object. 
+        args: Parsed api_parser. Namespace object.
 
     Returns:
         The requests' response. Generally a JSON object.

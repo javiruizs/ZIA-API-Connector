@@ -1,11 +1,17 @@
 """
-Module where the parser is configured and built.
+This package contains the necessary structures to use the implemented methods of the zia_client.session.ZIAConnector class
+through the command line script ziaclient.py.
+
+As of now, only the functionality for locations and users has been translated.
+
+See the submodules for detailed functionality.
 """
 import argparse as ap
 import datetime as dt
 
-from arguments.locations.location_parser import create_location_subparser
-from arguments.users.user_parser import create_user_subparser
+from api_parser.locations.location_parser import create_location_subparser
+from api_parser.users.user_parser import create_user_subparser
+from api_parser.traffic.structure import create_traffic_subparser
 
 
 def create_parser():
@@ -24,7 +30,7 @@ def create_parser():
     parser.add_argument('--conf', help='Specifies config file.',
                         default='config/config.json')
     parser.add_argument('--output', '-o', help='Custom path where the output JSON will be stored.',
-                        default=output_name())
+                        default=_output_name())
     parser.add_argument('--no_verbosity', help='Disables detailed verbosity.', action='store_true')
     parser.add_argument('--no_print', help='Disables printing of results.', action='store_true')
 
@@ -37,10 +43,13 @@ def create_parser():
     # Create location parser
     create_location_subparser(subparsers)
 
+    # Create traffic parser
+    create_traffic_subparser(subparsers)
+
     return parser
 
 
-def output_name():
+def _output_name():
     """
     Creates a name for the output file where the search or operation results will be stored if no custom name is \
     provided.
@@ -55,10 +64,9 @@ def output_name():
     return f'search_{today}.json'
 
 
-# FUNCTIONS FOR TYPE
-def boolstring(arg):
+def _boolstring(arg):
     """
-    Checks arguments that are not required and have default values on the server. Argument is a string but mus be
+    Checks api_parser that are not required and have default values on the server. Argument is a string but mus be
     converted to True, False or ''.
 
     Args:
