@@ -40,8 +40,8 @@ I've recollected them and summarized them in the following table:
 ### Activation
 |URL|Method|Implemented|Function/Method|Sub-subparser|
 |:---:|:---:|:---:|:---:|:---:|
-|/status|GET|Yes|zia_client.activation.get_status||
-|/status/activate|POST|Yes|zia_client.activation.activate_changes||
+|/status|GET|Yes|zia_client.activation.get_status|`--pending`|
+|/status/activate|POST|Yes|zia_client.activation.activate_changes|`--apply`|
 
 ### Admin Audit Logs
 |URL|Method|Implemented|Function/Method|Sub-subparser|
