@@ -1,29 +1,13 @@
 """
 Functions to build the user subparser and its subparsers.
 """
-import api_parser.users.endfuncs as ef
+import argparse as ap
+
+import api_parser as apip
+import api_parser._users._endfuncs as ef
 
 
-def create_user_subparser(subparsers):
-    """
-    Creates the user subparser.
-
-    Args:
-        subparsers: Subparser object from argparse obtined from calling ArgumentParser.add_subparsers().
-    """
-    usr_prs = subparsers.add_parser('users')
-    usr_subprs = usr_prs.add_subparsers(required=True, dest='any of the subcommands')
-
-    search_user_parser(usr_subprs)
-    update_user_parser(usr_subprs)
-    create_user_parser(usr_subprs)
-    delete_user_parser(usr_subprs)
-    groups_user_parser(usr_subprs)
-    depts_user_parser(usr_subprs)
-    add_users_to_groups(usr_subprs)
-
-
-def depts_user_parser(usr_subprs):
+def _depts_user_parser(usr_subprs):
     """
     Creates the user department subparser.
 
@@ -43,27 +27,27 @@ def depts_user_parser(usr_subprs):
     sp.add_argument(
         '--all', action='store_true', help='Retrieves all results. This option overrides page and pageSize.')
 
-    sp.set_defaults(func=ef.search_depts)
+    sp.set_defaults(func=ef._search_depts)
 
 
-def add_users_to_groups(usr_subprs):
+def _add_users_to_groups(usr_subprs):
     """
-    Creates the subparser to add users to groups.
+    Creates the subparser to add _users to groups.
 
     Args:
         usr_subprs: The user subparser to create this subparser.
     """
     sp = usr_subprs.add_parser('add-u2g')
-    sp.add_argument('--users', type=str, required=True,
+    sp.add_argument('--_users', type=str, required=True,
                     help='Text file (CSV) with only one column and first line is label.')
     sp.add_argument('--groups', type=str, required=True,
                     help='Text file (CSV) with only one column and first line is label.')
     sp.add_argument('--dft_dept', type=int, required=True, help='Default department id in case user has none.')
 
-    sp.set_defaults(func=ef.add_u2g)
+    sp.set_defaults(func=ef._add_u2g)
 
 
-def groups_user_parser(usr_subprs):
+def _groups_user_parser(usr_subprs):
     """
     Creates the subparser to manage user groups.
 
@@ -80,10 +64,10 @@ def groups_user_parser(usr_subprs):
     usr_groups_p.add_argument(
         '--all', action='store_true', help='Retrieves all results. This option overrides page and pageSize.')
 
-    usr_groups_p.set_defaults(func=ef.search_groups)
+    usr_groups_p.set_defaults(func=ef._search_groups)
 
 
-def search_user_parser(usr_subprs):
+def _search_user_parser(usr_subprs):
     """
     Creates the subparser to do user searching queries.
 
@@ -104,12 +88,12 @@ def search_user_parser(usr_subprs):
     usr_search_p.add_argument(
         '--all', action='store_true', help='Retrieves all results. This option overrides page and pageSize.')
 
-    usr_search_p.set_defaults(func=ef.search_usrs)
+    usr_search_p.set_defaults(func=ef._search_usrs)
 
 
-def update_user_parser(usr_subprs):
+def _update_user_parser(usr_subprs):
     """
-    Creates the subparser for updating users.
+    Creates the subparser for updating _users.
 
     Args:
         usr_subprs: The user subparser to create this subparser.
@@ -118,28 +102,75 @@ def update_user_parser(usr_subprs):
     usr_update_p.add_argument(
         'file', help="File from which the updated user configuration will be loaded and updated.")
 
-    usr_update_p.set_defaults(func=ef.update_usrs)
+    usr_update_p.set_defaults(func=ef._update_usrs)
 
 
-def create_user_parser(usr_subprs):
+def _create_user_parser(usr_subprs):
     """
-    Creates the subparser for creating users.
+    Creates the subparser for creating _users.
 
     Args:
         usr_subprs: The user subparser to create this subparser.
     """
     usr_create_p = usr_subprs.add_parser('create')
-    usr_create_p.add_argument(
-        'file', help="File from which the updated user configuration will be loaded and created.")
+    usr_create_p.add_argument('file', type=apip._json_obj_file, help="JSON file with list of user dicts.")
+
+    usr_create_p.set_defaults(func=ef._create_usr)
 
 
-def delete_user_parser(usr_subprs):
+def _delete_user_parser(usr_subprs):
     """
-    Creates the subparser to for deleting users.
+    Creates the subparser to for deleting _users.
 
     Args:
         usr_subprs: The user subparser to create this subparser.
     """
-    usr_delete_p = usr_subprs.add_parser('delete')
-    usr_delete_p.add_argument(
-        'user_id', help='User identification. If you don\'t know the UID, search it first.')
+    usr_delete_p: ap.ArgumentParser = usr_subprs.add_parser('delete')
+
+    usr_delete_p.add_argument('user_id', help='User identification. If you don\'t know the UID, search it first.')
+
+    usr_delete_p.set_defaults(func=ef._delete_user)
+
+
+def _dept_info_user_parser(usr_subprs):
+    p: ap.ArgumentParser = usr_subprs.add_parser('deptinfo')
+
+    g = p.add_mutually_exclusive_group(required=True)
+
+    g.add_argument('--ids', type=int, help='List of ids.', nargs='+')
+    g.add_argument('--json_file', type=apip._json_obj_file, help='JSON file with ids.')
+
+    p.set_defaults(func=ef._dept_info)
+
+
+def _group_info_user_parser(usr_subprs):
+    p: ap.ArgumentParser = usr_subprs.add_parser('groupinfo')
+
+    g = p.add_mutually_exclusive_group(required=True)
+
+    g.add_argument('--ids', type=int, help='List of ids.', nargs='+')
+    g.add_argument('--json_file', type=apip._json_obj_file, help='JSON file with ids.')
+
+    p.set_defaults(func=ef._group_info)
+
+
+def _bulk_del_user_parser(usr_subprs):
+    p: ap.ArgumentParser = usr_subprs.add_parser('bulkdel')
+
+    g = p.add_mutually_exclusive_group(required=True)
+
+    g.add_argument('--ids', type=int, help='List of ids.', nargs='+')
+    g.add_argument('--json_file', type=apip._json_obj_file, help='JSON file with ids.')
+
+    p.set_defaults(func=ef._bulk_del_user)
+
+
+def _info_user_parser(usr_subprs):
+    p: ap.ArgumentParser = usr_subprs.add_parser('info')
+
+    g = p.add_mutually_exclusive_group(required=True)
+
+    g.add_argument('--ids', type=int, help='List of ids.', nargs='+')
+    g.add_argument('--json_file', type=apip._json_obj_file, help='JSON file with ids.')
+
+    p.set_defaults(func=ef._info_user)

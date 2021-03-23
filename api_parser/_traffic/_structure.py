@@ -1,36 +1,14 @@
 """
-Functions to build the traffic forwarding management subparser and its subparsers.
+Functions to build the _traffic forwarding management subparser and its subparsers.
 """
 import argparse as ap
 
-import api_parser.traffic._endfuncs as tfc
-
 import api_parser as apip
-
-
-def create_traffic_subparser(subparsers):
-    """
-    Creates the traffic subparser.
-
-    Args:
-        subparsers: Subparser object from argparse obtined from calling ArgumentParser.add_subparsers().
-    """
-    p = subparsers.add_parser('vpn')
-    sp = p.add_subparsers(required=True, dest='any of the subcommands')
-
-    # Subparsers
-    _get_vpn_creds(sp)
-    _add_vpn_creds(sp)
-    _bulk_del_vpn_creds(sp)
-    _get_vpn_cred_info(sp)
-    _upd_vpn_cred(sp)
-    _del_vpn_cred(sp)
-    _ip_gre_tunnel_info(sp)
-    _get_vips(sp)
+import api_parser._traffic._endfuncs as tfc
 
 
 def _get_vpn_creds(sp):
-    """Subparser for traffic vpn credential search
+    """Subparser for _traffic vpn credential search
 
     Args:
         sp: Subparsers object.

@@ -68,7 +68,7 @@ def traffic_get_vpn_cred_info(c: ZIAConnector, args):
         args (argparse.Namespace):  Namespace object returned by the ArgumentParser when arguments were parsed.
 
     Returns:
-        The return of the traffic function.
+        The return of the _traffic function.
     """
     return tfc.ip_gre_tunnel_info(c, args.id)
 

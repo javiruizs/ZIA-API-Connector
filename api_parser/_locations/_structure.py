@@ -1,31 +1,12 @@
 """
 Functions to build the location subparser.
 """
+import argparse as ap
 import api_parser
-import api_parser.locations.endfuncs as ef
+import api_parser._locations._endfuncs as ef
 
 
-def create_location_subparser(subparsers):
-    """
-    Creates the necessary location subparsers: search, info...
-
-    Args:
-        subparsers: Subparser object from argparse obtained from calling ArgumentParser.add_subparsers().
-    """
-
-    locs_prs = subparsers.add_parser('locs')
-    locs_subprs = locs_prs.add_subparsers(required=True, dest='any of the subcommands')
-
-    get_all_locations_sublocations_parser(locs_subprs)
-    search_location_parser(locs_subprs)
-    ids_location_parser(locs_subprs)
-    update_location_parser(locs_subprs)
-    create_location_parser(locs_subprs)
-    delete_location_parser(locs_subprs)
-    info_location_parser(locs_subprs)
-
-
-def info_location_parser(locs_subprs):
+def _info_location_parser(locs_subprs):
     """
     Creates the location information retrieval subparser.
 
@@ -36,24 +17,24 @@ def info_location_parser(locs_subprs):
     sp = locs_subprs.add_parser('info')
     sp.add_argument('loc_id', type=int, help="Location identifier.")
 
-    sp.set_defaults(func=ef.info_location)
+    sp.set_defaults(func=ef._info_location)
 
 
-def get_all_locations_sublocations_parser(locs_subprs):
+def _get_all_locations_sublocations_parser(locs_subprs):
     """
-    Creates the subparser to obtain all locations and sublocations.
+    Creates the subparser to obtain all _locations and sublocations.
 
     Args:
         locs_subprs: The location subparser.
     """
     all_p = locs_subprs.add_parser('all')
 
-    all_p.set_defaults(func=ef.all_location)
+    all_p.set_defaults(func=ef._all_location)
 
 
-def ids_location_parser(locs_subprs):
+def _ids_location_parser(locs_subprs):
     """
-    Creates the subparser to retrieve all (sub)locations id-name maps.
+    Creates the subparser to retrieve all (sub)_locations id-name maps.
 
     Args:
         locs_subprs: The location subparser.
@@ -66,11 +47,11 @@ def ids_location_parser(locs_subprs):
         '--all', action='store_true', help='Retrieves all results. This option overrides page and pageSize.')
     ids_p.add_argument(
         '--sub', type=api_parser._boolstring, choices=[True, False, None],
-        help='If set to true, sub-locations will be included. Only works if --ids is specified.')
+        help='If set to true, sub-_locations will be included. Only works if --ids is specified.')
     ids_p.add_argument(
         '--parent', type=api_parser._boolstring, choices=[True, False, None],
-        help='If set to true locations with sub locations will be included in the response, otherwise only locations'
-             ' without sub-locations are included. Only works if --ids is specified.')
+        help='If set to true _locations with sub _locations will be included in the response, otherwise only _locations'
+             ' without sub-_locations are included. Only works if --ids is specified.')
     ids_p.add_argument(
         '--page', default=1, help='Page offset in the results.')
     ids_p.add_argument(
@@ -89,10 +70,10 @@ def ids_location_parser(locs_subprs):
                        help="Filter based on whether the Enforce XFF Forwarding setting is enabled or disabled for a "
                             "location.")
 
-    ids_p.set_defaults(func=ef.ids_location)
+    ids_p.set_defaults(func=ef._ids_location)
 
 
-def search_location_parser(locs_subprs):
+def _search_location_parser(locs_subprs):
     """
     Creates the subparser for the searching subparser.
 
@@ -121,12 +102,12 @@ def search_location_parser(locs_subprs):
     locs_search_p.add_argument(
         '--all', action='store_true', help='Retrieves all results. This option overrides page and pageSize.')
 
-    locs_search_p.set_defaults(func=ef.search_location)
+    locs_search_p.set_defaults(func=ef._search_location)
 
 
-def update_location_parser(locs_subprs):
+def _update_location_parser(locs_subprs):
     """
-    Creates the subparser for updating locations.
+    Creates the subparser for updating _locations.
 
     Args:
         locs_subprs: The location subparser.
@@ -135,12 +116,12 @@ def update_location_parser(locs_subprs):
     locs_update_p.add_argument(
         'file', help="File where the location JSON is located.")
 
-    locs_update_p.set_defaults(func=ef.update_location)
+    locs_update_p.set_defaults(func=ef._update_location)
 
 
-def create_location_parser(locs_subprs):
+def _create_location_parser(locs_subprs):
     """
-    Creates the subparser for the creation of locations.
+    Creates the subparser for the creation of _locations.
 
     Args:
         locs_subprs: The location subparser.
@@ -150,10 +131,10 @@ def create_location_parser(locs_subprs):
     locs_create_p.add_argument(
         'file', help="File where the location JSON is located.")
 
-    locs_create_p.set_defaults(func=ef.create_location)
+    locs_create_p.set_defaults(func=ef._create_location)
 
 
-def delete_location_parser(locs_subprs):
+def _delete_location_parser(locs_subprs):
     """
     Creates the subparser for the delete location subparser.
 
@@ -165,4 +146,26 @@ def delete_location_parser(locs_subprs):
     locs_delete_p.add_argument(
         'loc_id', help='Location id.')
 
-    locs_delete_p.set_defaults(func=ef.delete_location)
+    locs_delete_p.set_defaults(func=ef._delete_location)
+
+
+def _bulk_del_location_parser(locs_subprs):
+    p: ap.ArgumentParser = locs_subprs.add_parser('bulkdel')
+
+    g = p.add_mutually_exclusive_group(required=True)
+
+    g.add_argument('--ids', nargs='+', type=int, help='List of ids.')
+    g.add_argument('--json_file', type=str, help='JSON file with the identifiers.')
+
+    p.set_defaults(func=ef._bulk_del_locations)
+
+
+def _get_sublocs_loc_parser(locs_subprs):
+    p: ap.ArgumentParser = locs_subprs.add_parser('sublocs')
+
+    g = p.add_mutually_exclusive_group(required=True)
+
+    g.add_argument('--ids', nargs='+', type=int, help='List of parent ids ids.')
+    g.add_argument('--json_file', type=str, help='JSON file with the identifiers.')
+
+    p.set_defaults(func=ef._sublocs_loc_locations)

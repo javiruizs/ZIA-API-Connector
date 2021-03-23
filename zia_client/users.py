@@ -6,7 +6,7 @@ from typing import List
 
 import requests as re
 
-import zia_client.utils as u
+import zia_client._utils as u
 from zia_client import ZIAConnector
 
 
@@ -77,7 +77,7 @@ def get_groups(session: ZIAConnector, search="", page=None, pageSize=None, full=
 
 def get_users(session: ZIAConnector, name="", dept="", group="", page=None, pageSize=None, full=False):
     """
-    Gets a list of all users and allows user filtering by name, department, or group. The name search parameter
+    Gets a list of all _users and allows user filtering by name, department, or group. The name search parameter
     performs a partial match. The dept and group parameters perform a 'starts with' match.
 
     Args:
@@ -171,7 +171,7 @@ def create_user(session: ZIAConnector, user_dict: Dict):
         Template for the `user_dict` parameter::
 
             {
-                "name": "string", # User name. This appears when choosing users for policies.
+                "name": "string", # User name. This appears when choosing _users for policies.
                 "email": "string",  # User email consists of a user name and domain name. It does not have to be a valid
                                     # email address, but it must be unique and its domain must belong to the organization.
                 "groups":	[], # List of Groups a user belongs to. Groups are used in policies.
@@ -194,9 +194,9 @@ def create_user(session: ZIAConnector, user_dict: Dict):
 
 
 def bulk_del_user(session: ZIAConnector, user_ids: List[int]):
-    """Bulk delete users up to a maximum of 500 users per request.
+    """Bulk delete _users up to a maximum of 500 _users per request.
 
-    Bulk delete users up to a maximum of 500 users per request.
+    Bulk delete _users up to a maximum of 500 _users per request.
     The response returns the user IDs that were successfully deleted.
 
     Args:

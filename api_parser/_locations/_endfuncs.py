@@ -3,15 +3,15 @@ Module where end functions for the location parser are defined.
 """
 import json
 
-from zia_client import ZIAConnector
 import zia_client.custom as cstm
 import zia_client.locations as locs
+from zia_client import ZIAConnector
 
 
 # FINAL ACTION FUNCTIONS
-def ids_location(c: ZIAConnector, args):
+def _ids_location(c: ZIAConnector, args):
     """
-    Retrieves the dictionary with the mapping of the locations and sublocations names and their ids.
+    Retrieves the dictionary with the mapping of the _locations and sublocations names and their ids.
 
     Args:
         c: API zia_client that must me logged in beforehand.
@@ -26,9 +26,9 @@ def ids_location(c: ZIAConnector, args):
                                  authRequired=args.auth, xffEnabled=args.xff)
 
 
-def search_location(c: ZIAConnector, args):
+def _search_location(c: ZIAConnector, args):
     """
-    Searches locations with the `search_locations` method of the zia_client.
+    Searches _locations with the `search_locations` method of the zia_client.
 
     Args:
         c: API zia_client that must me logged in beforehand.
@@ -43,9 +43,9 @@ def search_location(c: ZIAConnector, args):
                                  pageSize=args.pageSize, full=args.all)
 
 
-def update_location(c: ZIAConnector, args):
+def _update_location(c: ZIAConnector, args):
     """
-    Updates locations.
+    Updates _locations.
     
     Args:
         c: API zia_client that must me logged in beforehand.
@@ -60,7 +60,7 @@ def update_location(c: ZIAConnector, args):
     return locs.update_location(c, location)
 
 
-def create_location(c: ZIAConnector, args):
+def _create_location(c: ZIAConnector, args):
     """
     Creates a new location.
     
@@ -77,7 +77,7 @@ def create_location(c: ZIAConnector, args):
     return locs.create_location(c, location)
 
 
-def delete_location(c: ZIAConnector, args):
+def _delete_location(c: ZIAConnector, args):
     """
     Deletes a location.
     
@@ -92,7 +92,7 @@ def delete_location(c: ZIAConnector, args):
     return locs.delete_location(c, args.loc_id)
 
 
-def all_location(c: ZIAConnector, args):
+def _all_location(c: ZIAConnector, args):
     """
     Retrieves all location and sublocation infos.
     
@@ -107,7 +107,7 @@ def all_location(c: ZIAConnector, args):
     return cstm.obtain_all_locations_sublocations(c)
 
 
-def info_location(c: ZIAConnector, args):
+def _info_location(c: ZIAConnector, args):
     """
     Retreives the info for the desired location.
     
@@ -120,3 +120,25 @@ def info_location(c: ZIAConnector, args):
 
     """
     return locs.get_location_info(c, args.loc_id)
+
+
+def _bulk_del_locations(c: ZIAConnector, args):
+    if args.json_file:
+        with open(args.json_file) as f:
+            ids = json.load(f)
+    else:
+        ids = args.ids
+
+    return locs.bulk_del_location(c, ids)
+
+
+def _sublocs_loc_locations(c: ZIAConnector, args):
+    if args.json_file:
+        with open(args.json_file) as f:
+            ids = json.load(f)
+    else:
+        ids = args.ids
+
+    result = [locs.get_location_info(c, id_) for id_ in ids]
+
+    return result

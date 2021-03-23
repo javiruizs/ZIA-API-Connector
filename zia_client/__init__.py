@@ -12,11 +12,13 @@ As of now, only one has been defined.
 The `utils` module contains handy functions that can be called over and over in order to not repeat code.
 """
 import json
+import os
 import sys
 import time
 from typing import Union
 
 import requests as re
+import zia_client._utils as u
 
 from zia_client.exceptions import ResponseException
 
@@ -32,6 +34,7 @@ class ZIAConnector:
         """Class constructor
 
         Args:
+            creds (`str`or `dict`, optional): Credential file or dict.
             config_file (String): The path for the config file. Must be a JSON.
             verbosity (None or bool): If None, input from JSON file is taken. If True or False, then it will be
                 overridden.
@@ -40,11 +43,13 @@ class ZIAConnector:
         with open(config_file) as f:
             config = json.load(f)
 
-        with open(config['urls']) as f:
+        config_dir = os.path.dirname(config_file)
+
+        with open(os.path.join(config_dir, config['urls'])) as f:
             self.urls = json.load(f)
 
         if not creds:
-            with open(config['creds']) as f:
+            with open(os.path.join(config_dir, config['creds'])) as f:
                 self.creds = json.load(f)
         elif isinstance(creds, str):
             with open(creds) as f:

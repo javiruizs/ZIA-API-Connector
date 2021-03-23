@@ -3,10 +3,10 @@ Script that maps command line instructions with the available configured methods
 """
 from sys import argv
 
+import zia_client.activation as actv
 from api_parser import create_parser
 from zia_client import ZIAConnector
-from zia_client.utils import print_json, save_json
-import zia_client.activation as actv
+from zia_client._utils import print_json, save_json
 
 
 def main():
@@ -20,20 +20,21 @@ def main():
     # Parse args
     args = parser.parse_args()
 
-    client = ZIAConnector(args.conf, verbosity=not args.no_verbosity)
+    client = ZIAConnector(args.conf, verbosity=not args.no_verbosity, creds=args.creds)
     client.login()
 
-    result = args.func(client, args)
+    if 'func' in vars(args):
+        result = args.func(client, args)
 
-    save_json(result, args.output)
+        save_json(result, args.output)
 
-    if not args.no_print:
-        print_json(result)
+        if not args.no_print:
+            print_json(result)
 
     if args.apply:
-        actv.activate_changes(client)
+        print_json(actv.activate_changes(client))
     if args.pending:
-        actv.get_status(client)
+        print_json(actv.get_status(client))
 
     client.logout()
 

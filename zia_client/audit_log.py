@@ -4,7 +4,7 @@ Module for audit log report.
 import requests as re
 from dateutil.parser import parse
 
-import zia_client.utils as u
+import zia_client._utils as u
 from zia_client import ZIAConnector
 
 

@@ -1,12 +1,12 @@
 """
-Module for traffic forwarding management.
+Module for _traffic forwarding management.
 """
 from typing import List, Dict
 
 import requests as re
 
 from zia_client import ZIAConnector
-from zia_client.utils import clean_args
+from zia_client._utils import clean_args
 
 
 def get_vpn_creds(session: ZIAConnector, search: str = '', type: str = '', includeOnlyWithoutLocation: bool = None,
@@ -62,9 +62,9 @@ def del_vpn_creds(session: ZIAConnector, vpn_id):
 
 
 def add_vpn_creds(session: ZIAConnector, vpn_cred: Dict):
-    """Adds VPN credentials that can be associated to locations.
+    """Adds VPN credentials that can be associated to _locations.
 
-    Adds VPN credentials that can be associated to locations. When invoked with a partner API key, it automatically
+    Adds VPN credentials that can be associated to _locations. When invoked with a partner API key, it automatically
     sets the managedBy attribute to the partner associated with the key.
 
     Args:

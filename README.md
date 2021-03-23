@@ -38,22 +38,22 @@ All available API calls that can be made are listed in
 I've recollected them and summarized them in the following table:
 
 ### Activation
-|URL|Method|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|URL|Method|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |/status|GET|Yes|zia_client.activation.get_status||
 |/status/activate|POST|Yes|zia_client.activation.activate_changes||
 
 ### Admin Audit Logs
-|URL|Method|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|URL|Method|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |/auditlogEntryReport|GET|Yes|zia_client.audit_log.get_auditlog_entry_report_status||
 |/auditlogEntryReport|POST|Yes|zia_client.audit_log.req_auditlog_entry_report||
 |/auditlogEntryReport|DELETE|Yes|zia_client.audit_log.cncl_auditlog_entry_report||
 |/auditlogEntryReport/download|GET|Yes|zia_client.audit_log.dwl_auditlog_entry_report||
 
 ### Admin & Role Managent
-|URL|Method|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|URL|Method|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |/adminRoles/lite|GET|Yes|zia_client.admin_roles.get_admin_roles||
 |/adminUsers|GET|Yes|zia_client.admin_roles.get_admin_users||
 |/adminUsers|POST|Yes|zia_client.admin_roles.create_admin_user||
@@ -61,20 +61,20 @@ I've recollected them and summarized them in the following table:
 |/adminUsers/{userId}|DELETE|Yes|zia_client.admin_roles.delete_admin_user||
 
 ### API Authentication
-|URL|Method|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|URL|Method|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |/authenticadtedSession|GET|Yes|zia_client.session.ZIAConnector.is_session_active||
 |/authenticadtedSession|POST|Yes|zia_client.session.ZIAConnector.login||
 |/authenticadtedSession|DELETE|Yes|zia_client.session.ZIAConnector.logout||
 
 ### Cloud Sandbox Report
-|URL|Method|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|URL|Method|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |/sandbox/report/quota|GET|Yes|zia_client.sandbox.get_sandbox_quota||
 |/sandbox/report/{md5Hash}|GET|Yes|zia_client.sandbox.get_sandbox_file_report||
 ### Firewall Policies
-|Method|URL|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|Method|URL|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 GET|/firewallFilteringRules|No|
 GET|/firewallFilteringRules/{ruleId}|No|
 GET|/ipDestinationGroups|No|
@@ -97,21 +97,21 @@ GET|/networkServices/{serviceid}|No|
 GET|/timeWindows|No|
 GET|/timeWindows/lite|No|
 
-### Location Management
-|Method|URL|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
-|GET|/locations|Yes|zia_client.locations.search_locations||
-|POST|/locations|Yes|zia_client.locations.create_location||
-|POST|/locations/bulkDelete|Yes|zia_client.locations.bulk_del_location||
-|GET|/locations/lite|Yes|zia_client.locations.get_location_ids||
-|GET|/locations/{locationId}|Yes|zia_client.locations.get_location_info||
-|PUT|/locations/{locationId}|Yes|zia_client.locations.update_location||
-|DELETE|/locations/{locationId}|Yes|zia_client.locations.delete_location||
-|GET|/locations/{locationId}/sublocations|Yes|zia_client.locations.get_sublocations||
+### Location Management - `locs` subparser
+|Method|URL|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
+|GET|/locations|Yes|zia_client.locations.search_locations|`search`|
+|POST|/locations|Yes|zia_client.locations.create_location|`create`|
+|POST|/locations/bulkDelete|Yes|zia_client.locations.bulk_del_location|`bulkdel`|
+|GET|/locations/lite|Yes|zia_client.locations.get_location_ids|`ids`|
+|GET|/locations/{locationId}|Yes|zia_client.locations.get_location_info|`info`|
+|PUT|/locations/{locationId}|Yes|zia_client.locations.update_location|`update`|
+|DELETE|/locations/{locationId}|Yes|zia_client.locations.delete_location|`delete`|
+|GET|/locations/{locationId}/sublocations|Yes|zia_client.locations.get_sublocations|`sublocs`|
 
 ### Security Policy Settings
-|Method|URL|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|Method|URL|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |GET|/security|No|
 |PUT|/security|No|
 |GET|/security/advanced|No|
@@ -119,8 +119,8 @@ GET|/timeWindows/lite|No|
 |POST|/security/advanced/blacklistUrls|No|
 
 ### SSL Inspection Settings
-|Method|URL|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|Method|URL|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |GET|/sslSettings/downloadcsr|No|
 |POST|/sslSettings/generatecsr|No|
 |GET|/sslSettings/showcert|No|
@@ -131,8 +131,8 @@ GET|/timeWindows/lite|No|
 |POST|/sslSettings/exemptedUrls|No|
 
 ### Traffic Forwarding
-|Method|URL|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|Method|URL|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |GET|/vpnCredentials|Yes|zia_client.traffic_forwarding.get_vpn_creds||
 |POST|/vpnCredentials|Yes|zia_client.traffic_forwarding.add_vpn_creds||
 |POST|/vpnCredentials/bulkDelete|Yes|zia_client.traffic_forwarding.bulk_del_vpn_creds||
@@ -142,23 +142,23 @@ GET|/timeWindows/lite|No|
 |GET|/orgProvisioning/ipGreTunnelInfo|Yes|zia_client.traffic_forwarding.ip_gre_tunnel_info||
 |GET|/vips|Yes|zia_client.traffic_forwarding.get_virtual_ips||
 
-### User Management
-|Method|URL|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
-|GET|/departments|Yes|zia_client.users.get_departments||
-|GET|/departments/{id}|Yes|zia_client.users.get_department||
-|GET|/groups|Yes|zia_client.users.get_groups||
-|GET|/groups/{groupId}|Yes|zia_client.users.get_group_info||
-|GET|/users|Yes|zia_client.users.get_users||
-|POST|/users|Yes|zia_client.users.create_user||
-|POST|/users/bulkDelete|Yes|zia_client.users.bulk_del_user||
-|GET|/users/{userId}|Yes|zia_client.users.get_user_info||
-|PUT|/users/{userId}|Yes|zia_client.users.update_user||
-|DELETE|/users/{userId}|Yes|zia_client.users.del_user||
+### User Management - `users` subparser
+|Method|URL|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
+|GET|/departments|Yes|zia_client.users.get_departments|`depts`|
+|GET|/departments/{id}|Yes|zia_client.users.get_department|`deptinfo`|
+|GET|/groups|Yes|zia_client.users.get_groups|`groups`|
+|GET|/groups/{groupId}|Yes|zia_client.users.get_group_info|`groupinfo`|
+|GET|/users|Yes|zia_client.users.get_users|`search`|
+|POST|/users|Yes|zia_client.users.create_user|`create`|
+|POST|/users/bulkDelete|Yes|zia_client.users.bulk_del_user|`bulkdel`|
+|GET|/users/{userId}|Yes|zia_client.users.get_user_info|`info`|
+|PUT|/users/{userId}|Yes|zia_client.users.update_user|`update`|
+|DELETE|/users/{userId}|Yes|zia_client.users.del_user|`delete`|
 
 ### URL Categories
-|Method|URL|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|Method|URL|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |GET|/urlCategories|No|
 |POST|/urlCategories|No|
 |GET|/urlCategories/lite|No|
@@ -169,8 +169,8 @@ GET|/timeWindows/lite|No|
 |POST|/urlLookup|No|
 
 ### URL Filtering Policies
-|Method|URL|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|Method|URL|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |GET|/urlFilteringRules|No|
 |POST|/urlFilteringRules|No|
 |GET|/urlFilteringRules/{ruleId}|No|
@@ -178,8 +178,8 @@ GET|/timeWindows/lite|No|
 |DELETE|/urlFilteringRules/{ruleId}|No|
 
 ### User Authentication Settings
-|Method|URL|Implemented|Function/Method|Script Parser|
-|---|---|---|---|---|
+|Method|URL|Implemented|Function/Method|Sub-subparser|
+|:---:|:---:|:---:|:---:|:---:|
 |GET|/authSettings/exemptedUrls|Yes|zia_client.user_auth.get_exempted_auth_urls||
 |POST|/authSettings/exemptedUrls|Yes|zia_client.user_auth.mod_auth_urls_exemptions||
 
