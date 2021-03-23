@@ -23,7 +23,7 @@ def get_exempted_auth_urls(session: ZIAConnector):
         JSON dict.
     """
 
-    url = session.form_full_url('authSettings')
+    url = session.get_url('authurl')
 
     return session.send_recv(re.Request('GET', url), "Exempted User Authentication URLs obtained.")
 
@@ -42,7 +42,7 @@ def mod_auth_urls_exemptions(session: ZIAConnector, action: str, urls: List[str]
         JSON dict: Resulting exemption list.
     """
 
-    url = session.form_full_url('authSettings')
+    url = session.get_url('authurl')
 
     data = {
         "ids": urls

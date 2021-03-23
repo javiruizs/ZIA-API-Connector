@@ -33,9 +33,9 @@ def get_sandbox_quota(session: ZIAConnector):
             ]
     """
 
-    url = session.form_full_url('sandbox', 'quota')
+    url = session.get_url('sandbox', 'quota')
 
-    return session.form_full_url(re.Request('GET', url), 'Sandbox Quota received.')
+    return session.get_url(re.Request('GET', url), 'Sandbox Quota received.')
 
 
 def get_sandbox_file_report(session: ZIAConnector, md5Hash: str, report_type: str = 'summary'):
@@ -51,7 +51,7 @@ def get_sandbox_file_report(session: ZIAConnector, md5Hash: str, report_type: st
         JSON dict.
     """
 
-    url = session.form_full_url('sandbox', md5Hash)
+    url = session.get_url('sandbox', 'hash', md5Hash=md5Hash)
 
     return session.send_recv(re.Request('GET', url, params={'type': report_type}),
                              f"Sandbox report for hash {md5Hash} obtained.")

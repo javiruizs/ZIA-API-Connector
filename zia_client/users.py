@@ -25,7 +25,7 @@ def get_departments(session: ZIAConnector, search='', page=None, pageSize=None, 
         List of dictionaries with depts.
 
     """
-    url = session.form_full_url('depts')
+    url = session.get_url('usr', 'depts')
 
     params = u.clean_args(locals())
 
@@ -45,7 +45,7 @@ def get_department(session: ZIAConnector, dept_id: int):
         JSON response.
 
     """
-    url = session.form_full_url('dept', dept_id)
+    url = session.get_url('dept', 'dept', id=dept_id)
 
     r = re.Request('GET', url)
 
@@ -69,7 +69,7 @@ def get_groups(session: ZIAConnector, search="", page=None, pageSize=None, full=
     """
     params = u.clean_args(locals())
 
-    url = session.form_full_url('groups')
+    url = session.get_url('usr', 'groups')
 
     return session.full_retrieval('GET', url, params=params, page_size=pageSize, message="Group retrieval successful.",
                                   full=full)
@@ -93,7 +93,7 @@ def get_users(session: ZIAConnector, name="", dept="", group="", page=None, page
         JSON response.
 
     """
-    url = session.form_full_url('usr')
+    url = session.get_url('usr', 'main')
 
     params = u.clean_args(locals())
 
@@ -116,7 +116,7 @@ def update_user(session: ZIAConnector, userdata):
     if 'id' not in userdata:
         raise ValueError('Userdata has no id key.')
 
-    url = session.form_full_url('usr', userdata['id'])
+    url = session.get_url('usr', 'usr', userId=userdata['id'])
 
     r = re.Request('PUT', url, json=userdata)
 
@@ -135,7 +135,7 @@ def get_user_info(session: ZIAConnector, usr_id):
         JSON dict with user's info.
 
     """
-    url = session.form_full_url('usr', usr_id)
+    url = session.get_url('usr', 'usr', userId=usr_id)
 
     r = re.Request('GET', url)
 
@@ -153,7 +153,7 @@ def get_group_info(session: ZIAConnector, group_id: int):
         JSON dict: Representation of the group.
     """
 
-    url = session.form_full_url('groups', group_id)
+    url = session.get_url('usr', 'group', groupId=group_id)
 
     return session.send_recv(re.Request('GET', url), f"Group info for group {group_id} obtained.")
 
@@ -188,7 +188,7 @@ def create_user(session: ZIAConnector, user_dict: Dict):
         JSON dict: Same posted dict.
     """
 
-    url = session.form_full_url("usr")
+    url = session.get_url("usr", "main")
 
     return session.send_recv(re.Request('POST', url, json=user_dict), f"User with name {user_dict['name']} created.")
 
@@ -207,7 +207,7 @@ def bulk_del_user(session: ZIAConnector, user_ids: List[int]):
         Ids that were deleted.
     """
 
-    url = session.form_full_url('usr', 'bulkDelete')
+    url = session.get_url('usr', 'bulk')
 
     data = {
         "ids": user_ids
@@ -227,6 +227,6 @@ def del_user(session: ZIAConnector, user_id: int):
         JSON dict or HTTP response body.
     """
 
-    url = session.form_full_url('usr', user_id)
+    url = session.get_url('usr', 'usr', userId=user_id)
 
     return session.send_recv(re.Request('DELETE', url), f"User {user_id} deleted.")

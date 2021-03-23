@@ -18,7 +18,7 @@ def create_location(session: ZIAConnector, location):
         location (String): A dictionary representing the location. See example.
     """
 
-    url = session.form_full_url('locs')
+    url = session.get_url('locs', 'main')
 
     req = re.Request('POST', url, json=location)
 
@@ -37,7 +37,7 @@ def update_location(session: ZIAConnector, location):
     if 'id' not in location:
         raise ValueError('There is no "id" keyword in the location dict.')
 
-    url = session.form_full_url('locs', location["id"])
+    url = session.get_url('locs', 'info', locationId=location["id"])
 
     time.sleep(0.5)
     r = re.Request('PUT', url, json=location)
@@ -55,7 +55,7 @@ def delete_location(session: ZIAConnector, loc_id: int):
     Raises:
         Exception: If delete is unsuccessful, then it raises an exception.
     """
-    url = session.form_full_url('locs', loc_id)
+    url = session.get_url('locs', 'info', locationId=loc_id)
 
     r = re.Request('DELETE', url)
 
@@ -87,7 +87,7 @@ def search_locations(session: ZIAConnector, search="", sslScanEnabled=None, xffE
     # Use directly args of this function as parameters on the request, but they need to be cleaned first.
     params = u.clean_args(locals())
 
-    url = session.form_full_url('locs')
+    url = session.get_url('locs', 'main')
 
     # Key all is not recognized by the API, therefore can be removed
 
@@ -142,7 +142,7 @@ def get_location_ids(session: ZIAConnector, includeSubLocations=None, includePar
     params = u.clean_args(args)
     params = None if not params else params
 
-    url = session.form_full_url('locInfo')
+    url = session.get_url('locs', 'lite')
 
     return session.full_retrieval('GET', url, params=params, page_size=pageSize,
                                   message="Location ids retrieval successful.", full=full)
@@ -158,7 +158,7 @@ def get_location_info(session: ZIAConnector, loc_id):
     Returns:
         dict: A dict containing all the information. If no success, dict is empty.
     """
-    url = session.form_full_url('locs', loc_id)
+    url = session.get_url('locs', 'info', locationId=loc_id)
 
     r = re.Request('GET', url)
     time.sleep(1)
@@ -193,7 +193,7 @@ def get_sublocations(session: ZIAConnector, locationId, search="", sslScanEnable
         A list of dictionaries.
     """
 
-    url = session.form_full_url('locs', locationId, 'sublocations')
+    url = session.get_url('locs', 'subs', locationId=locationId)
 
     # Use directly args of this function as parameters on the request, but they need to be cleaned first.
     args = locals()
@@ -217,7 +217,7 @@ def bulk_del_location(session: ZIAConnector, loc_ids: List):
         JSON Dict response.
     """
 
-    url = session.form_full_url('locs', 'bulkDelete')
+    url = session.get_url('locs', 'bulk')
 
     data = {
         "ids": loc_ids

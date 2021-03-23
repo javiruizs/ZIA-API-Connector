@@ -20,7 +20,7 @@ from typing import Union
 import requests as re
 import zia_client._utils as u
 
-from zia_client.exceptions import ResponseException
+from zia_client._exceptions import ResponseException
 
 
 class ZIAConnector:
@@ -92,7 +92,7 @@ class ZIAConnector:
             "timestamp": timestamp
         }
 
-        url = self.form_full_url('loginout')
+        url = self.get_url('auth')
 
         self.s = re.Session()
 
@@ -108,7 +108,7 @@ class ZIAConnector:
         Returns: Nothing.
 
         """
-        url = self.form_full_url('loginout')
+        url = self.get_url('auth')
 
         req = re.Request('DELETE', url)
 
@@ -121,7 +121,7 @@ class ZIAConnector:
             JSON dict: Information regarding active session.
         """
 
-        url = self.form_full_url('loginout')
+        url = self.get_url('loginout')
 
         req = re.Request('GET', url)
 
@@ -240,25 +240,28 @@ class ZIAConnector:
 
         return result
 
-    def form_full_url(self, key, *elements):
+    def get_url(self, key1, key2=None, **kwargs):
         """It just joins the API URI with the wanted
         URL.
 
         Args:
-            *elements: All the strings that must be concatenated.
-            key (String): Configured dict key that exists in the config.json file.
+            key1 (String): Configured dict key that exists in the config.json file.
+            key2 (String): Configured dict key that exists in the config.json file.
+            **kwargs: Keyword arguments for str.format following structure of URL JSON.
 
         Returns:
             String: Full URL for the wanted action.
         """
-        converted = []
-        for e in elements:
-            if isinstance(e, str):
-                converted.append(e)
-            else:
-                converted.append(str(e))
-        remaining = "/" + "/".join(converted) if elements else ""
-        return self.host + self.urls[key] + remaining
+        if key2:
+            url = self.host + self.urls[key1][key2]
+        else:
+            url = self.host + self.urls[key1]
+
+        if kwargs:
+            url = url.format(**kwargs)
+
+        return url
+
 
     def my_except_hook(self, exctype, value, traceback):
         """

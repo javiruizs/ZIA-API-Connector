@@ -1,18 +1,92 @@
 {
-  "loginout": "/authenticatedSession",
-  "vpnCreds": "/vpnCredentials",
-  "locs": "/locations",
-  "status": "/status",
-  "activate": "/status/activate",
-  "locInfo": "/locations/lite",
-  "adminRoles": "/adminRoles/lite",
-  "adminUsers": "/adminUsers",
-  "depts": "/departments",
-  "groups": "/groups",
-  "usr": "/users",
-  "audit": "/auditlogEntryReport",
-  "greInfo": "/orgProvisioning/ipGreTunnelInfo",
-  "virtualIp": "/vips",
-  "sandbox": "/sandbox/report",
-  "authSettings": "/authSettings/exemptedUrls"
+  "activation": {
+    "main": "/status",
+    "act": "/status/activate"
+  },
+  "audit": {
+    "main": "/auditlogEntryReport",
+    "dwl": "/auditlogEntryReport/download"
+  },
+  "admin_role": {
+    "role": "/adminRoles/lite",
+    "main": "/adminUsers",
+    "user": "/adminUsers/{userId}"
+  },
+  "auth": "/authenticatedSession",
+  "sandbox": {
+    "quota": "/sandbox/report",
+    "hash": "/sandbox/report/{md5Hash}"
+  },
+  "fw": {
+    "main": "/firewallFilteringRules",
+    "rule": "/firewallFilteringRules/{ruleId}",
+    "dest_gr": "/ipDestinationGroups",
+    "dest_lite": "/ipDestinationGroups/lite",
+    "dest_gr_info": "/ipDestinationGroups/{ipGroupId}",
+    "src_gr": "/ipSourceGroups",
+    "src_lite": "/ipSourceGroups/lite",
+    "src_gr_info": "/ipSourceGroups/{ipGroupId}",
+    "app_gr": "/networkApplicationGroups",
+    "app_lite": "/networkApplicationGroups/lite",
+    "app_gr_info": "/networkApplicationGroups/{groupId}",
+    "apps": "/networkApplications",
+    "app": "/networkApplications/{appId}",
+    "srv_gr": "/networkServiceGroups",
+    "srv_gr_lite": "/networkServiceGroups/lite",
+    "srv_gr_info": "/networkServiceGroups/{serviceGroupId}",
+    "srvs": "/networkServices",
+    "srvs_lite": "/networkServices/lite",
+    "srv": "/networkServices/{serviceid}",
+    "time": "/timeWindows",
+    "time_lite": "/timeWindows/lite"
+  },
+  "locs": {
+    "main": "/locations",
+    "lite": "/locations/lite",
+    "bulk": "/locations/bulkDelete",
+    "info": "/locations/{locationId}",
+    "subs": "/locations/{locationId}/sublocations"
+  },
+  "sec": {
+    "main": "/security",
+    "adv": "/security/advanced",
+    "black": "/security/advanced/blacklistUrls"
+  },
+  "ssl": {
+    "dwl": "/sslSettings/downloadcsr",
+    "gen": "/sslSettings/generatecsr",
+    "show": "/sslSettings/showcert",
+    "up": "/sslSettings/uploadcert/text",
+    "up_pem": "/sslSettings/uploadcertchain/text",
+    "del": "/sslSettings/certchain",
+    "exemp": "/sslSettings/exemptedUrls"
+  },
+  "traffic": {
+    "main": "/vpnCredentials",
+    "bulk": "/vpnCredentials/bulkDelete",
+    "id": "/vpnCredentials/{vpnId}",
+    "vips": "/vips",
+    "gre": "/orgProvisioning/ipGreTunnelInfo"
+  },
+  "usr": {
+    "main": "/users",
+    "depts": "/departments",
+    "dept": "/departments/{id}",
+    "bulk": "/users/bulkDelete",
+    "usr": "/users/{userId}",
+    "groups": "/groups",
+    "group": "/groups/{groupId}"
+  },
+  "urlcat": {
+    "main": "/urlCategories",
+    "lite": "/urlCategories/lite",
+    "quota": "/urlCategories/urlQuota",
+    "cat": "/urlCategories/{categoryId}",
+    "look": "/urlLookup"
+  },
+  "urlfilt": {
+    "main": "/urlFilteringRules",
+    "rule": "/urlFilteringRules/{ruleId}"
+  },
+  "authurl": "/authSettings/exemptedUrls"
 }

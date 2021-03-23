@@ -19,7 +19,7 @@ def get_admin_roles(session: ZIAConnector, includeAuditorRole=None, includePartn
         dict: A dict containing the information regarding the roles: id, rank, name and role type.
     """
 
-    url = session.form_full_url('adminRoles')
+    url = session.get_url('admin_role', 'role')
 
     r = re.Request('GET', url, params=u.clean_args(locals()))
 
@@ -44,7 +44,7 @@ def get_admin_users(session: ZIAConnector, includeAuditorUsers=False, includeAdm
     Returns:
         JSON list of dicts: Administrator list.
     """
-    url = session.form_full_url("adminUsers")
+    url = session.get_url("admin_role", "main")
 
     args = locals()
     params = u.clean_args(args)
@@ -64,7 +64,7 @@ def create_admin_user(session: ZIAConnector, userinfo):
         JSON dict: The created JSON dict representing the new user with all other information.
     """
 
-    url = session.form_full_url("adminUsers")
+    url = session.get_url("admin_role", "user").format(userId=userinfo['id'])
 
     r = re.Request('POST', url, json=userinfo)
 
@@ -82,7 +82,7 @@ def update_admin_user(session: ZIAConnector, userinfo):
         JSON dict: The representation of the updated user as confirmation.
     """
 
-    url = session.form_full_url("adminUsers", userinfo['userId'])
+    url = session.get_url("admin_role", "user", userId=userinfo['id'])
 
     r = re.Request('PUT', url, json=userinfo)
 
@@ -100,7 +100,7 @@ def delete_admin_user(session: ZIAConnector, userId):
     Returns:
         None: None-type should be returned.
     """
-    url = session.form_full_url("adminUsers", userId)
+    url = session.get_url("admin_role", "user", userId=userId)
 
     r = re.Request('DELETE', url)
 

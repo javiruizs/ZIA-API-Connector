@@ -38,7 +38,7 @@ def get_vpn_creds(session: ZIAConnector, search: str = '', type: str = '', inclu
 
     params = clean_args(locals(), 'session')
 
-    url = session.form_full_url('vpnCreds')
+    url = session.get_url('traffic', 'main')
 
     return session.full_retrieval('GET', url, params, page_size=pageSize, full=full)
 
@@ -54,7 +54,7 @@ def del_vpn_creds(session: ZIAConnector, vpn_id):
     Returns:
         204 No Content
     """
-    url = session.form_full_url('vpn_credentials', vpn_id)
+    url = session.get_url('traffic', 'id', vpnId=vpn_id)
 
     req = re.Request('DELETE', url)
 
@@ -86,7 +86,7 @@ def add_vpn_creds(session: ZIAConnector, vpn_cred: Dict):
 
     """
 
-    url = session.form_full_url("vpnCreds")
+    url = session.get_url("traffic", "main")
 
     req = re.Request('POST', url, json=vpn_cred)
 
@@ -107,7 +107,7 @@ def bulk_del_vpn_creds(session: ZIAConnector, vpn_creds: List):
         JSON dictionary: On 204 code, Successful Operation. On 404, error returned.
     """
 
-    url = session.form_full_url('vpnCreds', 'bulkDelete')
+    url = session.get_url('traffic', 'bulk')
 
     data = {
         "ids": vpn_creds
@@ -129,7 +129,7 @@ def get_vpn_cred_info(session: ZIAConnector, vpn_cred_id: int):
         JSON dictionary: Dictionary representing the credential.
     """
 
-    url = session.form_full_url("vpnCreds", vpn_cred_id)
+    url = session.get_url("traffic", 'id', vpnId=vpn_cred_id)
 
     req = re.Request('GET', url)
 
@@ -147,7 +147,7 @@ def upd_vpn_cred(session: ZIAConnector, vpn_cred: Dict):
         JSON dictionary: Dictionary representing the credential.
     """
 
-    url = session.form_full_url("vpnCreds", vpn_cred['id'])
+    url = session.get_url("traffic", 'id', vpnId=vpn_cred['id'])
 
     req = re.Request('PUT', url, json=vpn_cred)
 
@@ -187,7 +187,7 @@ def ip_gre_tunnel_info(session: ZIAConnector, ipAddresses: List[str] = False):
     else:
         params = False
 
-    url = session.form_full_url('greInfo')
+    url = session.get_url('traffic', 'gre')
 
     return session.send_recv(re.Request('GET', url, params=params), successful_msg="GRE Info retrieved.")
 
@@ -241,7 +241,7 @@ def get_virtual_ips(session: ZIAConnector, dc: str = '', region: str = '', page:
     """
     params = clean_args(locals())
 
-    url = session.form_full_url('virtualIp')
+    url = session.get_url('traffic', 'vips')
 
     return session.full_retrieval('GET', url, params=params, page_size=pageSize,
                                   message="Virtual IP Addresses retrieved successfully.", full=full)

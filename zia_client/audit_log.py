@@ -59,7 +59,7 @@ def req_auditlog_entry_report(session: ZIAConnector, startTime: str, endTime: st
     endTime = int(parse(timestr=endTime).timestamp()) * 1000  # Converting endtime to epoch
 
     parameters = locals()
-    url = session.form_full_url('audit')
+    url = session.get_url('audit', 'main')
 
     parameters = u.clean_args(parameters, 'session', 'full')
 
@@ -78,7 +78,7 @@ def get_auditlog_entry_report_status(session):
         Status in JSON format.
     """
 
-    url = session.form_full_url('audit')
+    url = session.get_url('audit', 'main')
 
     req = re.Request('GET', url)
 
@@ -92,7 +92,7 @@ def cncl_auditlog_entry_report(session):
     Returns:
         200 OK
     """
-    url = session.form_full_url('audit')
+    url = session.get_url('audit', 'main')
 
     req = re.Request('DELETE', url)
 
@@ -108,7 +108,7 @@ def dwl_auditlog_entry_report(session):
     Returns:
         CSV files in string format. Must be formatted.
     """
-    url = session.form_full_url('audit', 'download')
+    url = session.get_url('audit', 'dwl')
 
     req = re.Request('GET', url)
 
