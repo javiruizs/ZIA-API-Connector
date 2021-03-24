@@ -66,7 +66,7 @@ I've recollected them and summarized them in the following table:
 |GET|/adminRoles/lite|Yes|get_admin_roles||
 |GET|/adminUsers|Yes|get_admin_users||
 |POST|/adminUsers|Yes|create_admin_user||
-|PUT||/adminUsers/{userId}|Yes|update_admin_user||
+|PUT|/adminUsers/{userId}|Yes|update_admin_user||
 |DELETE|/adminUsers/{userId}|Yes|delete_admin_user||
 
 ### API Authentication
