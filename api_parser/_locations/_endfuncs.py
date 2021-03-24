@@ -11,7 +11,7 @@ from zia_client import ZIAConnector
 # FINAL ACTION FUNCTIONS
 def _ids_location(c: ZIAConnector, args):
     """
-    Retrieves the dictionary with the mapping of the _locations and sublocations names and their ids.
+    Retrieves the dictionary with the mapping of the locations and sublocations names and their ids.
 
     Args:
         c: API zia_client that must me logged in beforehand.
@@ -28,7 +28,7 @@ def _ids_location(c: ZIAConnector, args):
 
 def _search_location(c: ZIAConnector, args):
     """
-    Searches _locations with the `search_locations` method of the zia_client.
+    Searches locations with the `searchlocations` method of the zia_client.
 
     Args:
         c: API zia_client that must me logged in beforehand.
@@ -45,7 +45,7 @@ def _search_location(c: ZIAConnector, args):
 
 def _update_location(c: ZIAConnector, args):
     """
-    Updates _locations.
+    Updates locations.
     
     Args:
         c: API zia_client that must me logged in beforehand.
@@ -56,8 +56,10 @@ def _update_location(c: ZIAConnector, args):
 
     """
     with open(args.file) as f:
-        location = json.load(f)
-    return locs.update_location(c, location)
+        locations = json.load(f)
+
+    result = [locs.update_location(c, location) for location in locations]
+    return result
 
 
 def _create_location(c: ZIAConnector, args):

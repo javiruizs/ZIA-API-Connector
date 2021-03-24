@@ -28,13 +28,13 @@ def get_admin_roles(session: ZIAConnector, includeAuditorRole=None, includePartn
 
 def get_admin_users(session: ZIAConnector, includeAuditorUsers=False, includeAdminUsers=True, search: str = "",
                     page=None, pageSize=None, full=False):
-    """Obtains the list containing all the admin _users.
+    """Obtains the list containing all the admin users.
 
     Args:
         session (ZIAConnector): Logged-in API Client.
-        full: If set to True, all admin _users will be retrieved.
-        includeAuditorUsers (bool, optional): Includes auditor _users. Defaults to False.
-        includeAdminUsers (bool, optional): Includes admin _users. Defaults to True.
+        full: If set to True, all admin users will be retrieved.
+        includeAuditorUsers (bool, optional): Includes auditor users. Defaults to False.
+        includeAdminUsers (bool, optional): Includes admin users. Defaults to True.
         search (str, optional): The search string used to partially match against an admin/auditor user's Login ID
             or Name. Defaults to "".
         page (int, optional): Specifies the page offset. Defaults to 1.

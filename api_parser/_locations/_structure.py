@@ -22,7 +22,7 @@ def _info_location_parser(locs_subprs):
 
 def _get_all_locations_sublocations_parser(locs_subprs):
     """
-    Creates the subparser to obtain all _locations and sublocations.
+    Creates the subparser to obtain all locations and sublocations.
 
     Args:
         locs_subprs: The location subparser.
@@ -34,7 +34,7 @@ def _get_all_locations_sublocations_parser(locs_subprs):
 
 def _ids_location_parser(locs_subprs):
     """
-    Creates the subparser to retrieve all (sub)_locations id-name maps.
+    Creates the subparser to retrieve all (sub)locations id-name maps.
 
     Args:
         locs_subprs: The location subparser.
@@ -47,11 +47,11 @@ def _ids_location_parser(locs_subprs):
         '--all', action='store_true', help='Retrieves all results. This option overrides page and pageSize.')
     ids_p.add_argument(
         '--sub', type=api_parser._boolstring, choices=[True, False, None],
-        help='If set to true, sub-_locations will be included. Only works if --ids is specified.')
+        help='If set to true, sub-locations will be included. Only works if --ids is specified.')
     ids_p.add_argument(
         '--parent', type=api_parser._boolstring, choices=[True, False, None],
-        help='If set to true _locations with sub _locations will be included in the response, otherwise only _locations'
-             ' without sub-_locations are included. Only works if --ids is specified.')
+        help='If set to true locations with sub locations will be included in the response, otherwise only locations'
+             ' without sub-locations are included. Only works if --ids is specified.')
     ids_p.add_argument(
         '--page', default=1, help='Page offset in the results.')
     ids_p.add_argument(
@@ -107,7 +107,7 @@ def _search_location_parser(locs_subprs):
 
 def _update_location_parser(locs_subprs):
     """
-    Creates the subparser for updating _locations.
+    Creates the subparser for updating locations.
 
     Args:
         locs_subprs: The location subparser.
@@ -121,7 +121,7 @@ def _update_location_parser(locs_subprs):
 
 def _create_location_parser(locs_subprs):
     """
-    Creates the subparser for the creation of _locations.
+    Creates the subparser for the creation of locations.
 
     Args:
         locs_subprs: The location subparser.

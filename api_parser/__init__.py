@@ -2,14 +2,14 @@
 This package contains the necessary structures to use the implemented methods of the zia_client.session.ZIAConnector class
 through the command line script ziaclient.py.
 
-As of now, only the functionality for _locations and _users has been translated.
+As of now, only the functionality for locations and users has been translated.
 
 See the submodules for detailed functionality.
 """
 import argparse as ap
+import ast
 import datetime as dt
 import json
-import ast
 
 from api_parser._locations import create_location_subparser
 from api_parser._traffic import create_traffic_subparser
@@ -33,7 +33,7 @@ def create_parser():
     parser.add_argument('--output', '-o', help='Custom path where the output JSON will be stored.',
                         default=_output_name())
     parser.add_argument('--no_verbosity', help='Disables detailed verbosity.', action='store_true')
-    parser.add_argument('--no_print', help='Disables printing of results.', action='store_true')
+    parser.add_argument('--print_results', '-p', help='Prints results.', action='store_true')
 
     # Create subparsers
     subparsers = parser.add_subparsers()
@@ -62,7 +62,7 @@ def _output_name():
 
     """
     today = dt.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    return f'search_{today}.json'
+    return f'query_{today}.json'
 
 
 def _boolstring(arg):

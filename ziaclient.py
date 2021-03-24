@@ -28,7 +28,7 @@ def main():
 
         save_json(result, args.output)
 
-        if not args.no_print:
+        if args.print_results:
             print_json(result)
 
     if args.apply:

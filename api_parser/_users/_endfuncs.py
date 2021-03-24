@@ -40,7 +40,7 @@ def _search_depts(clt: ZIAConnector, args):
 
 def _search_usrs(clt: ZIAConnector, args):
     """
-    Searches for _users.
+    Searches for users.
     
     Args:
         clt: API zia_client that must me logged in beforehand.
@@ -55,7 +55,7 @@ def _search_usrs(clt: ZIAConnector, args):
 
 def _update_usrs(clt: ZIAConnector, args):
     """
-    Updates the desired _users.
+    Updates the desired users.
     
     Args:
         clt: API zia_client that must me logged in beforehand.
@@ -70,7 +70,7 @@ def _update_usrs(clt: ZIAConnector, args):
 
 def _add_u2g(clt: ZIAConnector, args):
     """
-    Adds _users to desired groups and assigns them a default department if they don't have any.
+    Adds users to desired groups and assigns them a default department if they don't have any.
     
     Args:
         clt: API zia_client that must me logged in beforehand.

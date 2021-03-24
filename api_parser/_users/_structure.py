@@ -32,13 +32,13 @@ def _depts_user_parser(usr_subprs):
 
 def _add_users_to_groups(usr_subprs):
     """
-    Creates the subparser to add _users to groups.
+    Creates the subparser to add users to groups.
 
     Args:
         usr_subprs: The user subparser to create this subparser.
     """
     sp = usr_subprs.add_parser('add-u2g')
-    sp.add_argument('--_users', type=str, required=True,
+    sp.add_argument('--users', type=str, required=True,
                     help='Text file (CSV) with only one column and first line is label.')
     sp.add_argument('--groups', type=str, required=True,
                     help='Text file (CSV) with only one column and first line is label.')
@@ -93,7 +93,7 @@ def _search_user_parser(usr_subprs):
 
 def _update_user_parser(usr_subprs):
     """
-    Creates the subparser for updating _users.
+    Creates the subparser for updating users.
 
     Args:
         usr_subprs: The user subparser to create this subparser.
@@ -107,7 +107,7 @@ def _update_user_parser(usr_subprs):
 
 def _create_user_parser(usr_subprs):
     """
-    Creates the subparser for creating _users.
+    Creates the subparser for creating users.
 
     Args:
         usr_subprs: The user subparser to create this subparser.
@@ -120,7 +120,7 @@ def _create_user_parser(usr_subprs):
 
 def _delete_user_parser(usr_subprs):
     """
-    Creates the subparser to for deleting _users.
+    Creates the subparser to for deleting users.
 
     Args:
         usr_subprs: The user subparser to create this subparser.

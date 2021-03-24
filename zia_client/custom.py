@@ -10,10 +10,10 @@ from zia_client import ZIAConnector
 
 
 def create_sublocations(session: ZIAConnector, sublocations):
-    """Creates sublocations for specified parent _locations.
+    """Creates sublocations for specified parent locations.
 
-    Creates new sublocations for the specified parent _locations.
-    Parent _locations are indicated by their names in a list of the sublocations dictionary. This attribute is extracted
+    Creates new sublocations for the specified parent locations.
+    Parent locations are indicated by their names in a list of the sublocations dictionary. This attribute is extracted
     from the dictionary, as it will be sent as it is to the ZIA.
 
     Args:
@@ -22,7 +22,7 @@ def create_sublocations(session: ZIAConnector, sublocations):
             reference.
 
     Returns:
-        JSON list of dictionaries: List of the published _locations.
+        JSON list of dictionaries: List of the published locations.
     """
     with open(sublocations, 'r') as f:
         config = json.load(f)
@@ -48,7 +48,7 @@ def create_sublocations(session: ZIAConnector, sublocations):
 
 def add_users_to_group(session: ZIAConnector, user_mails: list, group_ids: list, default_dept: int):
     """
-    Adds _users to the specified groups. Users must be passed as emails. Groups, too. For those who don't have a
+    Adds users to the specified groups. Users must be passed as emails. Groups, too. For those who don't have a
     department assigned to them, which is necessary to save the changes, a default department must be given.
 
     Args:
@@ -90,17 +90,17 @@ def add_users_to_group(session: ZIAConnector, user_mails: list, group_ids: list,
             users.append(user)
 
     if session.verbosity:
-        print(f'Total _users: {len(full_user_list)}')
-        print(f'Given _users: {len(user_mails)}')
+        print(f'Total users: {len(full_user_list)}')
+        print(f'Given users: {len(user_mails)}')
         print(f'Given groups: {len(group_ids)}')
-        print(f'Cross-matched _users: {len(filtered)}')
-        print(f'Updated _users: {update_count}')
+        print(f'Cross-matched users: {len(filtered)}')
+        print(f'Updated users: {update_count}')
 
     return users
 
 
 def obtain_all_locations_sublocations(session: ZIAConnector):
-    """Obtains all configured _locations and sublocations.
+    """Obtains all configured locations and sublocations.
 
     Args:
         session (ZIAConnector): Logged in API client.
@@ -120,7 +120,7 @@ def obtain_all_locations_sublocations(session: ZIAConnector):
 
 
 def update_users(session: ZIAConnector, json_file):
-    """Updates a list of _users at once.
+    """Updates a list of users at once.
 
     Args:
         session (ZIAConnector): Logged in API client.

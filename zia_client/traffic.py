@@ -62,9 +62,9 @@ def del_vpn_creds(session: ZIAConnector, vpn_id):
 
 
 def add_vpn_creds(session: ZIAConnector, vpn_cred: Dict):
-    """Adds VPN credentials that can be associated to _locations.
+    """Adds VPN credentials that can be associated to locations.
 
-    Adds VPN credentials that can be associated to _locations. When invoked with a partner API key, it automatically
+    Adds VPN credentials that can be associated to locations. When invoked with a partner API key, it automatically
     sets the managedBy attribute to the partner associated with the key.
 
     Args:
@@ -76,7 +76,7 @@ def add_vpn_creds(session: ZIAConnector, vpn_cred: Dict):
 
             {
                 "type": "CN", # recognized values [ CN, IP, UFQDN, XAUTH ]
-                "fqdn": "string", # Applicable only to UFQDN or XAUTH (or HOSTED_MOBILE_USERS) auth type.
+                "fqdn": "string", # Applicable only to UFQDN or XAUTH (or HOSTED_MOBILEusers) auth type.
                 "preSharedKey": "string", # This is a required field for UFQDN and IP auth type.
                 "comments": "string"
             }

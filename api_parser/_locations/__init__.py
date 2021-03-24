@@ -4,9 +4,7 @@ This subpackage contains the construction functions and the final action functio
 The construction functions can be found in the location_parser module and the end action functions in the endfuncs
 module.
 """
-from api_parser._locations._structure import _get_all_locations_sublocations_parser, _search_location_parser, \
-    _ids_location_parser, _update_location_parser, _create_location_parser, _delete_location_parser, \
-    _info_location_parser
+import api_parser._locations._structure as _str
 
 
 def create_location_subparser(subparsers):
@@ -20,10 +18,10 @@ def create_location_subparser(subparsers):
     locs_prs = subparsers.add_parser('locs')
     locs_subprs = locs_prs.add_subparsers(required=True, dest='any of the subcommands')
 
-    _get_all_locations_sublocations_parser(locs_subprs)
-    _search_location_parser(locs_subprs)
-    _ids_location_parser(locs_subprs)
-    _update_location_parser(locs_subprs)
-    _create_location_parser(locs_subprs)
-    _delete_location_parser(locs_subprs)
-    _info_location_parser(locs_subprs)
+    _str._get_all_locations_sublocations_parser(locs_subprs)
+    _str._search_location_parser(locs_subprs)
+    _str._ids_location_parser(locs_subprs)
+    _str._update_location_parser(locs_subprs)
+    _str._create_location_parser(locs_subprs)
+    _str._delete_location_parser(locs_subprs)
+    _str._info_location_parser(locs_subprs)

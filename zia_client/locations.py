@@ -64,7 +64,7 @@ def delete_location(session: ZIAConnector, loc_id: int):
 
 def search_locations(session: ZIAConnector, search="", sslScanEnabled=None, xffEnabled=None, authRequired=None,
                      bwEnforced=None, page=None, pageSize=None, full=False):
-    """Retrieves all the _locations, not sub-_locations that match the search.
+    """Retrieves all the locations, not sub-locations that match the search.
     Could be IP address or name.
 
     Args:
@@ -99,7 +99,7 @@ def get_location_ids(session: ZIAConnector, includeSubLocations=None, includePar
                      bwEnforced=None, sslScanEnabled=None, xffEnabled=None, search="", page=None, pageSize=None,
                      full=False):
     """
-    Gets a name and ID dictionary of _locations.
+    Gets a name and ID dictionary of locations.
 
     Args:
         session (ZIAConnector): Logged in API client.
@@ -113,11 +113,11 @@ def get_location_ids(session: ZIAConnector, includeSubLocations=None, includePar
 
         full: If set to True, all location IDs will be obtained.
 
-        includeSubLocations (bool, optional): if set to true sub-_locations will be included in the response \
+        includeSubLocations (bool, optional): if set to true sub-locations will be included in the response \
         otherwise they will excluded. Defaults to False.
 
-        includeParentLocations (bool, optional): if set to true _locations with sub _locations will be included in \
-        the response, otherwise only _locations without sub-_locations are included. Defaults to False.
+        includeParentLocations (bool, optional): if set to true locations with sub locations will be included in \
+        the response, otherwise only locations without sub-locations are included. Defaults to False.
 
         sslScanEnabled (bool, optional): Filter based on whether the Enable SSL Scanning setting is enabled or
         disabled for a location. Defaults to False.
@@ -169,7 +169,7 @@ def get_location_info(session: ZIAConnector, loc_id):
 def get_sublocations(session: ZIAConnector, locationId, search="", sslScanEnabled=None, xffEnabled=None,
                      authRequired=None, bwEnforced=None, enforceAup=None, enableFirewall=None):
     """
-    Gets the sub-location information for the location with the specified ID. These are the sub-_locations associated
+    Gets the sub-location information for the location with the specified ID. These are the sub-locations associated
     to the parent location.
 
     Args:
@@ -204,9 +204,9 @@ def get_sublocations(session: ZIAConnector, locationId, search="", sslScanEnable
 
 
 def bulk_del_location(session: ZIAConnector, loc_ids: List):
-    """Bulk delete _locations up to a maximum of 100 _locations per request.
+    """Bulk delete locations up to a maximum of 100 locations per request.
 
-    Bulk delete _locations up to a maximum of 100 _users per request.
+    Bulk delete locations up to a maximum of 100 users per request.
     The response returns the location IDs that were successfully deleted.
 
     Args:
@@ -225,4 +225,4 @@ def bulk_del_location(session: ZIAConnector, loc_ids: List):
 
     req = re.Request('POST', url, json=data)
 
-    return session.send_recv(req, "Bulk delete of _locations done.")
+    return session.send_recv(req, "Bulk delete of locations done.")
