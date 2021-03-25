@@ -43,7 +43,7 @@ def get_vpn_creds(session: ZIAConnector, search: str = '', type: str = '', inclu
     return session.full_retrieval('GET', url, params, page_size=pageSize, full=full)
 
 
-def del_vpn_creds(session: ZIAConnector, vpn_id):
+def del_vpn_cred(session: ZIAConnector, vpn_id):
     """
     Delete VPN credentials.
 

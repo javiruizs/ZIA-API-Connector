@@ -8,7 +8,7 @@ import zia_client.users as usrs
 from zia_client import ZIAConnector
 
 
-def _search_groups(clt: ZIAConnector, args):
+def search_groups_mapper(clt: ZIAConnector, args):
     """
     Searches for user groups.
     
@@ -23,7 +23,7 @@ def _search_groups(clt: ZIAConnector, args):
     return usrs.get_groups(clt, args.search, args.page, args.pageSize, args.all)
 
 
-def _search_depts(clt: ZIAConnector, args):
+def search_depts_mapper(clt: ZIAConnector, args):
     """
     Searches for user departments.
     
@@ -38,7 +38,7 @@ def _search_depts(clt: ZIAConnector, args):
     return usrs.get_departments(clt, args.search, args.page, args.pageSize, args.all)
 
 
-def _search_usrs(clt: ZIAConnector, args):
+def search_usrs_mapper(clt: ZIAConnector, args):
     """
     Searches for users.
     
@@ -50,10 +50,10 @@ def _search_usrs(clt: ZIAConnector, args):
         The requests' response. Generally a JSON object.
 
     """
-    return usrs.get_users(clt, args.search, args.dept, args.group, args.page, args.pageSize, args.all)
+    return usrs.get_users(clt, args.name, args.dept, args.group, args.page, args.pageSize, args.all)
 
 
-def _update_usrs(clt: ZIAConnector, args):
+def update_usrs_mapper(clt: ZIAConnector, args):
     """
     Updates the desired users.
     
@@ -68,7 +68,7 @@ def _update_usrs(clt: ZIAConnector, args):
     return cstm.update_users(clt, args.file)
 
 
-def _add_u2g(clt: ZIAConnector, args):
+def add_u2g_mapper(clt: ZIAConnector, args):
     """
     Adds users to desired groups and assigns them a default department if they don't have any.
     
@@ -87,17 +87,17 @@ def _add_u2g(clt: ZIAConnector, args):
     return cstm.add_users_to_group(clt, users, groups, args.dft_dept)
 
 
-def _create_usr(clt: ZIAConnector, args):
+def create_usr_mapper(clt: ZIAConnector, args):
     result =[usrs.create_user(user) for user in args.file]
 
     return result
 
 
-def _delete_user(clt: ZIAConnector, args):
+def delete_user_mapper(clt: ZIAConnector, args):
     return usrs.del_user(clt, args.user_id)
 
 
-def _dept_info(clt: ZIAConnector, args):
+def dept_info_mapper(clt: ZIAConnector, args):
     if args.ids:
         ids = args.ids
     else:
@@ -108,7 +108,7 @@ def _dept_info(clt: ZIAConnector, args):
     return result
 
 
-def _group_info(clt: ZIAConnector, args):
+def group_info_mapper(clt: ZIAConnector, args):
     if args.ids:
         ids = args.ids
     else:
@@ -119,7 +119,7 @@ def _group_info(clt: ZIAConnector, args):
     return result
 
 
-def _bulk_del_user(clt: ZIAConnector, args):
+def bulk_del_user_mapper(clt: ZIAConnector, args):
     if args.ids:
         ids = args.ids
     else:
@@ -130,7 +130,7 @@ def _bulk_del_user(clt: ZIAConnector, args):
     return result
 
 
-def _info_user(clt: ZIAConnector, args):
+def info_user_mapper(clt: ZIAConnector, args):
     if args.ids:
         ids = args.ids
     else:

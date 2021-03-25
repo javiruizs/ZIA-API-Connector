@@ -9,7 +9,7 @@ from zia_client import ZIAConnector
 
 
 # FINAL ACTION FUNCTIONS
-def _ids_location(c: ZIAConnector, args):
+def location_ids_mapper(c: ZIAConnector, args):
     """
     Retrieves the dictionary with the mapping of the locations and sublocations names and their ids.
 
@@ -26,7 +26,7 @@ def _ids_location(c: ZIAConnector, args):
                                  authRequired=args.auth, xffEnabled=args.xff)
 
 
-def _search_location(c: ZIAConnector, args):
+def location_search_mapper(c: ZIAConnector, args):
     """
     Searches locations with the `searchlocations` method of the zia_client.
 
@@ -43,7 +43,7 @@ def _search_location(c: ZIAConnector, args):
                                  pageSize=args.pageSize, full=args.all)
 
 
-def _update_location(c: ZIAConnector, args):
+def location_update_mapper(c: ZIAConnector, args):
     """
     Updates locations.
     
@@ -62,7 +62,7 @@ def _update_location(c: ZIAConnector, args):
     return result
 
 
-def _create_location(c: ZIAConnector, args):
+def location_create_mapper(c: ZIAConnector, args):
     """
     Creates a new location.
     
@@ -79,7 +79,7 @@ def _create_location(c: ZIAConnector, args):
     return locs.create_location(c, location)
 
 
-def _delete_location(c: ZIAConnector, args):
+def location_delete_mapper(c: ZIAConnector, args):
     """
     Deletes a location.
     
@@ -94,7 +94,7 @@ def _delete_location(c: ZIAConnector, args):
     return locs.delete_location(c, args.loc_id)
 
 
-def _all_location(c: ZIAConnector, args):
+def location_all_parents_subs_mapper(c: ZIAConnector, args):
     """
     Retrieves all location and sublocation infos.
     
@@ -109,7 +109,7 @@ def _all_location(c: ZIAConnector, args):
     return cstm.obtain_all_locations_sublocations(c)
 
 
-def _info_location(c: ZIAConnector, args):
+def location_info_mapper(c: ZIAConnector, args):
     """
     Retreives the info for the desired location.
     
@@ -124,7 +124,7 @@ def _info_location(c: ZIAConnector, args):
     return locs.get_location_info(c, args.loc_id)
 
 
-def _bulk_del_locations(c: ZIAConnector, args):
+def location_bulkdel_mapper(c: ZIAConnector, args):
     if args.json_file:
         with open(args.json_file) as f:
             ids = json.load(f)
@@ -134,7 +134,7 @@ def _bulk_del_locations(c: ZIAConnector, args):
     return locs.bulk_del_location(c, ids)
 
 
-def _sublocs_loc_locations(c: ZIAConnector, args):
+def location_parent_subs_mapper(c: ZIAConnector, args):
     if args.json_file:
         with open(args.json_file) as f:
             ids = json.load(f)

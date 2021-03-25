@@ -13,7 +13,7 @@ This project is composed on three basic pilars:
 
 *  The script which you can run as a program: :code:`ziaclient.py`
 *  The package where the API calls and the session class have been implemented: :code:`zia_client`
-*  The package where the argument parser has been built and the mapping of the different subparsers and their arguments
+*  The package where the argument parser has been built and the mapping of the different .subparsers and their arguments
    to the methods of the package above.
 
 None of the three pilars are complete. It's still a work in progress.

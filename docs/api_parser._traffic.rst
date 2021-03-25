@@ -4,23 +4,13 @@ api\_parser.\_traffic package
 Submodules
 ----------
 
-api\_parser.\_traffic.\_endfuncs module
----------------------------------------
+.. toctree::
+   :maxdepth: 1
 
-.. automodule:: api_parser._traffic._endfuncs
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :private-members:
+   api_parser._traffic.subparsers
+   api_parser._traffic.mappers
 
-api\_parser.\_traffic.\_structure module
-----------------------------------------
 
-.. automodule:: api_parser._traffic._structure
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :private-members:
 
 Module contents
 ---------------

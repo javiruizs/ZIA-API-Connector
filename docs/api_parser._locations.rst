@@ -4,23 +4,12 @@ api\_parser.\_locations package
 Submodules
 ----------
 
-api\_parser.\_locations.\_endfuncs module
------------------------------------------
+.. toctree::
+   :maxdepth: 1
 
-.. automodule:: api_parser._locations._endfuncs
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :private-members:
+   api_parser._locations.subparsers
+   api_parser._locations.mappers
 
-api\_parser.\_locations.\_structure module
-------------------------------------------
-
-.. automodule:: api_parser._locations._structure
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :private-members:
 
 Module contents
 ---------------

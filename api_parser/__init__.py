@@ -23,7 +23,14 @@ def create_parser():
     Returns:
         Returns the built parser.
     """
-    parser = ap.ArgumentParser(description="ZIA API command line script.")
+    parser = ap.ArgumentParser(
+        description="""**ZIA API command line script.**
+        
+        Python script that communicates with the Zscaler Internet Access API.
+        It's composed of various subparsers, each one representing the configured modules in the `zia_client` module.
+        
+        The keyword arguments listed below can be always specified before the desired subparser."""
+    )
 
     # Main parser commands
     parser.add_argument('--pending', help="Lists pending changes.", action='store_true')
@@ -36,7 +43,7 @@ def create_parser():
     parser.add_argument('--print_results', '-p', help='Prints results.', action='store_true')
 
     # Create subparsers
-    subparsers = parser.add_subparsers()
+    subparsers = parser.add_subparsers(required=True)
 
     # Create user parser
     create_user_subparser(subparsers)
@@ -44,7 +51,7 @@ def create_parser():
     # Create location parser
     create_location_subparser(subparsers)
 
-    # Create _traffic parser
+    # Create traffic parser
     create_traffic_subparser(subparsers)
 
     return parser
