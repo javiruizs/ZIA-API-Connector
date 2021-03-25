@@ -1,3 +1,6 @@
+"""
+Traffic/VPN subparser package.
+"""
 import api_parser._traffic.subparsers as sps
 
 

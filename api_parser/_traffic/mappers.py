@@ -55,7 +55,7 @@ def bulk_del_vpn_creds_mapper(c: ZIAConnector, args):
         return tfc.bulk_del_vpn_creds(c, args.ids)
     else:
         with open(args.json_file) as f:
-            ids = json.loads(f)
+            ids = json.load(f)
 
         return tfc.bulk_del_vpn_creds(c, ids)
 
@@ -74,6 +74,16 @@ def get_vpn_cred_info_mapper(c: ZIAConnector, args):
 
 
 def upd_vpn_cred_mapper(c: ZIAConnector, args):
+    """Maps the arguments to the function for vpn credential retrieval.
+
+    Args:
+        c: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     with open(args.json_file) as f:
         creds = json.load(f)
 
@@ -83,10 +93,30 @@ def upd_vpn_cred_mapper(c: ZIAConnector, args):
 
 
 def del_vpn_cred_mapper(c: ZIAConnector, args):
+    """Maps the arguments to the function for vpn credential deletion.
+
+    Args:
+        c: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     return tfc.del_vpn_cred(c, args.id)
 
 
 def ip_gretunnel_info_mapper(c: ZIAConnector, args):
+    """Maps the arguments to the function for retrieving GRE tunnel information.
+
+    Args:
+        c: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     if args.ips:
         ips = args.ips
     else:
@@ -99,4 +129,14 @@ def ip_gretunnel_info_mapper(c: ZIAConnector, args):
 
 
 def get_vips_mapper(c: ZIAConnector, args):
+    """Maps the arguments to the function for getting Virtual IPs information.
+
+    Args:
+        c: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     return tfc.get_virtual_ips(c, args.dc, args.region, args.page, args.pageSize, args.include, args.all)

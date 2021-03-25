@@ -140,6 +140,11 @@ def user_delete_sp(usr_subprs):
 
 
 def user_dept_sp(usr_subprs):
+    """Subparser for user department info retrieval.
+
+    Args:
+        usr_subprs: User subparser.
+    """
     p: ap.ArgumentParser = usr_subprs.add_parser('deptinfo',
                                                  description="Gets the department information for the specified ID.")
 
@@ -152,6 +157,11 @@ def user_dept_sp(usr_subprs):
 
 
 def user_group_sp(usr_subprs):
+    """Subparser for user group info retrieval.
+
+    Args:
+        usr_subprs: User subparser.
+    """
     p: ap.ArgumentParser = usr_subprs.add_parser('groupinfo',
                                                  description="Gets the group information for the specified ID.")
 
@@ -164,6 +174,11 @@ def user_group_sp(usr_subprs):
 
 
 def user_bulkdel_sp(usr_subprs):
+    """Subparser for user bulk deletion.
+
+    Args:
+        usr_subprs: User subparser.
+    """
     p: ap.ArgumentParser = usr_subprs.add_parser(
         'bulkdel',
         description="Bulk delete users up to a maximum of 500 users per request.")
@@ -177,6 +192,11 @@ def user_bulkdel_sp(usr_subprs):
 
 
 def user_info_sp(usr_subprs):
+    """Subparser for user info retrieval..
+
+    Args:
+        usr_subprs: User subparser.
+    """
     p: ap.ArgumentParser = usr_subprs.add_parser('info', description="Gets the user information for the specified ID.")
 
     g = p.add_mutually_exclusive_group(required=True)

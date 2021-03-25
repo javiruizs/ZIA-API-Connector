@@ -8,11 +8,10 @@ import api_parser._traffic.mappers as mp
 
 
 def get_vpn_creds_sp(sp):
-    """Subparser for _traffic vpn credential search
+    """Subparser for traffic vpn credential search
 
     Args:
         sp: Subparsers object.
-
     """
     p = sp.add_parser('search', description='Subparser for searching for VPN credentials.')
 
@@ -47,6 +46,11 @@ def get_vpn_creds_sp(sp):
 
 
 def add_vpn_creds_sp(sp):
+    """Subparser for vpn credential addition/creation.
+
+    Args:
+        sp: VPN subparsers.
+    """
     p = sp.add_parser('add', description='Subparser for adding VPN credentials.')
 
     p.add_argument('json_file', help='JSON file. It should be a list of dictionaries, each dictionary representing a'
@@ -71,6 +75,11 @@ def bulk_del_vpn_creds_sp(sp):
 
 
 def get_vpn_cred_info_sp(sp):
+    """Subparser for vpn credential info retrieval.
+
+    Args:
+        sp: VPN subparsers.
+    """
     p: ap.ArgumentParser = sp.add_parser('info', description='Obtains specified credentials information')
 
     group = p.add_mutually_exclusive_group(required=True)
@@ -82,6 +91,11 @@ def get_vpn_cred_info_sp(sp):
 
 
 def upd_vpn_cred_sp(sp):
+    """Subparser for vpn credential update.
+
+    Args:
+        sp: VPN subparsers.
+    """
     p: ap.ArgumentParser = sp.add_parser('update', description='Updates specified credentials.')
 
     p.add_argument('json_file', type=str, help='JSON file with a list of credential dicts.')
@@ -90,6 +104,11 @@ def upd_vpn_cred_sp(sp):
 
 
 def del_vpn_cred_sp(sp):
+    """Subparser for vpn credential deletion.
+
+    Args:
+        sp: VPN subparsers.
+    """
     p: ap.ArgumentParser = sp.add_parser('delete', description='Deletes specified credentials information')
 
     p.add_argument('id', help='VPN credential identifier.', type=int)
@@ -98,6 +117,11 @@ def del_vpn_cred_sp(sp):
 
 
 def ip_gre_tunnel_info_sp(sp):
+    """Subparser for GRE tunnel information serach.
+
+    Args:
+        sp: VPN subparsers.
+    """
     p: ap.ArgumentParser = sp.add_parser('gre_search', description='Searches for the existing GRE tunnels.')
 
     group = p.add_mutually_exclusive_group()
@@ -109,13 +133,18 @@ def ip_gre_tunnel_info_sp(sp):
 
 
 def get_vips_sp(sp):
+    """Subparser for virtual IP search.
+
+    Args:
+        sp: VPN subparsers.
+    """
     p: ap.ArgumentParser = sp.add_parser('vips', description='Gets a paginated list of the virtual IP addresses (VIPs) '
                                                              'available in the Zscaler cloud. Search result can be '
                                                              'filtered with the listed arguments.')
 
     p.add_argument('--dc', type=str, help='Filter based on data center.')
     p.add_argument('--region', type=str, help='Filter based on region.')
-    p.add_argument('--incl', help='Include all, private, or public VIPs in the list.', type=list, default='public',
+    p.add_argument('--incl', help='Include all, private, or public VIPs in the list.', type=str, default='public',
                    choices=['all', 'private', 'public'])
     p.add_argument('--page', help='Specifies the page offset.', type=int, default=1)
     p.add_argument('--pageSize', help='Specifies the page size.', type=int, default=100)

@@ -88,16 +88,44 @@ def add_u2g_mapper(clt: ZIAConnector, args):
 
 
 def create_usr_mapper(clt: ZIAConnector, args):
-    result =[usrs.create_user(user) for user in args.file]
+    """Maps the arguments to the function for creating users.
+
+    Args:
+        clt: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+    """
+    result = [usrs.create_user(clt, user) for user in args.file]
 
     return result
 
 
 def delete_user_mapper(clt: ZIAConnector, args):
+    """Maps the arguments to the function for user deletion.
+
+    Args:
+        clt: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+    """
     return usrs.del_user(clt, args.user_id)
 
 
 def dept_info_mapper(clt: ZIAConnector, args):
+    """Maps the arguments to the function for retrieving department information.
+
+    Args:
+        clt: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     if args.ids:
         ids = args.ids
     else:
@@ -109,6 +137,16 @@ def dept_info_mapper(clt: ZIAConnector, args):
 
 
 def group_info_mapper(clt: ZIAConnector, args):
+    """Maps the arguments to the function for group info retrieval.
+
+    Args:
+        clt: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     if args.ids:
         ids = args.ids
     else:
@@ -120,6 +158,16 @@ def group_info_mapper(clt: ZIAConnector, args):
 
 
 def bulk_del_user_mapper(clt: ZIAConnector, args):
+    """Maps the arguments to the function for user bulk deletion.
+
+    Args:
+        clt: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     if args.ids:
         ids = args.ids
     else:
@@ -131,6 +179,16 @@ def bulk_del_user_mapper(clt: ZIAConnector, args):
 
 
 def info_user_mapper(clt: ZIAConnector, args):
+    """Maps the arguments to the function for user info retrieval.
+
+    Args:
+        clt: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     if args.ids:
         ids = args.ids
     else:

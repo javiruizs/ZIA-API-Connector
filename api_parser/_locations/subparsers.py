@@ -155,6 +155,11 @@ def location_del_sp(locs_subprs):
 
 
 def location_bulkdel_sp(locs_subprs):
+    """Subparser for location bulk deletion.
+
+    Args:
+        locs_subprs: Location subparser.
+    """
     p: ap.ArgumentParser = locs_subprs.add_parser(
         'bulkdel',
         description="Bulk delete locations up to a maximum of 100 users per request. The response returns the location "
@@ -170,6 +175,11 @@ def location_bulkdel_sp(locs_subprs):
 
 
 def location_parent_subs_sp(locs_subprs):
+    """Subparser for retrieving parent's sublocations.
+
+    Args:
+        locs_subprs: Location subparser.
+    """
     p: ap.ArgumentParser = locs_subprs.add_parser(
         'sublocs',
         desciprtion="Gets the sub-location information for the location with the specified ID."

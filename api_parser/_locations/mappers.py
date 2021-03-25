@@ -125,6 +125,16 @@ def location_info_mapper(c: ZIAConnector, args):
 
 
 def location_bulkdel_mapper(c: ZIAConnector, args):
+    """Maps location bulkdelete function to the corresponding `zia_client` function.
+
+    Args:
+        c: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     if args.json_file:
         with open(args.json_file) as f:
             ids = json.load(f)
@@ -135,6 +145,16 @@ def location_bulkdel_mapper(c: ZIAConnector, args):
 
 
 def location_parent_subs_mapper(c: ZIAConnector, args):
+    """Maps the CLI for getting the parent's sublocations with the corresponding function of the `zia_client` package.
+
+    Args:
+        c: API zia_client that must me logged in beforehand.
+        args: Parsed api_parser. Namespace object.
+
+    Returns:
+        The requests' response. Generally a JSON object.
+
+    """
     if args.json_file:
         with open(args.json_file) as f:
             ids = json.load(f)
