@@ -34,7 +34,12 @@ def create_parser():
 
     # Main parser commands
     parser.add_argument('--pending', help="Lists pending changes.", action='store_true')
-    parser.add_argument('--apply', help='Forces application of changes before logging out.', action='store_true')
+    parser.add_argument(
+        '--apply_after',
+        help='Forces application of changes before logging out after several requests.',
+        type=int,
+        default=0
+    )
     parser.add_argument('--conf', help='Specifies config file.', default='config/config.json')
     parser.add_argument('--creds', help='Specifies config file.', type=_json_obj_file, default=None)
     parser.add_argument('--output', '-o', help='Custom path where the output JSON will be stored.',
@@ -43,7 +48,7 @@ def create_parser():
     parser.add_argument('--print_results', '-p', help='Prints results.', action='store_true')
 
     # Create subparsers
-    subparsers = parser.add_subparsers(required=True)
+    subparsers = parser.add_subparsers(required=True, dest='Any of the subcommands')
 
     # Create user parser
     create_user_subparser(subparsers)

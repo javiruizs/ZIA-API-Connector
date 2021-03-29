@@ -9,7 +9,6 @@ Submodules
 
     zia_client._exceptions
     zia_client._utils
-    zia_client.activation
     zia_client.admin_roles
     zia_client.audit_log
     zia_client.custom

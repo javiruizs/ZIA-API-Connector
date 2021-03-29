@@ -30,7 +30,7 @@ class ZIAConnector:
     methods that will apply on the general use that I will make of it.
     """
 
-    def __init__(self, config_file: str, creds: Union[str, dict] = None, verbosity=None):
+    def __init__(self, config_file: str, creds: Union[str, dict] = None, verbosity=None, apply_after: int = 0):
         """Class constructor
 
         Args:
@@ -38,7 +38,13 @@ class ZIAConnector:
             config_file (String): The path for the config file. Must be a JSON.
             verbosity (None or bool): If None, input from JSON file is taken. If True or False, then it will be
                 overridden.
+            apply_after (int, optional): If given a number greater than 0, changes will be applied after the specified
+                count. Defaults to 0.
         """
+
+        if apply_after < 0:
+            raise ValueError('apply_after argument requires an integer greater or equal than 0.')
+
         self.s = None
         with open(config_file) as f:
             config = json.load(f)
@@ -66,6 +72,10 @@ class ZIAConnector:
         self.verbosity = config['verbosity'] if not verbosity else verbosity
 
         self.sleep_time = config['sleep']
+
+        self.apply_after = apply_after
+
+        self.__apply_count = 0
 
         # Setting default
         sys.excepthook = self.my_except_hook
@@ -127,6 +137,31 @@ class ZIAConnector:
 
         return self.send_recv(req, "Session status retrieved.")
 
+    def activation_status(self):
+        """Gets the current status in the current session.
+        Active means no changes must be activated.
+
+        Raises:
+            Exception: [description]
+        """
+        url = self.get_url('activation', 'main')
+
+        return self.send_recv(re.Request('GET', url), "Status obtained successfully.")
+
+    def activation_apply(self):
+        """Applies the changes that have been made.
+        It is not necessary to call this method if you are going
+        to log off.
+
+        Raises:
+            Exception: If the changes were not applied due to error.
+        """
+        url = self.get_url('activation', 'act')
+
+        r = re.Request('POST', url)
+
+        return self.send_recv(r, "Changes activated successfully.")
+
     def send_recv(self, request: re.Request, successful_msg='Request was sucessful.'):
         """
         Send request and handle response. Retries if 429.
@@ -166,10 +201,24 @@ class ZIAConnector:
             else:
                 if self.verbosity and successful_msg != '':
                     print(successful_msg)
+
+                if self.apply_after > 0:
+                    if self.__apply_count == self.apply_after:
+                        # Activates changes
+                        self.activation_apply()
+
+                        # Resets count
+                        self.__apply_count = 0
+
+                    else:
+                        # Increases count
+                        self.__apply_count += 1
+
                 return content
 
         if self.verbosity:
             print('Maximum retries exceeded. No response was recieved.')
+
         return None
 
     def full_retrieval(self, method: str, url: str, params: dict = False, json_content: dict = False,
@@ -261,7 +310,6 @@ class ZIAConnector:
             url = url.format(**kwargs)
 
         return url
-
 
     def my_except_hook(self, exctype, value, traceback):
         """

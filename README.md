@@ -1,15 +1,47 @@
 # ZIA-API-Connector
 
-A Python Zscaler Internet Access (ZIA) API REST  Refer to official Zscaler documentation
+A Python Zscaler Internet Access (ZIA) API REST client. Refer to official Zscaler documentation
 [here](https://help.zscaler.com/zia/api-developers-guide).
 
-## Script
+## Introduction
+I've been building all this code for over a year now while I was working with ZIA installations of different customers 
+for which the company I worked for, worked with. I mainly did this because I wanted to automatize recurring tasks 
+that would take a long time if done manually.
 
-### Usage
+My philosophy has been to create a module for every functionality group found on
+[Zscaler's API reference](https://help.zscaler.com/zia/api-developers-guide).
+Then, create a dedicated subparser (using `argparse`) with its subcommands for every API call in the `api_parser` 
+package that would map command-line arguments to function argumnets.
+
+The kind of tasks I had to fulfill were always about location and user management. That's where I can most confidently
+assure you that the code works. For the rest that has been implemented, I have done very little to no testing at all.
+I simply had no time for it, nor will have time from the date I last edited this README on. Feel free to fork this repo
+or mail me in case you had any suggestions or wanted to improve my work.
+
+
+## Usage
+
+You have two options here. If your intentions are to work with locations, users and traffic forwarding, you can go ahead
+and use the script named `ziaclient.py`.
+
+If you want to use something else, perhaps I had the time to create a module dedicated to it, which you may find in the
+`zia_client` package. If you're lucky, and that's the case, you can create a `ZIAConnector()` object and use the modules
+and their functions.
+
+### Script
+You can get full usage documentation by creating it with Sphinx as mentioned [below](#build-documentation), or you can
+discover what it can do by using the `-h`or `--help` arguments on every subcommand or subparser.
+
+Please note that the keyword arguments prior to specifying the subparser can always be used.
 
 ### Built functionalities
 
-See section [Implemented API calls](#implemented-api-calls).
+I've kept track of everything I have implemented in the section [Implemented API calls](#implemented-api-calls).
+If there's a 'Yes' in the 'Implemented' column, then there's a method for that call. But, remember, it may have not been
+tested or ever used.
+
+If there's something written in the 'Subparser' column, there's a specific subparser/subcommand in the script for that
+functionality.
 
 ## Required packages and modules 
 
@@ -22,29 +54,43 @@ conda env create -f environment.yml
 
 ## Build documentation
 
-Run:
-```powershell
-cd docs
-make html
-```
+Build the documentation with Sphinx by running: `make html` or `make latexpdf` in the **docs** folder.
 
-Open `docs/_build/html/index.html` on your browser.
+HTML page will be found at `docs/_build/html/index.html`; PDF document at `docs/_build/latex/idontknowthename.pdf`.
+
+I've used some Sphinx extensions, so perhaps you may need to install them if you don't create an environment from the
+YAML file.
+
+## Future improvements
+
+If I ever had the time or would work with this tool again, here you are some of the things I would try to improve:
+* Import the module's methods inside the connector's class and privatize the modules, so the methods could be called as
+  members of the connector.
+    
+* Handle rates as described [here](https://help.zscaler.com/zia/about-rate-limiting) and
+  [here](https://help.zscaler.com/zia/api-rate-limit-summary).
+
+* Handle error codes as described [here](https://help.zscaler.com/zia/about-error-handling).
+
+* Beautify documentation.
+
+* Test every method thoroughly.
 
 
 ## Implemented API calls
 All available API calls that can be made are listed in 
 [Zscaler's API reference](https://help.zscaler.com/zia/api-developers-guide).
 
-I've recollected them and summarized them in the following table:
+I've recollected them and summarized them in the following tables:
 
 ### Activation
-* Module in `zia_client` package: `activation`
+* Module in `zia_client` package: Defined in root package.
 * Subparser: Arguments in root parser
 
 |Method|URL|Implemented|Function/Method|Sub-subparser|
 |:---:|:---:|:---:|:---:|:---:|
-|GET|/status|Yes|activation.get_status|`--pending`|
-|POST|/status/activate|Yes|activation.activate_changes|`--apply`|
+|GET|/status|Yes|ZIAConnector().get_status|`--pending`|
+|POST|/status/activate|Yes|ZIAConnector().activate_changes|`--apply_after`|
 
 ### Admin Audit Logs
 * Module in `zia_client` package: `audit_log`
@@ -71,13 +117,13 @@ I've recollected them and summarized them in the following table:
 
 ### API Authentication
 * Module in `zia_client` package: Defined in root package.
-* Subparser: TODO
+* Subparser: Not needed.
 
 |Method|URL|Implemented|Function/Method|Sub-subparser|
 |:---:|:---:|:---:|:---:|:---:|
-|GET|/authenticadtedSession|Yes|ZIAConnector().is_session_active||
-|POST|/authenticadtedSession|Yes|ZIAConnector().login||
-|DELETE|/authenticadtedSession|Yes|ZIAConnector().logout||
+|GET|/authenticadtedSession|Yes|ZIAConnector().is_session_active|Not Needed.|
+|POST|/authenticadtedSession|Yes|ZIAConnector().login|Not Needed.|
+|DELETE|/authenticadtedSession|Yes|ZIAConnector().logout|Not Needed.|
 
 ### Cloud Sandbox Report
 * Module in `zia_client` package: `sandbox`
