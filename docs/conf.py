@@ -20,6 +20,7 @@ sys.path.insert(0, os.path.abspath('..'))
 project = 'ZIA-API-Connector'
 copyright = '2021, javiruizs'
 author = 'javiruizs'
+release = 'v1.0.0'
 
 # -- General configuration ---------------------------------------------------
 
